@@ -1,7 +1,7 @@
 import { ComponentClass } from 'react'
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
-import { connect } from '@tarojs/redux'
+import NavigationBar from '../../components/navigation-bar'
 
 import styles from './index.module.styl'
 
@@ -24,6 +24,7 @@ class Index extends Component {
   render () {
     return (
       <View className={styles.index}>
+        <NavigationBar hasHolder={false} homeIcon="hello" />
         <Text>hello</Text>
       </View>
     )
