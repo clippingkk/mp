@@ -1,4 +1,12 @@
+import Taro from '@tarojs/taro'
 import { API_HOST } from '../constants/config'
+
+export let token = Taro.getStorageSync("token")
+
+export function updateToken(jwt: string) {
+  token = jwt
+  Taro.setStorageSync("token", jwt)
+}
 
 export interface IBaseResponseData {
   status: Number
@@ -7,7 +15,6 @@ export interface IBaseResponseData {
 }
 
 export async function request(url: string, options: RequestInit = {}): Promise<any> {
-  const token = sessionStorage.getItem('token')
   if (token) {
     options.headers = {
       'Authorization': `Bearer ${token}`
@@ -17,13 +24,14 @@ export async function request(url: string, options: RequestInit = {}): Promise<a
   options.mode = 'cors'
 
   try {
-    const response: IBaseResponseData = await fetch(API_HOST + url, options).then(res => res.json())
+    const response: IBaseResponseData = await Taro.request({
+      url: API_HOST + url,
+      ...(options as any)
+    }).then(res => res.data)
     if (response.status !== 200) {
       throw new Error(response.msg)
     }
-
     return response.data
-
   } catch (e) {
     console.log(e.toString())
     return Promise.reject(e)

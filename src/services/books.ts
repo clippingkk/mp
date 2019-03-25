@@ -22,11 +22,9 @@ export interface IBook extends Book {
   pubdate: Date
 }
 
-let isSupportWebp: boolean
-
 function covertHttpBook2Book(book: IHttpBook): IBook {
   const isCDNImage = book.image.indexOf('http') !== 0
-  const image = isCDNImage ? `https://cdn.annatarhe.com/${book.image}-copyrightDB${isSupportWebp ? '.webp' : ''}` : book.image
+  const image = isCDNImage ? `https://cdn.annatarhe.com/${book.image}-copyrightDB` : book.image
   return {
     ...book,
     image: process.env.NODE_ENV === 'production' ? image : 'https://wx2.sinaimg.cn/large/8112eefdgy1fgncy5cyg9j21kw23vqv6.jpg',
