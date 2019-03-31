@@ -15,7 +15,9 @@ class App extends Component {
   config: Config = {
     pages: [
       'pages/index/index',
-      'pages/book/index'
+      'pages/book/index',
+      'pages/auth/index',
+
     ],
     window: {
       navigationStyle: 'custom',

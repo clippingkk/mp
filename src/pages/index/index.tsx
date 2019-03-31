@@ -24,7 +24,9 @@ class Index extends Component {
   render () {
     return (
       <View className={styles.index}>
-        <NavigationBar hasHolder={false} homeIcon="hello" />
+        <NavigationBar hasHolder>
+          navigation
+        </NavigationBar>
         <Text>hello</Text>
       </View>
     )
