@@ -3,19 +3,36 @@ import { View } from '@tarojs/components';
 import NavigationBar from '../../components/navigation-bar'
 
 import "./styles.styl"
+import { wechatLogin } from '../../services/auth';
 
 class AuthPage extends Taro.Component {
+  async componentDidMount() {
+    Taro.showLoading()
+
+    const { code } = await Taro.login()
+
+    try {
+      await wechatLogin(code)
+      Taro.hideLoading()
+    } catch (e) {
+      console.log(e)
+      Taro.hideLoading()
+      Taro.showToast({
+        icon: 'none',
+        title: e.toString(),
+        mask: true
+      })
+
+      setTimeout(() => {
+        Taro.redirectTo({
+          url: '/pages/bind/index'
+        })
+      }, 2000)
+    }
+  }
   render() {
     return (
-      <View className="auth">
-        <NavigationBar hasHolder>
-          绑定账户
-        </NavigationBar>
-        <View className="body">
-          <input type="email" />
-          <input type="passowrd" />
-        </View>
-
+      <View className="auth-page">
       </View>
     )
   }

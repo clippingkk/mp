@@ -14,3 +14,10 @@ export function login(email: string, pwd: string): Promise<ILoginResponse> {
     body: JSON.stringify({ email, pwd })
   })
 }
+
+export function wechatLogin(code: string): Promise<ILoginResponse> {
+  return request('/auth/wechat/login', {
+    method: 'POST',
+    body: JSON.stringify({ code })
+  })
+}

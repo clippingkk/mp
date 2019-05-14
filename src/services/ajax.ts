@@ -29,7 +29,7 @@ export async function request(url: string, options: RequestInit = {}): Promise<a
       ...(options as any)
     }).then(res => res.data)
     if (response.status !== 200) {
-      throw new Error(response.msg)
+      throw new Error(response as any)
     }
     return response.data
   } catch (e) {
