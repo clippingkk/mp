@@ -1,14 +1,49 @@
 import Taro from '@tarojs/taro'
-import { View, Form, Button, Input } from '@tarojs/components';
+import { View, Form, Button, Input, Text } from '@tarojs/components';
 import NavigationBar from '../../components/navigation-bar'
 
 import "./styles.styl"
-import { wechatLogin } from '../../services/auth';
+import { wechatLogin, wechatBinding } from '../../services/auth';
+
+type InputValue = {
+  email: string,
+  pwd: string
+}
 
 class BindPage extends Taro.Component {
 
-  submit = (e) => {
-    console.log(e.detail.value)
+  submit = async (e) => {
+    const values = e.detail.value as InputValue
+
+    if (!values.email || !values.pwd) {
+      Taro.showToast({
+        icon: "none",
+        title: "请填写账户哦~"
+      })
+      return
+    }
+
+    Taro.showLoading()
+
+    const { code } = await Taro.login()
+    try {
+      const data = await wechatBinding(code, values.email, values.pwd)
+      console.log(data)
+      // 设定全局数据
+
+      Taro.hideLoading()
+      Taro.showToast({
+        icon: "none",
+        title: "绑定成功啦~"
+      })
+
+    } catch (e) {
+      Taro.hideLoading()
+      Taro.showToast({
+        icon: "none",
+        title: "绑定失败，请重试哦"
+      })
+    }
   }
 
   render() {
@@ -18,7 +53,8 @@ class BindPage extends Taro.Component {
           绑定账户
         </NavigationBar>
         <View className="body">
-          <Form onSubmit={this.submit}>
+          <Text className="tip">请输入 https://kindle.annatarhe.com 的账户密码以进行绑定，如无账户请使用电脑登陆网站注册，然后在此页面输入账户</Text>
+          <Form onSubmit={this.submit} className="bind-form">
             <Input
               type="text"
               placeholder="email"
@@ -27,6 +63,7 @@ class BindPage extends Taro.Component {
               confirmType="next"
               value=""
             />
+            <View className="divider" />
             <Input
               className="form-input"
               type="text"

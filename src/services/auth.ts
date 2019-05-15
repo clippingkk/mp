@@ -21,3 +21,10 @@ export function wechatLogin(code: string): Promise<ILoginResponse> {
     body: JSON.stringify({ code })
   })
 }
+
+export function wechatBinding(code: string, email: string, pwd: string): Promise<ILoginResponse> {
+  return request('/auth/wechat/bind', {
+    method: 'POST',
+    body: JSON.stringify({ code, email, pwd })
+  })
+}

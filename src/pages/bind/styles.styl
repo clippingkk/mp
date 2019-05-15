@@ -12,20 +12,35 @@
   .body
     display flex
     flex-direction column
-    background rgba(88, 199, 88, .9)
+    background $card-bg
     border-radius 8px
-    padding 20px
+    width 600px
     box-shadow 0 0 10px #888
+    align-items center
+    .tip
+      font-size 24px
+      color $lite-grey
+      text-align center
+      margin 35px 13px
+
+    .bind-form
+      width 100%
     .form-input
       font-size: 24px
-      width 500px
+      width calc(100% - 46px)
+      margin 20px 13px
       padding 10px
-      border-left 6px solid #333
-      margin-top 20px
+      background-color #ffffff
     .form-submit
       margin-top 30px
       font-size 36px
       border 0
       line-height 1
       padding 30px 0
+      width 100%
+      border-top-left-radius 0
+      border-top-right-radius 0
+      border-bottom-left-radius 8px
+      border-bottom-right-radius 8px
+      color #ffffff
       background-color: $knote-blue
