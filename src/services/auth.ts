@@ -11,20 +11,20 @@ interface ILoginResponse extends IBaseResponseData {
 export function login(email: string, pwd: string): Promise<ILoginResponse> {
   return request('/auth/login', {
     method: 'POST',
-    body: JSON.stringify({ email, pwd })
+    data: { email, pwd }
   })
 }
 
 export function wechatLogin(code: string): Promise<ILoginResponse> {
   return request('/auth/wechat/login', {
     method: 'POST',
-    body: JSON.stringify({ code })
+    data: { code }
   })
 }
 
-export function wechatBinding(code: string, email: string, pwd: string): Promise<ILoginResponse> {
+export function wechatBinding(code: string, email: string, password: string): Promise<ILoginResponse> {
   return request('/auth/wechat/bind', {
     method: 'POST',
-    body: JSON.stringify({ code, email, pwd })
+    data: { code, email, password }
   })
 }

@@ -14,7 +14,7 @@ export interface IBaseResponseData {
   data: any
 }
 
-export async function request(url: string, options: RequestInit = {}): Promise<any> {
+export async function request(url: string, options: any = {}): Promise<any> {
   if (token) {
     options.headers = {
       'Authorization': `Bearer ${token}`
