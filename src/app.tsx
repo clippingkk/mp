@@ -14,6 +14,7 @@ class App extends Component {
 
   config: Config = {
     pages: [
+      'pages/landing/landing',
       'pages/index/index',
       'pages/book/index',
       'pages/auth/index',

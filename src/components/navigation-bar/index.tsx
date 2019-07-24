@@ -1,9 +1,8 @@
-import { ComponentClass } from 'react';
 import cls from 'classnames'
-import Taro from '@tarojs/taro'
+import Taro, { useState, useEffect } from '@tarojs/taro'
 import { View, Image } from '@tarojs/components'
 
-import styles from './styles.module.styl'
+import './styles.styl'
 
 type NavigationBarProps = {
   hasHolder: boolean,
@@ -11,82 +10,65 @@ type NavigationBarProps = {
   homeIcon?: string
   homeIconClass?: string,
   containerClass?: string,
-  onBack?: () => void
+  onBack?: () => void,
+  children: any
 }
 
-type NavigationBarState = {
-  statusBarHeight: number
-}
+const defaultBackIcon = require('../../assets/back.png')
 
-class NavigationBar extends Taro.Component<NavigationBarProps, NavigationBarState> {
+function useStatusBarSize(hasHolder: boolean) {
+  const [barHeight, setBarHeight] = useState(0)
+  const [platformHeight, setPlatformHeight] = useState(8)
 
-  static defaultProps = {
-    homeIcon: require('../../assets/back.png')
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      statusBarHeight: 0
-    }
-  }
-
-  componentDidMount() {
-    Taro.getSystemInfo().then(info => {
-      this.setState({
-        statusBarHeight: info.statusBarHeight
-      })
+  useEffect(() => {
+    Taro.getSystemInfo().then(resp => {
+      setBarHeight(resp.statusBarHeight)
+      setPlatformHeight(resp.platform !== 'ios' ? 8 : 6)
     })
-  }
+  })
 
-  onNavigateUp = () => {
-    const onBack = this.props.onBack
-    if (onBack) {
-      return onBack()
-    }
-    Taro.navigateBack()
-  }
+  const contentHeight = 32 + platformHeight * 2
 
-  render() {
-    const { hasHolder, homeIcon, homeIconClass } = this.props
-    const { statusBarHeight } = this.state
-    return (
+  return {
+    barHeight,
+    contentHeight,
+    containerHeight: hasHolder ? (contentHeight + barHeight) : 0
+  }
+}
+
+function NavigationBar(props: NavigationBarProps) {
+
+  const { barHeight, contentHeight, containerHeight } = useStatusBarSize(props.hasHolder)
+
+  return (
       <View
-        style={{
-          height: (hasHolder ? (statusBarHeight + 96) : 0) + 'rpx',
-          width: '100vw'
-        }}
-      >
+    className="wepy-ui-navigation"
+    style={{ height: containerHeight + 'px' }}
+  >
+    <View className={`navigation-bar ${props.containerClass}`}>
+      <View className="bg" style={{ height: containerHeight + 'px'}} />
+      <View className="holder" style={{ height: barHeight + 'px' }} />
+      <View className="bar">
         <View
-          className={styles.barContainer}
-          style={{
-            height: (hasHolder ? (statusBarHeight + 96) : 0) + 'rpx'
-          }}
+          className="touchable"
+          onClick={props.onBack}
+          style={{ height: contentHeight + 'px' }}
         >
-          <View
-            className={styles.barRow}
-            style={{ height: statusBarHeight * 2 + 'rpx' }}
+          <Image
+            src={props.homeIcon || defaultBackIcon}
+            className={`home-icon ${props.homeIconClass}`}
           />
-          <View
-            className={styles.titleRow}
-          >
-            <View
-              className={styles.touchable}
-              onClick={this.onNavigateUp}
-            >
-              <Image
-                src={homeIcon as string}
-                className={`${styles['back-icon']} ${homeIconClass}`}
-              />
-            </View>
-            <View className={styles.title}>
-              {this.props.children}
-            </View>
-          </View>
+        </View>
+        <View
+          className="title"
+          style={{ height: contentHeight + 'px'}}
+        >
+          {props.children}
         </View>
       </View>
-    )
-  }
+    </View>
+  </View>
+  )
 }
 
-export default NavigationBar as ComponentClass<NavigationBarProps, NavigationBarState>
+export default NavigationBar

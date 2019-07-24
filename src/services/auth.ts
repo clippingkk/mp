@@ -22,9 +22,9 @@ export function wechatLogin(code: string): Promise<ILoginResponse> {
   })
 }
 
-export function wechatBinding(code: string, email: string, password: string): Promise<ILoginResponse> {
+export function wechatBinding(openid: string, email: string, password: string): Promise<ILoginResponse> {
   return request('/auth/wechat/bind', {
     method: 'POST',
-    data: { code, email, password }
+    data: { openid, email, password }
   })
 }

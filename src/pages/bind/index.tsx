@@ -11,28 +11,24 @@ type InputValue = {
 }
 
 class BindPage extends Taro.Component {
-
   submit = async (e) => {
     const values = e.detail.value as InputValue
 
-    values.email = "111@1.com"
-    values.pwd = "111111111"
+    // values.email = "111@1.com"
+    // values.pwd = "111111111"
 
-    // if (!values.email || !values.pwd) {
-    //   Taro.showToast({
-    //     icon: "none",
-    //     title: "请填写账户哦~"
-    //   })
-    //   return
-    // }
+    if (!values.email || !values.pwd) {
+      Taro.showToast({
+        icon: "none",
+        title: "请填写账户哦~"
+      })
+      return
+    }
 
     Taro.showLoading()
 
-    const code = "11111111111111"
-
-    // const { code } = await Taro.login()
     try {
-      const data = await wechatBinding(code, values.email, values.pwd)
+      const data = await wechatBinding("o5Nd75bjsE_V_wQ7cSjodYVMW8bg", values.email, values.pwd)
       console.log(data)
       // 设定全局数据
 
