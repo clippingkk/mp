@@ -18,7 +18,8 @@ class App extends Component {
       'pages/index/index',
       'pages/book/index',
       'pages/auth/index',
-      'pages/bind/index'
+      'pages/bind/index',
+      'pages/clipping/clipping'
 
     ],
     window: {

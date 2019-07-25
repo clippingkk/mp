@@ -1,1 +1,1 @@
-export const USERINFO_MODIFIED = Symbol("user.userinfo.modified")
+export const USERINFO_MODIFIED = 'user.userinfo.modified'

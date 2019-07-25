@@ -1,0 +1,50 @@
+.clipping-page
+  display flex
+  flex-direction column
+  min-height 100vh
+
+.clipping-bg
+  position absolute
+  top 0
+  left 0
+  right 0
+  bottom 0
+  filter brightness(0.6) blur(10px)
+  transform scale(1.1)
+  width 100vw
+  height 100vh
+  z-index -1
+
+.clipping-body
+  display flex
+  flex 1
+  justify-content center
+  align-items center
+  flex-direction column
+
+.clipping-card
+  margin 0 20px
+  padding 20px
+  background-color rgba(255, 255, 255, .5)
+  border-radius 8px
+  display flex
+  flex-direction column
+  .title
+    font-weight 900
+    font-size 36px
+  .content
+    margin 20px 0
+    font-size 24px
+    font-weight 300
+  .author
+    align-self flex-end
+    font-size 20px
+    font-weight 300
+
+
+.out-canvas
+  position absolute
+  top -99999px
+  left -99999px
+  visibility hidden
+  display none

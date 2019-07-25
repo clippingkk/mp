@@ -4,13 +4,26 @@ import NavigationBar from '../../components/navigation-bar'
 
 import "./styles.styl"
 import { wechatLogin, wechatBinding } from '../../services/auth';
+import { connect } from '@tarojs/redux';
+import { updateUserInfo } from '../../actions/user';
+import { any } from 'prop-types';
 
 type InputValue = {
   email: string,
   pwd: string
 }
 
-class BindPage extends Taro.Component {
+@connect(
+  store => ({
+    token: store.user.token
+  }),
+  dispatch => ({
+    updateUserInfo(resp: any) {
+      dispatch(updateUserInfo(resp))
+    }
+  }) as any
+)
+class BindPage extends Taro.Component<any, any> {
   submit = async (e) => {
     const values = e.detail.value as InputValue
 
@@ -28,9 +41,12 @@ class BindPage extends Taro.Component {
     Taro.showLoading()
 
     try {
-      const data = await wechatBinding("o5Nd75bjsE_V_wQ7cSjodYVMW8bg", values.email, values.pwd)
+      // TODO: load openid
+      const openid = 'o5Nd75bjsE_V_wQ7cSjodYVMW8bg'
+      const data = await wechatBinding(openid, values.email, values.pwd)
       console.log(data)
-      // 设定全局数据
+      // TODO: 设定全局数据
+      this.props.updateUserInfo(data)
 
       Taro.hideLoading()
       Taro.showToast({
