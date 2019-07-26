@@ -1,7 +1,16 @@
 import { USERINFO_MODIFIED } from "../constants/user.action";
 
 const initUserInfo = {
-  id: -1,
+  profile: {
+    id: -1,
+    name: "Unknow",
+    email: "unknow@clippingkk.annatarhe.com",
+    avatar: "null",
+    checked: true,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  },
+  token: ""
 }
 
 export default function userReducer(state = initUserInfo, action: any) {

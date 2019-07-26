@@ -2,9 +2,9 @@
   "miniprogramRoot": "./dist",
   "projectname": "mp-clippingkk",
   "description": "clippingkk",
-  "appid": "touristappid",
+  "appid": "wx62b01f667ed962e4",
   "setting": {
-    "urlCheck": true,
+    "urlCheck": false,
     "es6": false,
     "postcss": false,
     "minified": false
