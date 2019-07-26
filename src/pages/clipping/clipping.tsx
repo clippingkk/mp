@@ -104,8 +104,8 @@ export default class Clipping extends Component<IClippingState> {
     Taro.showLoading()
     try {
       await drawCanvas(canvasId, {
-        // bg: this.state.book.image,
-        bg: `https://picsum.photos/${this.state.sysScreenSize.width}/${this.state.sysScreenSize.height}`,
+        bg: this.state.book.image,
+        // bg: `https://picsum.photos/${this.state.sysScreenSize.width}/${this.state.sysScreenSize.height}`,
         id: this.state.id,
         title: this.state.clipping.title,
         content: this.state.clipping.content,
