@@ -16,7 +16,6 @@ const initUserInfo = {
 export default function userReducer(state = initUserInfo, action: any) {
   switch (action.type) {
     case USERINFO_MODIFIED:
-      console.log(JSON.stringify(action.user))
       return {
         ...action.user
       }

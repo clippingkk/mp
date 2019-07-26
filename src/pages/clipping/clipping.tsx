@@ -6,12 +6,19 @@ import './clipping.styl'
 import { searchBookDetail, IBook } from '../../services/books';
 import KKImage from '../../components/kkimage/index';
 import { getImageSrc } from '../../utils/image';
-import { drawCanvas } from './canvas';
+import { drawCanvas, saveLocally } from './canvas';
+
+type sysScreenSize = {
+  width: number
+  height: number
+  ratio: number
+}
 
 interface IClippingState {
   clipping: IClippingItem
   id: number,
-  book: IBook
+  book: IBook,
+  sysScreenSize: sysScreenSize
 }
 
 async function ensurePermission(scope: string) {
@@ -43,24 +50,38 @@ export default class Clipping extends Component<IClippingState> {
   state = {
     id: -1,
     clipping: {} as IClippingItem,
-    book: {} as IBook
+    book: {} as IBook,
+    sysScreenSize: {} as sysScreenSize
   }
 
   async componentDidMount() {
     const id = ~~this.$router.params.id
+    Taro.showLoading()
     const clipping = await getClipping(id)
     this.setState({ clipping, id })
 
     const book = await searchBookDetail(clipping.bookId)
     this.setState({ book })
-    console.log(book)
+
+    const info = await Taro.getSystemInfo()
+
+    const ratio = ~~info.pixelRatio
+
+    this.setState({
+      sysScreenSize: {
+        width: info.screenWidth * ratio,
+        height: info.screenHeight * ratio,
+        ratio
+      }
+    })
+    Taro.hideLoading()
   }
 
-  componentWillUnmount () { }
+  componentWillUnmount() { }
 
-  componentDidShow () { }
+  componentDidShow() { }
 
-  componentDidHide () { }
+  componentDidHide() { }
 
   back() {
     Taro.navigateBack()
@@ -80,17 +101,33 @@ export default class Clipping extends Component<IClippingState> {
       Taro.showToast({ title: '🤷‍ 木有权限', icon: 'none' })
       return
     }
+    Taro.showLoading()
+    try {
+      await drawCanvas(canvasId, {
+        // bg: this.state.book.image,
+        bg: `https://picsum.photos/${this.state.sysScreenSize.width}/${this.state.sysScreenSize.height}`,
+        id: this.state.id,
+        title: this.state.clipping.title,
+        content: this.state.clipping.content,
+        author: this.state.book.author
+      }, this.state.sysScreenSize)
 
-    await drawCanvas(canvasId, {
-      bg: this.state.book.image,
-      id: this.state.id,
-      title: this.state.clipping.title,
-      content: this.state.clipping.content,
-      author: this.state.book.author
-    })
+      await saveLocally(canvasId, this.state.sysScreenSize)
+      Taro.hideLoading()
+      Taro.showToast({
+        title: '😘 保存成功啦~',
+        icon: 'none'
+      })
+    } catch (e) {
+      Taro.hideLoading()
+      Taro.showToast({
+        title: '😢 啊呀呀，图片生成失败了',
+        icon: 'none'
+      })
+    }
   }
 
-  render () {
+  render() {
     return (
       <View className='clipping-page'>
         <View className='clipping-bg' />
@@ -110,11 +147,18 @@ export default class Clipping extends Component<IClippingState> {
           </View>
 
           <Button onClick={this.onSaveImage} className='btn-primary'>
-            保存
+            🎨 保存
           </Button>
         </View>
 
-        <Canvas canvasId={canvasId} className='out-canvas' />
+        <Canvas
+          canvasId={canvasId}
+          className='out-canvas'
+          style={{
+            height: this.state.sysScreenSize.height + 'px',
+            width: this.state.sysScreenSize.width + 'px'
+          }}
+        />
       </View>
     )
   }
