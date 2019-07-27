@@ -20,6 +20,13 @@ export default class Hero extends Component {
 
   componentDidHide () { }
 
+  onShareAppMessage() {
+    return {
+      title: 'kindle 书摘管理',
+      page: '/pages/landing/landing'
+    }
+  }
+
   render () {
     return (
       <View className='hero'>

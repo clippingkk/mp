@@ -24,6 +24,13 @@ class User extends Component<any, any> {
 
   componentDidHide () { }
 
+  onShareAppMessage() {
+    return {
+      title: '我在用 kindle 书摘哦~',
+      page: '/pages/landing/landing'
+    }
+  }
+
   render() {
     return (
       <View className='user'>

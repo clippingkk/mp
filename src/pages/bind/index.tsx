@@ -24,6 +24,14 @@ type InputValue = {
   }) as any
 )
 class BindPage extends Taro.Component<any, any> {
+
+  onShareAppMessage() {
+    return {
+      title: '我在用 kindle 书摘哦~',
+      page: '/pages/landing/landing'
+    }
+  }
+
   submit = async (e) => {
     const values = e.detail.value as InputValue
 
@@ -63,10 +71,14 @@ class BindPage extends Taro.Component<any, any> {
     }
   }
 
+  onBack = () => {
+    Taro.navigateBack()
+  }
+
   render() {
     return (
       <View className="bind-page">
-        <NavigationBar hasHolder>
+        <NavigationBar hasHolder onBack={this.onBack}>
           绑定账户
         </NavigationBar>
         <View className="body">

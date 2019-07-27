@@ -56,7 +56,7 @@ export async function drawCanvas(cid: string, info: info, size: screenSize) {
   const ctx = Taro.createCanvasContext(cid, null)
   // mock data
   const { path, width, height } = await Taro.getImageInfo({ src: getImageSrc(info.bg) })
-  const qrcode = await fetchQRCode(`c=${info.id}`, "/pages/landing/landing", size.width, true)
+  const qrcode = await fetchQRCode(`c=${info.id}`, "pages/landing/landing", size.width, false)
 
   // draw background
   ctx.save();
@@ -85,18 +85,32 @@ export async function drawCanvas(cid: string, info: info, size: screenSize) {
   ctx.setFontSize(FONT_SIZE.author * size.ratio)
   drawMultipLineText(
     ctx,
-    '—— ' + info.author.repeat(10),
+    '—— ' + info.author,
     size.width * 0.9 - CANVAS_QRCODE_SIZE * size.ratio - 10,
     FONT_SIZE.author * size.ratio * 1.6,
     { x: size.width * 0.05, y: size.height * 0.9 }
+  )
+
+  const qrcodeImageInfo = await Taro.getImageInfo({ src: qrcode })
+
+  console.log(
+    qrcode,
+    0,
+    0,
+    qrcodeImageInfo.width,
+    qrcodeImageInfo.height,
+    size.width * 0.95 - CANVAS_QRCODE_SIZE * size.ratio,
+    size.height - 5 - CANVAS_QRCODE_SIZE * size.ratio,
+    qrcodeImageInfo.width,
+    qrcodeImageInfo.height
   )
 
   ctx.drawImage(
     qrcode,
     0,
     0,
-    CANVAS_QRCODE_SIZE * size.ratio,
-    CANVAS_QRCODE_SIZE * size.ratio,
+    qrcodeImageInfo.width,
+    qrcodeImageInfo.height,
     size.width * 0.95 - CANVAS_QRCODE_SIZE * size.ratio,
     size.height - 5 - CANVAS_QRCODE_SIZE * size.ratio,
     CANVAS_QRCODE_SIZE * size.ratio,
@@ -110,9 +124,11 @@ export async function drawCanvas(cid: string, info: info, size: screenSize) {
 }
 
 export async function saveLocally(canvasId: string, size: screenSize) {
-  const { tempFilePath } = await Taro.canvasToTempFilePath({
+  const res = await Taro.canvasToTempFilePath({
     x: 0,
     y: 0,
+    width: size.width,
+    height: size.height,
     destWidth: size.width / size.ratio,
     destHeight: size.height / size.ratio,
     canvasId: canvasId,
@@ -120,6 +136,6 @@ export async function saveLocally(canvasId: string, size: screenSize) {
   }) as any
 
   return Taro.saveImageToPhotosAlbum({
-    filePath: tempFilePath
+    filePath: res.tempFilePath
   })
 }
