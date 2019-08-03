@@ -21,6 +21,8 @@ function UserCard({ profile }: UserCardProps) {
       return
     }
 
+    return
+    // TODO: 等后端改好了之后再开放跳转功能
     Taro.navigateTo({
       url: '/pages/bind/index'
     })
