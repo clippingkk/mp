@@ -56,7 +56,7 @@ export async function drawCanvas(cid: string, info: info, size: screenSize) {
   const ctx = Taro.createCanvasContext(cid, null)
   // mock data
   const { path, width, height } = await Taro.getImageInfo({ src: getImageSrc(info.bg) })
-  const qrcode = await fetchQRCode(`c=${info.id}`, "pages/landing/landing", size.width, false)
+  const qrcode = await fetchQRCode(`c=${info.id}`, "pages/landing/landing", size.width, true)
 
   // draw background
   ctx.save();
