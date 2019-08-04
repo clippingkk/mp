@@ -39,7 +39,7 @@ async function ensurePermission(scope: string) {
   }
 }
 
-const canvasId = 'clipping-canvas'
+const canvasId = 'clippingcanvas'
 
 export default class Clipping extends Component<IClippingState> {
   config = {
@@ -57,24 +57,30 @@ export default class Clipping extends Component<IClippingState> {
   async componentDidMount() {
     const id = ~~this.$router.params.id
     Taro.showLoading()
-    const clipping = await getClipping(id)
-    this.setState({ clipping, id })
+    try {
+      const clipping = await getClipping(id)
+      this.setState({ clipping, id })
+      const book = await searchBookDetail(clipping.bookId)
+      this.setState({ book })
+      const info = await Taro.getSystemInfo()
+      const ratio = ~~info.pixelRatio
 
-    const book = await searchBookDetail(clipping.bookId)
-    this.setState({ book })
+      this.setState({
+        sysScreenSize: {
+          width: info.screenWidth * ratio,
+          height: info.screenHeight * ratio,
+          ratio
+        }
+      })
+      Taro.hideLoading()
+    } catch (e) {
+      Taro.hideLoading()
+      Taro.showToast({
+        title: '🤦‍ 叼了... 没找到书摘',
+        icon: 'none'
+      })
 
-    const info = await Taro.getSystemInfo()
-
-    const ratio = ~~info.pixelRatio
-
-    this.setState({
-      sysScreenSize: {
-        width: info.screenWidth * ratio,
-        height: info.screenHeight * ratio,
-        ratio
-      }
-    })
-    Taro.hideLoading()
+    }
   }
 
   componentWillUnmount() { }
@@ -101,7 +107,7 @@ export default class Clipping extends Component<IClippingState> {
       Taro.showToast({ title: '🤷‍ 木有权限', icon: 'none' })
       return
     }
-    Taro.showLoading()
+    Taro.showLoading({ mask: true, title: 'Rendering' })
     try {
       await drawCanvas(canvasId, {
         bg: this.state.book.image,
