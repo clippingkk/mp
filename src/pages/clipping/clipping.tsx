@@ -134,12 +134,15 @@ export default class Clipping extends Component<IClippingState> {
   }
 
   render() {
+
+    // TODO: 折行处理
+    const title = this.state.clipping.title
     return (
       <View className='clipping-page'>
         <View className='clipping-bg' />
         <KKImage src={this.state.book.image} local-class='clipping-bg' />
         <NavigationBar hasHolder onBack={this.back}>
-          {this.state.clipping.title}
+          <Text className='title'>{title}</Text>
         </NavigationBar>
         <View className='clipping-body'>
           <View className='clipping-card'>

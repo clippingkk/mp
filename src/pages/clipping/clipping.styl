@@ -2,6 +2,8 @@
   display flex
   flex-direction column
   min-height 100vh
+  overflow hidden
+  max-width 100vw
 
 .clipping-bg
   position absolute
@@ -10,10 +12,11 @@
   right 0
   bottom 0
   filter brightness(0.6) blur(10px)
-  transform scale(1.1)
+  // transform scale(1.1)
   width 100vw
   height 100vh
   z-index -1
+  overflow hidden
 
 .clipping-body
   display flex
