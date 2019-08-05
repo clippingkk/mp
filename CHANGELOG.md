@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.4](https://github.com/clippingkk/mp/compare/v1.0.3...v1.0.4) (2019-08-05)
+
+
+### Bug Fixes
+
+* **clipping:** fix navigation bar and size ([08b5d58](https://github.com/clippingkk/mp/commit/08b5d58))
+
+
+### Features
+
+* **clipping:** set qrcode as hyaline ([82fdb4a](https://github.com/clippingkk/mp/commit/82fdb4a))
+
+
+
 ### [1.0.3](https://github.com/clippingkk/mp/compare/v1.0.2...v1.0.3) (2019-08-04)
 
 
