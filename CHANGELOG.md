@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.5](https://github.com/clippingkk/mp/compare/v1.0.4...v1.0.5) (2019-08-09)
+
+
+### Features
+
+* **clipping:** set random bg ([fa96422](https://github.com/clippingkk/mp/commit/fa96422))
+
+
+
 ### [1.0.4](https://github.com/clippingkk/mp/compare/v1.0.3...v1.0.4) (2019-08-05)
 
 
