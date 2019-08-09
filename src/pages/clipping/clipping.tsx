@@ -95,7 +95,7 @@ export default class Clipping extends Component<IClippingState> {
 
   onShareAppMessage() {
     return {
-      title: this.state.clipping.title,
+      title: this.state.book.title,
       path: `/pages/landing/landing?c=${this.state.id}`
     }
   }
@@ -113,7 +113,7 @@ export default class Clipping extends Component<IClippingState> {
         bg: this.state.book.image,
         // bg: `https://picsum.photos/${this.state.sysScreenSize.width}/${this.state.sysScreenSize.height}`,
         id: this.state.id,
-        title: this.state.clipping.title,
+        title: this.state.book.title,
         content: this.state.clipping.content,
         author: this.state.book.author
       }, this.state.sysScreenSize)
@@ -136,7 +136,7 @@ export default class Clipping extends Component<IClippingState> {
   render() {
 
     // TODO: 折行处理
-    const title = this.state.clipping.title
+    const title = this.state.book.title
     return (
       <View className='clipping-page'>
         <View className='clipping-bg' />

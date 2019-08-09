@@ -12,3 +12,14 @@ export async function fetchQRCode(scene: string, page: string, width: number, is
 
   return resp.tempFilePath
 }
+
+export async function fetchRandomBackground(width: number, height: number): Promise<string> {
+  const resp = await Taro.downloadFile({
+    url: `${API_HOST}/picsum-photos/${width}/${height}?blur=10`,
+    header: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
+
+  return resp.tempFilePath
+}

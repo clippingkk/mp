@@ -1,6 +1,5 @@
-import { getImageSrc } from "../../utils/image";
-import Taro from "@tarojs/taro";
-import { fetchQRCode } from "../../services/mp";
+import Taro from "@tarojs/taro"
+import { fetchQRCode, fetchRandomBackground } from "../../services/mp"
 
 type info = {
   title: string
@@ -55,12 +54,13 @@ const CANVAS_QRCODE_SIZE = 100
 export async function drawCanvas(cid: string, info: info, size: screenSize) {
   const ctx = Taro.createCanvasContext(cid, null)
   // mock data
-  const { path, width, height } = await Taro.getImageInfo({ src: getImageSrc(info.bg) })
+  // const { path, width, height } = await Taro.getImageInfo({ src: getImageSrc(info.bg) })
+  const path = await fetchRandomBackground(size.width, size.height)
   const qrcode = await fetchQRCode(`c=${info.id}`, "pages/landing/landing", size.width, true)
 
   // draw background
   ctx.save();
-  ctx.drawImage(path, 0, 0, width, height, 0, 0, size.width, size.height);
+  ctx.drawImage(path, 0, 0, size.width, size.height, 0, 0, size.width, size.height);
   ctx.fillStyle = 'rgba(0, 0, 0, .5)'
   ctx.fillRect(0, 0, size.width, size.height)
   ctx.restore()
