@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.7](https://github.com/clippingkk/mp/compare/v1.0.6...v1.0.7) (2019-08-18)
+
+
+### Features
+
+* **bind:** add bind navigate ([2c36c2a](https://github.com/clippingkk/mp/commit/2c36c2a))
+
+
+
 ### [1.0.6](https://github.com/clippingkk/mp/compare/v1.0.5...v1.0.6) (2019-08-09)
 
 
