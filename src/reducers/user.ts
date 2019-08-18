@@ -10,14 +10,16 @@ const initUserInfo = {
     createdAt: new Date(),
     updatedAt: new Date()
   },
-  token: ""
+  token: "",
+  hasBind: false
 }
 
 export default function userReducer(state = initUserInfo, action: any) {
   switch (action.type) {
     case USERINFO_MODIFIED:
       return {
-        ...action.user
+        ...action.user,
+        hasBind: !action.user.profile.email.includes('@clippingkk.annatarhe.com')
       }
     default:
       return state

@@ -6,7 +6,8 @@ import UserCard from '../../components/user-card';
 import InfoBuilding from '../../components/info-building';
 
 @connect(store => ({
-  user: store.user.profile
+  user: store.user.profile,
+  hasBind: store.user.hasBind
 }) as any)
 class User extends Component<any, any> {
 
@@ -36,7 +37,7 @@ class User extends Component<any, any> {
       <View className='user'>
         <View className='user-solid-rect' />
         <View className='info-container'>
-          <UserCard profile={this.props.user} />
+          <UserCard profile={this.props.user} hasBind={this.props.hasBind} />
           <View className="divider" />
 
           <InfoBuilding />

@@ -7,21 +7,19 @@ import styles from './style.module.styl'
 
 type UserCardProps = {
   profile: IUserContent
+  hasBind: boolean
 }
 
-function UserCard({ profile }: UserCardProps) {
+function UserCard({ profile, hasBind }: UserCardProps) {
   if (!profile) {
     return null
   }
-  // TODO: api return hasBinded status
-  const hasBind = !profile.email.includes('@clippingkk.annatarhe.com')
 
   const onUserClick = useCallback(() => {
     if (hasBind) {
       return
     }
 
-    return
     // TODO: 等后端改好了之后再开放跳转功能
     Taro.navigateTo({
       url: '/pages/bind/index'

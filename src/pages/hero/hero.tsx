@@ -3,8 +3,13 @@ import { View, Text } from '@tarojs/components'
 import './hero.styl'
 import NavigationBar from '../../components/navigation-bar';
 import InfoBuilding from '../../components/info-building';
+import { connect } from '@tarojs/redux';
+import NotBindContent from '../../components/not-bind-content';
 
-export default class Hero extends Component {
+@connect(store => ({
+  hasBind: store.user.hasBind
+}) as any)
+class Hero extends Component<any, any> {
 
   config = {
     navigationBarTitleText: '首页'
@@ -34,9 +39,14 @@ export default class Hero extends Component {
           clippingKK
         </NavigationBar>
         <View className='hero-body'>
-          <InfoBuilding />
+          {this.props.hasBind ? (
+            <InfoBuilding />
+          ) : (
+            <NotBindContent />
+          )}
         </View>
       </View>
     )
   }
 }
+export default Hero

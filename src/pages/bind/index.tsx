@@ -7,6 +7,7 @@ import { wechatLogin, wechatBinding } from '../../services/auth';
 import { connect } from '@tarojs/redux';
 import { updateUserInfo } from '../../actions/user';
 import { any } from 'prop-types';
+import InfoBuilding from '../../components/info-building';
 
 type InputValue = {
   email: string,
@@ -30,6 +31,18 @@ class BindPage extends Taro.Component<any, any> {
       title: '我在用 kindle 书摘哦~',
       page: '/pages/landing/landing'
     }
+  }
+
+  componentDidShow() {
+    Taro.showToast({
+      title: '🤦‍ 开发太菜了，这个功能还没完成',
+      icon: 'none',
+      mask: true
+    })
+
+    setTimeout(() => {
+      Taro.navigateBack()
+    }, 2100)
   }
 
   submit = async (e) => {
@@ -76,6 +89,7 @@ class BindPage extends Taro.Component<any, any> {
   }
 
   render() {
+
     return (
       <View className="bind-page">
         <NavigationBar hasHolder onBack={this.onBack}>
