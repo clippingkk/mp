@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.8](https://github.com/clippingkk/mp/compare/v1.0.7...v1.0.8) (2020-03-22)
+
+
+### Bug Fixes
+
+* **account:** enable wechat account binding ([ed3a8ab](https://github.com/clippingkk/mp/commit/ed3a8ab))
+
+
+### Features
+
+* **deps:** update taro ([478d09b](https://github.com/clippingkk/mp/commit/478d09b))
+* **taro:** upgrade taro version to 2 ([c3b1f50](https://github.com/clippingkk/mp/commit/c3b1f50))
+
+
+
 ### [1.0.7](https://github.com/clippingkk/mp/compare/v1.0.6...v1.0.7) (2019-08-18)
 
 
