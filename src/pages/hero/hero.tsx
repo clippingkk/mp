@@ -1,52 +1,51 @@
-import Taro, { Component } from '@tarojs/taro'
+import Taro, { Component, useShareAppMessage, useState, useRef, useCallback, usePullDownRefresh, useReachBottom } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import './hero.styl'
 import NavigationBar from '../../components/navigation-bar';
-import InfoBuilding from '../../components/info-building';
-import { connect } from '@tarojs/redux';
+import { useSelector } from '@tarojs/redux';
 import NotBindContent from '../../components/not-bind-content';
+import Books from './books';
+import { useBookList } from './hooks';
 
-@connect(store => ({
-  hasBind: store.user.hasBind
-}) as any)
-class Hero extends Component<any, any> {
+function HeroPage() {
+  const { userID, hasBind } = useSelector<any, { userID: number, hasBind: boolean }>(store => ({
+    userID: store.user.profile.id,
+    hasBind: store.user.hasBind
+  }))
 
-  config = {
-    navigationBarTitleText: '首页'
-  }
+  const { books, loadMore, loading, reachEnd } = useBookList(userID)
+  usePullDownRefresh(() => {
+    console.log('pull down refreash')
+    loadMore(true)
+  })
 
-  componentWillMount () { }
+  useReachBottom(() => {
+    console.log('reach bottom')
+    loadMore()
+  })
 
-  componentDidMount () { }
 
-  componentWillUnmount () { }
-
-  componentDidShow () { }
-
-  componentDidHide () { }
-
-  onShareAppMessage() {
+  useShareAppMessage(() => {
     return {
       title: 'kindle 书摘管理',
       page: '/pages/landing/landing'
     }
-  }
+  })
 
-  render () {
-    return (
-      <View className='hero'>
-        <NavigationBar hasHolder>
-          clippingKK
+  return (
+    <View className='hero'>
+      <NavigationBar hasHolder>
+        我看过的
         </NavigationBar>
-        <View className='hero-body'>
-          {this.props.hasBind ? (
-            <InfoBuilding />
-          ) : (
+      <View className='hero-body'>
+        {hasBind ? (
+          <Books books={books} loading={loading} reachEnd={reachEnd} />
+        ) : (
             <NotBindContent />
           )}
-        </View>
       </View>
-    )
-  }
+    </View>
+  )
 }
-export default Hero
+
+export default HeroPage

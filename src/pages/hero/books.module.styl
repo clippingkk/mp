@@ -1,0 +1,37 @@
+$round-size = 8px
+
+.books
+  display flex
+  flex-direction column
+  align-items center
+  justify-content center
+  margin 0 15px
+
+.book
+  margin 15px
+  border-radius $round-size
+  box-shadow 0 0 8px #eee
+  height 900px
+  width calc(100vw - 60px)
+  position relative
+  background-size cover
+  background-position 50% 50%
+
+.info
+  position absolute
+  bottom 0
+  left 0
+  width 100%
+  background-color rgba(255, 255, 255, .7)
+  backdrop-filter blur(4px)
+  border-bottom-left-radius $round-size
+  border-bottom-right-radius $round-size
+  display flex
+  flex-direction column
+  padding 12px
+
+.title
+  font-size 32px
+
+.author
+  font-size 28px
