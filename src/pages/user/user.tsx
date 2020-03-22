@@ -15,16 +15,6 @@ class User extends Component<any, any> {
     navigationBarTitleText: '首页'
   }
 
-  componentWillMount () { }
-
-  componentDidMount () { }
-
-  componentWillUnmount () { }
-
-  componentDidShow () { }
-
-  componentDidHide () { }
-
   onShareAppMessage() {
     return {
       title: '我在用 kindle 书摘哦~',

@@ -3,11 +3,9 @@ import { View, Form, Button, Input, Text } from '@tarojs/components';
 import NavigationBar from '../../components/navigation-bar'
 
 import "./styles.styl"
-import { wechatLogin, wechatBinding } from '../../services/auth';
+import { wechatBinding } from '../../services/auth';
 import { connect } from '@tarojs/redux';
 import { updateUserInfo } from '../../actions/user';
-import { any } from 'prop-types';
-import InfoBuilding from '../../components/info-building';
 
 type InputValue = {
   email: string,
@@ -16,6 +14,7 @@ type InputValue = {
 
 @connect(
   store => ({
+    openid: store.user.profile.wechatOpenid,
     token: store.user.token
   }),
   dispatch => ({
@@ -33,23 +32,8 @@ class BindPage extends Taro.Component<any, any> {
     }
   }
 
-  componentDidShow() {
-    Taro.showToast({
-      title: '🤦‍ 开发太菜了，这个功能还没完成',
-      icon: 'none',
-      mask: true
-    })
-
-    setTimeout(() => {
-      Taro.navigateBack()
-    }, 2100)
-  }
-
   submit = async (e) => {
     const values = e.detail.value as InputValue
-
-    // values.email = "111@1.com"
-    // values.pwd = "111111111"
 
     if (!values.email || !values.pwd) {
       Taro.showToast({
@@ -59,14 +43,11 @@ class BindPage extends Taro.Component<any, any> {
       return
     }
 
-    Taro.showLoading()
+    Taro.showLoading({ mask: true, title: 'Checking...' })
 
     try {
-      // TODO: load openid
-      const openid = 'o5Nd75bjsE_V_wQ7cSjodYVMW8bg'
+      const openid = this.props.openid
       const data = await wechatBinding(openid, values.email, values.pwd)
-      console.log(data)
-      // TODO: 设定全局数据
       this.props.updateUserInfo(data)
 
       Taro.hideLoading()
@@ -75,6 +56,9 @@ class BindPage extends Taro.Component<any, any> {
         title: "绑定成功啦~"
       })
 
+      setTimeout(() => {
+        Taro.navigateBack()
+      }, 1000)
     } catch (e) {
       Taro.hideLoading()
       Taro.showToast({

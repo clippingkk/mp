@@ -3,8 +3,9 @@ type BaseUserContent = {
     id: number
     name: string
     email: string
-    avatar: string,
+    avatar: string
     checked: boolean,
+    wechatOpenid: string
 }
 
 export interface IUserContentResponse extends BaseUserContent {

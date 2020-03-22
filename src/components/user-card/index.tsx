@@ -1,5 +1,5 @@
 import Taro, { useCallback } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components';
+import { View, Text, OpenData } from '@tarojs/components';
 import { IUserContent } from '../../store/user/type';
 import KKImage from '../kkimage';
 
@@ -32,7 +32,9 @@ function UserCard({ profile, hasBind }: UserCardProps) {
       {profile.avatar === 'null' ? (
         <View className={styles.fakeavatar}>我</View>
       ) : (
-        <KKImage src={profile.avatar} local-class={styles.avatar} />
+        // <View className={styles.avatar}>
+          <OpenData type="userAvatarUrl" className={styles.avatar} />
+        // </View>
       )}
       <View className={styles.info}>
         <Text className={styles.name}>{profile.name}</Text>

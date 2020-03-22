@@ -33,7 +33,7 @@ function getClippingID() {
 function Landing() {
   const dispatch = useDispatch()
   useEffect(() => {
-    Taro.showLoading()
+    Taro.showLoading({ mask: true, title: 'Loading...' })
     authFlow().then(resp => {
       dispatch(updateUserInfo(resp))
       setTimeout(() => {

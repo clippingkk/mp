@@ -8,7 +8,8 @@ const initUserInfo = {
     avatar: "null",
     checked: true,
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
+    wechatOpenid: ''
   },
   token: "",
   hasBind: false
