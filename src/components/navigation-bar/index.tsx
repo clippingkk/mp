@@ -33,7 +33,6 @@ function useStatusBarSize(hasHolder: boolean) {
 }
 
 function NavigationBar(props: NavigationBarProps) {
-
   const { barHeight, contentHeight, containerHeight } = useStatusBarSize(props.hasHolder)
 
   return (

@@ -1,5 +1,7 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { Provider } from '@tarojs/redux'
+import  promisedFinally from 'promise.prototype.finally'
+promisedFinally.shim()
 
 import Index from './pages/index'
 

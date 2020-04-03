@@ -15,12 +15,10 @@ function HeroPage() {
 
   const { books, loadMore, loading, reachEnd } = useBookList(userID)
   usePullDownRefresh(() => {
-    console.log('pull down refreash')
     loadMore(true)
   })
 
   useReachBottom(() => {
-    console.log('reach bottom')
     loadMore()
   })
 
