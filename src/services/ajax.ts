@@ -22,11 +22,11 @@ export async function request(url: string, options: any = {}): Promise<any> {
       ...(options as any)
     }).then(res => res.data)
     if (response.status !== 200) {
-      throw new Error(response as any)
+      throw new Error(response.msg)
     }
     return response.data
   } catch (e) {
-    console.log(e)
+    console.log(e.toString())
     return Promise.reject(e)
   }
 }

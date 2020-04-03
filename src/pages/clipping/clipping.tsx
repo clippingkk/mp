@@ -56,11 +56,11 @@ export default class Clipping extends Component<IClippingState> {
 
   async componentDidMount() {
     const id = ~~this.$router.params.id
-    Taro.showLoading()
+    Taro.showLoading({ title: 'Loading' })
     try {
       const clipping = await getClipping(id)
       this.setState({ clipping, id })
-      const book = await searchBookDetail(clipping.bookId)
+      const book = await searchBookDetail(~~clipping.bookId)
       this.setState({ book })
       const info = await Taro.getSystemInfo()
       const ratio = ~~info.pixelRatio
@@ -82,12 +82,6 @@ export default class Clipping extends Component<IClippingState> {
 
     }
   }
-
-  componentWillUnmount() { }
-
-  componentDidShow() { }
-
-  componentDidHide() { }
 
   back() {
     Taro.navigateBack()
