@@ -1,4 +1,4 @@
-import Taro, { Component, getImageInfo } from '@tarojs/taro'
+import Taro, { Component, getImageInfo, getCurrentPages } from '@tarojs/taro'
 import { View, Text, Button, Canvas } from '@tarojs/components'
 import NavigationBar from '../../components/navigation-bar';
 import { getClipping, IClippingItem } from '../../services/clippings';
@@ -56,11 +56,11 @@ export default class Clipping extends Component<IClippingState> {
 
   async componentDidMount() {
     const id = ~~this.$router.params.id
-    Taro.showLoading()
+    Taro.showLoading({ title: 'Loading' })
     try {
       const clipping = await getClipping(id)
       this.setState({ clipping, id })
-      const book = await searchBookDetail(clipping.bookId)
+      const book = await searchBookDetail(~~clipping.bookId)
       this.setState({ book })
       const info = await Taro.getSystemInfo()
       const ratio = ~~info.pixelRatio
@@ -83,14 +83,16 @@ export default class Clipping extends Component<IClippingState> {
     }
   }
 
-  componentWillUnmount() { }
-
-  componentDidShow() { }
-
-  componentDidHide() { }
-
   back() {
-    Taro.navigateBack()
+    const pages = getCurrentPages()
+
+    if (pages.length > 1) {
+      Taro.navigateBack()
+    } else {
+      Taro.redirectTo({
+        url: '/pages/landing/landing'
+      })
+    }
   }
 
   onShareAppMessage() {
@@ -138,36 +140,39 @@ export default class Clipping extends Component<IClippingState> {
     // TODO: 折行处理
     const title = this.state.book.title
     return (
-      <View className='clipping-page'>
-        <View className='clipping-bg' />
-        <KKImage src={this.state.book.image} local-class='clipping-bg' />
-        <NavigationBar hasHolder onBack={this.back}>
-          <Text className='title'>{title}</Text>
-        </NavigationBar>
-        <View className='clipping-body'>
-          <View className='clipping-card'>
-            <Text className='title'>{this.state.clipping.title}</Text>
+      <View
+        className='clipping-page'
+        style={{ backgroundImage: `url(${this.state.book.image})`}}
+      >
+        <View className='clipping-bg'>
+          <NavigationBar hasHolder onBack={this.back}>
+            <Text className='title'>{title}</Text>
+          </NavigationBar>
+          <View className='clipping-body'>
+            <View className='clipping-card'>
+              <Text className='title'>{this.state.clipping.title}</Text>
 
-            <Text className='content'>
-              {this.state.clipping.content}
-            </Text>
+              <Text className='content'>
+                {this.state.clipping.content}
+              </Text>
 
-            <Text className='author'> —— {this.state.book.author}</Text>
+              <Text className='author'> —— {this.state.book.author}</Text>
+            </View>
+
+            <Button onClick={this.onSaveImage} className='btn-primary'>
+              🎨 保存
+            </Button>
           </View>
 
-          <Button onClick={this.onSaveImage} className='btn-primary'>
-            🎨 保存
-          </Button>
+          <Canvas
+            canvasId={canvasId}
+            className='out-canvas'
+            style={{
+              height: this.state.sysScreenSize.height + 'px',
+              width: this.state.sysScreenSize.width + 'px'
+            }}
+          />
         </View>
-
-        <Canvas
-          canvasId={canvasId}
-          className='out-canvas'
-          style={{
-            height: this.state.sysScreenSize.height + 'px',
-            width: this.state.sysScreenSize.width + 'px'
-          }}
-        />
       </View>
     )
   }

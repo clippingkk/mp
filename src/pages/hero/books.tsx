@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View, Text, Navigator } from '@tarojs/components'
 import { IBook } from '../../services/books'
 import Info from '../../components/info/info'
 
@@ -15,12 +15,17 @@ function Books(props: BooksProps) {
   return (
     <View className={styles.books}>
       {props.books.map(b => (
-        <View className={styles.book} key={b.id} style={{ backgroundImage: `url(${b.image})` }}>
+        <Navigator
+          className={styles.book}
+          key={b.id}
+          style={{ backgroundImage: `url(${b.image})` }}
+          url={`/pages/book/index?id=${b.id}&bookId=${b.doubanId}`}
+        >
           <View className={styles.info}>
             <Text className={styles.title}>{b.title}</Text>
             <Text className={styles.author}>{b.author}</Text>
           </View>
-        </View>
+        </Navigator>
       ))}
       {props.loading && (
         <Info text='😂 还在加载...' />

@@ -37,12 +37,12 @@ export async function getBooks(userid: number, offset: number): Promise<IBook[]>
   return response.map(covertHttpBook2Book)
 }
 
-export async function searchBookDetail(doubanId: string): Promise<IBook> {
+export async function searchBookDetail(doubanId: number): Promise<IBook> {
   const response = await (request(`/clippings/book/${doubanId}`) as Promise<IHttpBook>)
   return covertHttpBook2Book(response)
 }
 
-export async function getBookClippings(userid: number, bookId: string, offset: number): Promise<IClippingItem[]> {
+export async function getBookClippings(userid: number, bookId: number, offset: number): Promise<IClippingItem[]> {
   const response = await (request(`/book/clippings/${userid}/${bookId}?take=20&from=${offset}`) as Promise<IHttpClippingItem[]>)
   return response.map(item => ({ ...item, createdAt: new Date(item.createdAt) } as IClippingItem))
 }

@@ -1,19 +1,11 @@
-import Taro, { useState, useEffect } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import Taro, { useEffect, useRouter } from '@tarojs/taro'
+import { View } from '@tarojs/components'
 import styles from './landing.module.styl'
-import { wechatLogin, authFlow } from '../../services/auth';
+import { authFlow } from '../../services/auth';
 import { useDispatch } from '@tarojs/redux';
 import { updateUserInfo } from '../../actions/user';
 
-function getClippingID() {
-  const opts = Taro.getLaunchOptionsSync()
-  const c = opts.query.c
-
-  if (c) {
-    return c
-  }
-
-  const scene = opts.query.scene as string
+function getClippingID(scene?: string) {
   if (!scene) {
     return null
   }
@@ -32,13 +24,14 @@ function getClippingID() {
 
 function Landing() {
   const dispatch = useDispatch()
+  const route = useRouter()
   useEffect(() => {
     Taro.showLoading({ mask: true, title: 'Loading...' })
     authFlow().then(resp => {
       dispatch(updateUserInfo(resp))
       setTimeout(() => {
         // c is clipping
-        const c = getClippingID()
+        const c = getClippingID(route.params.scene as string | undefined)
         Taro.hideLoading()
         if (c) {
           return Taro.redirectTo({
