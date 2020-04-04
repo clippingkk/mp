@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/clippingkk/mp/compare/v1.0.9...v1.1.0) (2020-04-04)
+
+
+### Bug Fixes
+
+* **promise:** fix promise.finally not found in production env ([220ecf5](https://github.com/clippingkk/mp/commit/220ecf5))
+
+
+### Features
+
+* **animation:** add fade-in animation for item of list ([83f88dc](https://github.com/clippingkk/mp/commit/83f88dc))
+* **book:** add book detail page ([451d5f0](https://github.com/clippingkk/mp/commit/451d5f0))
+* **book:** add book info ([fabd79e](https://github.com/clippingkk/mp/commit/fabd79e))
+
+
+
 ### [1.0.9](https://github.com/clippingkk/mp/compare/v1.0.8...v1.0.9) (2020-03-22)
 
 
