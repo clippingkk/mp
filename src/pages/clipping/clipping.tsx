@@ -1,4 +1,4 @@
-import Taro, { Component, getImageInfo } from '@tarojs/taro'
+import Taro, { Component, getImageInfo, getCurrentPages } from '@tarojs/taro'
 import { View, Text, Button, Canvas } from '@tarojs/components'
 import NavigationBar from '../../components/navigation-bar';
 import { getClipping, IClippingItem } from '../../services/clippings';
@@ -84,7 +84,15 @@ export default class Clipping extends Component<IClippingState> {
   }
 
   back() {
-    Taro.navigateBack()
+    const pages = getCurrentPages()
+
+    if (pages.length > 1) {
+      Taro.navigateBack()
+    } else {
+      Taro.redirectTo({
+        url: '/pages/landing/landing'
+      })
+    }
   }
 
   onShareAppMessage() {
