@@ -284,13 +284,13 @@
     lodash "^4.17.10"
     prop-types "^15.6.1"
 
-"@tarojs/taro-tt@2.0.6":
-  version "2.0.6"
-  resolved "https://registry.npm.taobao.org/@tarojs/taro-tt/download/@tarojs/taro-tt-2.0.6.tgz#31201739609319571bdc2687200fa7b7616acd51"
-  integrity sha1-MSAXOWCTGVcb3CaHIA+nt2FqzVE=
+"@tarojs/taro-tt@2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@tarojs/taro-tt/-/taro-tt-2.1.4.tgz#c33aa29e9735efa8b8f98ca1991ecdcce1b35c27"
+  integrity sha512-tdvCFG+vfWeoj0n9hOhzLxr/IMjYs5qVtkzxaAaoTravbzCkjWKH3fpgwatjcNFCiuATmdTMbBObcdOQUp4dJQ==
   dependencies:
-    "@tarojs/taro" "2.0.6"
-    "@tarojs/utils" "2.0.6"
+    "@tarojs/taro" "2.1.4"
+    "@tarojs/utils" "2.1.4"
     lodash "^4.17.10"
     prop-types "^15.6.1"
 
@@ -310,6 +310,13 @@
   integrity sha1-QutPnnBq07bDDlIPO/22YqgRp2o=
   dependencies:
     "@tarojs/utils" "2.0.6"
+
+"@tarojs/taro@2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@tarojs/taro/-/taro-2.1.4.tgz#ff895e24a3d6f4dd5bbf0e1cb88aff874a830d7a"
+  integrity sha512-ZxPyyKz9p2j/s4fw41U2zEf9h7aT7etKp7YEODb7P1JKnDcjRh+WZyzLs78FA+SJnG+/Ew+qkE+BmESJK537mg==
+  dependencies:
+    "@tarojs/utils" "2.1.4"
 
 "@tarojs/transformer-wx@2.0.6":
   version "2.0.6"
@@ -346,6 +353,11 @@
   version "2.0.6"
   resolved "https://registry.npm.taobao.org/@tarojs/utils/download/@tarojs/utils-2.0.6.tgz?cache=0&sync_timestamp=1583724956633&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40tarojs%2Futils%2Fdownload%2F%40tarojs%2Futils-2.0.6.tgz#1c1aabf8d3c33ebbeb431fe9f98c3d2909829212"
   integrity sha1-HBqr+NPDPrvrQx/p+Yw9KQmCkhI=
+
+"@tarojs/utils@2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@tarojs/utils/-/utils-2.1.4.tgz#aa2312eb3fcf5fccb2ac03fde30aeb3aa19650b6"
+  integrity sha512-Hb2dxLTYliYi/a9kU4Tmk0ZhUqNL1+3s/1cq4FF9vUmcKwYzjn1ax19ceygfeUzPKfLv++a4VXbfVrYNTT99wA==
 
 "@tarojs/webpack-runner@2.0.6":
   version "2.0.6"
@@ -7833,7 +7845,7 @@ regenerate@^1.2.1, regenerate@^1.4.0:
   resolved "https://registry.npm.taobao.org/regenerate/download/regenerate-1.4.0.tgz#4a856ec4b56e4077c557589cae85e7a4c8869a11"
   integrity sha1-SoVuxLVuQHfFV1icroXnpMiGmhE=
 
-regenerator-runtime@^0.11.0:
+regenerator-runtime@^0.11.0, regenerator-runtime@^0.11.1:
   version "0.11.1"
   resolved "https://registry.npm.taobao.org/regenerator-runtime/download/regenerator-runtime-0.11.1.tgz?cache=0&sync_timestamp=1584052392667&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fregenerator-runtime%2Fdownload%2Fregenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
   integrity sha1-vgWtf5v30i4Fb5cmzuUBf78Z4uk=
