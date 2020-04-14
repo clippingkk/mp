@@ -42,7 +42,7 @@
 		"regenerator-runtime": "^0.11.1"
 	},
 	"devDependencies": {
-		"@tarojs/mini-runner": "^2.0.6",
+		"@tarojs/mini-runner": "^2.1.4",
 		"@tarojs/plugin-babel": "2.0.6",
 		"@tarojs/plugin-csso": "2.0.6",
 		"@tarojs/plugin-stylus": "2.0.6",
