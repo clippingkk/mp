@@ -216,10 +216,10 @@
   dependencies:
     uglify-js "^3.3.24"
 
-"@tarojs/redux-h5@2.0.6":
-  version "2.0.6"
-  resolved "https://registry.npm.taobao.org/@tarojs/redux-h5/download/@tarojs/redux-h5-2.0.6.tgz?cache=0&sync_timestamp=1583725573565&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40tarojs%2Fredux-h5%2Fdownload%2F%40tarojs%2Fredux-h5-2.0.6.tgz#f90e59fee529419bf714897243f812a3ebe20027"
-  integrity sha1-+Q5Z/uUpQZv3FIlyQ/gSo+viACc=
+"@tarojs/redux-h5@2.1.6":
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/@tarojs/redux-h5/-/redux-h5-2.1.6.tgz#c5898661db2beac22b160909811a8623f791fe87"
+  integrity sha512-l0DIgfsmZGBDJb2QI5cqo2gNlHJ1YCHzwIavbtNzaPw5RkJgZM7oRBZKQD8V+ODVT8Tex2mx/4C7fGbnDDsHIg==
   dependencies:
     hoist-non-react-statics "^2.5.0"
     invariant "^2.2.4"
@@ -7833,7 +7833,7 @@ regenerate@^1.2.1, regenerate@^1.4.0:
   resolved "https://registry.npm.taobao.org/regenerate/download/regenerate-1.4.0.tgz#4a856ec4b56e4077c557589cae85e7a4c8869a11"
   integrity sha1-SoVuxLVuQHfFV1icroXnpMiGmhE=
 
-regenerator-runtime@^0.11.0:
+regenerator-runtime@^0.11.0, regenerator-runtime@^0.11.1:
   version "0.11.1"
   resolved "https://registry.npm.taobao.org/regenerator-runtime/download/regenerator-runtime-0.11.1.tgz?cache=0&sync_timestamp=1584052392667&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fregenerator-runtime%2Fdownload%2Fregenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
   integrity sha1-vgWtf5v30i4Fb5cmzuUBf78Z4uk=
