@@ -234,10 +234,10 @@
     "@tarojs/taro" "2.0.6"
     "@tarojs/utils" "2.0.6"
 
-"@tarojs/router@2.0.6":
-  version "2.0.6"
-  resolved "https://registry.npm.taobao.org/@tarojs/router/download/@tarojs/router-2.0.6.tgz#8a4fab8510637856aab2ca06c2dc4bcfec8f9b21"
-  integrity sha1-ik+rhRBjeFaqssoGwtxLz+yPmyE=
+"@tarojs/router@2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@tarojs/router/-/router-2.2.1.tgz#0a06e11cbd8122c024a9a868291b4ee00d2a475c"
+  integrity sha512-uR4qf3+WTl1okQon3dfUD9hnii7NAHRJyzq+bMCTl1IDpgN2NctcDUXHXJbQxCEJj9PSndu1s0nPJ7s6J8Ekbg==
   dependencies:
     invariant "2.2.4"
     lodash "4.17.13"
@@ -7833,7 +7833,7 @@ regenerate@^1.2.1, regenerate@^1.4.0:
   resolved "https://registry.npm.taobao.org/regenerate/download/regenerate-1.4.0.tgz#4a856ec4b56e4077c557589cae85e7a4c8869a11"
   integrity sha1-SoVuxLVuQHfFV1icroXnpMiGmhE=
 
-regenerator-runtime@^0.11.0:
+regenerator-runtime@^0.11.0, regenerator-runtime@^0.11.1:
   version "0.11.1"
   resolved "https://registry.npm.taobao.org/regenerator-runtime/download/regenerator-runtime-0.11.1.tgz?cache=0&sync_timestamp=1584052392667&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fregenerator-runtime%2Fdownload%2Fregenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
   integrity sha1-vgWtf5v30i4Fb5cmzuUBf78Z4uk=
