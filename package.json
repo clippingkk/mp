@@ -23,7 +23,7 @@
 	"dependencies": {
 		"@tarojs/components": "2.0.6",
 		"@tarojs/redux": "2.0.6",
-		"@tarojs/redux-h5": "2.0.6",
+		"@tarojs/redux-h5": "2.2.4",
 		"@tarojs/router": "2.0.6",
 		"@tarojs/taro": "2.0.6",
 		"@tarojs/taro-alipay": "2.0.6",
