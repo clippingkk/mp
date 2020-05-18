@@ -3859,6 +3859,13 @@ eslint-plugin-taro@2.0.6:
   dependencies:
     has "^1.0.1"
 
+eslint-plugin-taro@2.2.5:
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-taro/-/eslint-plugin-taro-2.2.5.tgz#d7bebc969415a76b5eddbfa6f4a50aef97e41423"
+  integrity sha512-IcWsMLiOwz1oprfVJxh45sK1Ej/d+9gJL14E3YdnosAmZhtKIX4ZbD4XxX1sPCbiJvpQ0JY7Ni38JaUb7r2jaQ==
+  dependencies:
+    has "^1.0.1"
+
 eslint-plugin-typescript@^0.12.0:
   version "0.12.0"
   resolved "https://registry.npm.taobao.org/eslint-plugin-typescript/download/eslint-plugin-typescript-0.12.0.tgz#e23d58cb27fe28e89fc641a1f20e8d862cb99aef"
@@ -7833,7 +7840,7 @@ regenerate@^1.2.1, regenerate@^1.4.0:
   resolved "https://registry.npm.taobao.org/regenerate/download/regenerate-1.4.0.tgz#4a856ec4b56e4077c557589cae85e7a4c8869a11"
   integrity sha1-SoVuxLVuQHfFV1icroXnpMiGmhE=
 
-regenerator-runtime@^0.11.0:
+regenerator-runtime@^0.11.0, regenerator-runtime@^0.11.1:
   version "0.11.1"
   resolved "https://registry.npm.taobao.org/regenerator-runtime/download/regenerator-runtime-0.11.1.tgz?cache=0&sync_timestamp=1584052392667&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fregenerator-runtime%2Fdownload%2Fregenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
   integrity sha1-vgWtf5v30i4Fb5cmzuUBf78Z4uk=
