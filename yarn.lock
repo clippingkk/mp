@@ -202,10 +202,10 @@
     node-sass "^4.12.0"
     scss-bundle "^2.5.1"
 
-"@tarojs/plugin-stylus@2.0.6":
-  version "2.0.6"
-  resolved "https://registry.npm.taobao.org/@tarojs/plugin-stylus/download/@tarojs/plugin-stylus-2.0.6.tgz#b8a79fa1c329e090138b6bcd0fbbccfaac385a5c"
-  integrity sha1-uKefocMp4JATi2vND7vM+qw4Wlw=
+"@tarojs/plugin-stylus@2.2.5":
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@tarojs/plugin-stylus/-/plugin-stylus-2.2.5.tgz#291bfa173c37b6adf5181a38503c67f674c0c2e8"
+  integrity sha512-5Goit/AqLWtxpo/hJt0YTjQC6PbNAS0ZZxno8DcBfqkg6ks2eMooDyeKEaNv+B1B630hoKuMKZPTWoW8vcKaDg==
   dependencies:
     stylus "^0.54.5"
 
@@ -7833,7 +7833,7 @@ regenerate@^1.2.1, regenerate@^1.4.0:
   resolved "https://registry.npm.taobao.org/regenerate/download/regenerate-1.4.0.tgz#4a856ec4b56e4077c557589cae85e7a4c8869a11"
   integrity sha1-SoVuxLVuQHfFV1icroXnpMiGmhE=
 
-regenerator-runtime@^0.11.0:
+regenerator-runtime@^0.11.0, regenerator-runtime@^0.11.1:
   version "0.11.1"
   resolved "https://registry.npm.taobao.org/regenerator-runtime/download/regenerator-runtime-0.11.1.tgz?cache=0&sync_timestamp=1584052392667&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fregenerator-runtime%2Fdownload%2Fregenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
   integrity sha1-vgWtf5v30i4Fb5cmzuUBf78Z4uk=
