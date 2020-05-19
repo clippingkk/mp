@@ -45,7 +45,7 @@
 		"@tarojs/mini-runner": "^2.0.6",
 		"@tarojs/plugin-babel": "2.0.6",
 		"@tarojs/plugin-csso": "2.0.6",
-		"@tarojs/plugin-stylus": "2.0.6",
+		"@tarojs/plugin-stylus": "2.2.6",
 		"@tarojs/plugin-uglifyjs": "2.0.6",
 		"@tarojs/webpack-runner": "2.0.6",
 		"@types/react": "^16.4.8",
