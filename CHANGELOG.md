@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/clippingkk/mp/compare/v1.1.0...v1.1.1) (2020-06-09)
+
+
+### Features
+
+* **app:** add user info ([fa3a89c](https://github.com/clippingkk/mp/commit/fa3a89c))
+* **deps:** update deps ([a165cd6](https://github.com/clippingkk/mp/commit/a165cd6))
+* **profile:** update profile interface ([d9eaeea](https://github.com/clippingkk/mp/commit/d9eaeea))
+
+
+
 ## [1.1.0](https://github.com/clippingkk/mp/compare/v1.0.9...v1.1.0) (2020-04-04)
 
 
