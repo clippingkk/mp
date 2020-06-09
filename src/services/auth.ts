@@ -2,7 +2,7 @@ import { request, IBaseResponseData } from './ajax'
 import { IUserContentResponse, IUserContent } from '../store/user/type'
 import Taro from '@tarojs/taro';
 import { updateToken } from '../store/global';
-import { UserProfileResponseData } from './types';
+import { IHttpUserProfileResponseData, IResponseUser, IUserProfileResponseData, IClippingItem } from './types';
 
 interface ILoginResponse {
   profile: IUserContentResponse,
@@ -69,6 +69,16 @@ export async function authFlow() {
     return resp
 }
 
-export function fetchMyProfile(id: number) {
-  return request<UserProfileResponseData>('/auth/' + id)
+export async function fetchMyProfile(id: number): Promise<IUserProfileResponseData> {
+   const resp = await request<IHttpUserProfileResponseData>('/auth/' + id)
+
+   return {
+     ...resp,
+     clippings: resp.clippings.map(c => ({ ...c, createdAt: new Date(c.createdAt), updatedAt: new Date(c.updatedAt)} as IClippingItem)),
+     user: {
+       ...resp.user,
+       createdAt: new Date(resp.user.createdAt),
+       updatedAt: new Date(resp.user.updatedAt)
+     }
+   }
 }

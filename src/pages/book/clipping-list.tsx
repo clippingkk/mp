@@ -1,9 +1,8 @@
 import Taro from '@tarojs/taro'
-import { IClippingItem } from '../../services/clippings'
 import Info from '../../components/info/info'
 import { View, Navigator, Text } from '@tarojs/components'
-
-import './clipping-list.styl'
+import ClippingItem from '../../components/clipping-item/clipping-item'
+import { IClippingItem } from '../../services/types'
 
 type ClippingList = {
   clippings: IClippingItem[]
@@ -14,15 +13,8 @@ type ClippingList = {
 function ClippingList(props: ClippingList) {
   return (
     <View className='clippings'>
-      {props.clippings.map(c => (
-        <Navigator
-          url={`/pages/clipping/clipping?id=${c.id}`}
-          key={c.id}
-          className='clipping'
-        >
-          <Text className='clipping-title'>{c.title}</Text>
-          <Text className='clipping-content'>{c.content}</Text>
-        </Navigator>
+      {props.clippings.map((c: IClippingItem) => (
+        <ClippingItem clipping={c} key={c.id} />
       ))}
       {props.loading && (
         <Info text='😂 还在加载...' />
@@ -32,6 +24,10 @@ function ClippingList(props: ClippingList) {
       )}
     </View>
   )
+}
+
+ClippingList.defaultProps = {
+  clippings: []
 }
 
 export default ClippingList

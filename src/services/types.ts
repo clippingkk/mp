@@ -1,12 +1,20 @@
-export interface ResponsePlainUser {
+interface IBaseResponsePlainUser {
   id: number;
   name: string;
   email: string;
   avatar: string;
   checked: boolean;
+  wechatOpenid: string;
+}
+
+export interface ResponsePlainUser extends IBaseResponsePlainUser {
   createdAt: string;
   updatedAt: string;
-  wechatOpenid: string;
+}
+
+export interface IResponseUser extends IBaseResponsePlainUser {
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 interface IBaseClippingItem {
@@ -30,8 +38,14 @@ export interface IHttpClippingItem extends IBaseClippingItem {
   updatedAt: string
 }
 
-export interface UserProfileResponseData {
-  user: ResponsePlainUser;
-  clippingsCount: number;
-  clippings: IHttpClippingItem[];
+export interface IHttpUserProfileResponseData {
+  user: ResponsePlainUser
+  clippingsCount: number
+  clippings: IHttpClippingItem[]
+}
+
+export interface IUserProfileResponseData {
+  user: IResponseUser
+  clippingsCount: number
+  clippings: IClippingItem[]
 }

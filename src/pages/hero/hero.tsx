@@ -22,7 +22,6 @@ function HeroPage() {
     loadMore()
   })
 
-
   useShareAppMessage(() => {
     return {
       title: 'kindle 书摘管理',
@@ -44,6 +43,11 @@ function HeroPage() {
       </View>
     </View>
   )
+}
+
+HeroPage.config = {
+  backgroundColorTop: 'rgba(1,119,215,0.8)',
+  backgroundColorBottom: '#ffffff'
 }
 
 export default HeroPage
