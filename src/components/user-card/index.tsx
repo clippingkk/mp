@@ -8,9 +8,10 @@ import styles from './style.module.styl'
 type UserCardProps = {
   profile: IUserContent
   hasBind: boolean
+  count: number
 }
 
-function UserCard({ profile, hasBind }: UserCardProps) {
+function UserCard({ profile, hasBind, count }: UserCardProps) {
   if (!profile) {
     return null
   }
@@ -41,6 +42,9 @@ function UserCard({ profile, hasBind }: UserCardProps) {
         <Text className={styles.email}>
           {!hasBind ? 'unknown' : profile.email}
         </Text>
+        {count && (
+          <Text className={styles.count}>已收集 {count} 条摘录</Text>
+        )}
       </View>
     </View>
   )

@@ -8,7 +8,7 @@ export interface IBaseResponseData {
   data: any
 }
 
-export async function request(url: string, options: any = {}): Promise<any> {
+export async function request<T>(url: string, options: any = {}): Promise<T> {
   if (token) {
     options.header = {
       'Authorization': `Bearer ${token}`
@@ -24,7 +24,7 @@ export async function request(url: string, options: any = {}): Promise<any> {
     if (response.status !== 200) {
       throw new Error(response.msg)
     }
-    return response.data
+    return response.data as T
   } catch (e) {
     console.log(e.toString())
     return Promise.reject(e)

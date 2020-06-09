@@ -1,39 +1,21 @@
 import { request, IBaseResponseData } from './ajax'
 import { TClippingItem } from '../store/clippings/creator';
-
-interface IBaseClippingItem {
-  id: number
-  title: string
-  content: string
-  pageAt: string
-  createdBy: string
-  bookId: string
-  dataId: string
-  seq: number
-  updatedAt: string
-}
-
-export interface IClippingItem extends IBaseClippingItem {
-  createdAt: Date
-}
-
-export interface IHttpClippingItem extends IBaseClippingItem {
-  createdAt: number
-}
+import { IClippingItem, IHttpClippingItem } from './types';
 
 export async function getClippings(userid: number, offset: number): Promise<IClippingItem[]> {
-  const response = await (request(`/clippings/clippings/${userid}?take=20&from=${offset}`) as Promise<IHttpClippingItem[]>)
-  const list = response.map(item => ({ ...item, createdAt: new Date(item.createdAt) } as IClippingItem))
+  const response = await request<IHttpClippingItem[]>(`/clippings/clippings/${userid}?take=20&from=${offset}`)
+  const list = response.map(item => ({ ...item, createdAt: new Date(item.createdAt), updatedAt: new Date(item.updatedAt) } as IClippingItem))
 
   return list
 }
 
 export async function getClipping(clippingid: number): Promise<IClippingItem> {
-  const response = await (request(`/clippings/${clippingid}`) as Promise<IHttpClippingItem>)
+  const response = await request<IHttpClippingItem>(`/clippings/${clippingid}`)
 
   return {
     ...response,
-    createdAt: new Date(response.createdAt)
+    createdAt: new Date(response.createdAt),
+    updatedAt: new Date(response.updatedAt)
   }
 }
 

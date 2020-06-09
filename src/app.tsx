@@ -5,6 +5,7 @@ promisedFinally.shim()
 import Index from './pages/index'
 import configStore from './store'
 import './app.styl'
+import { loadFont } from './utils/font'
 const store = configStore()
 class App extends Component {
   config: Config = {
@@ -37,6 +38,12 @@ class App extends Component {
     window: {
       navigationStyle: 'custom',
     }
+  }
+
+  componentDidMount() {
+    loadFont().then(() => {
+      console.log('loaded')
+    })
   }
 
   // 在 App 类中的 render() 函数没有实际作用

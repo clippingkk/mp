@@ -31,7 +31,7 @@ function Books(props: BooksProps) {
         <Info text='😂 还在加载...' />
       )}
       {props.reachEnd && (
-        <Info text='😮 再往下就没有了' />
+        <Info text='😮 再往下就没有了' withTip />
       )}
     </View>
   )

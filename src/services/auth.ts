@@ -2,6 +2,7 @@ import { request, IBaseResponseData } from './ajax'
 import { IUserContentResponse, IUserContent } from '../store/user/type'
 import Taro from '@tarojs/taro';
 import { updateToken } from '../store/global';
+import { UserProfileResponseData } from './types';
 
 interface ILoginResponse {
   profile: IUserContentResponse,
@@ -45,10 +46,10 @@ export async function wechatLogin(code: string): Promise<IUserInfo> {
 }
 
 export async function wechatBinding(openid: string, email: string, password: string): Promise<IUserInfo> {
-  const resp = await request('/auth/wechat/bind', {
+  const resp = await request<ILoginResponse>('/auth/wechat/bind', {
     method: 'POST',
     data: { openid, email, password }
-  }) as ILoginResponse
+  })
 
   return {
     profile: {
@@ -66,4 +67,8 @@ export async function authFlow() {
 
     updateToken(resp.token)
     return resp
+}
+
+export function fetchMyProfile(id: number) {
+  return request<UserProfileResponseData>('/auth/' + id)
 }
