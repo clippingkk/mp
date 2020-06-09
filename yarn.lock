@@ -2502,10 +2502,10 @@ babel-plugin-transform-flow-strip-types@^6.22.0:
     babel-plugin-syntax-flow "^6.18.0"
     babel-runtime "^6.22.0"
 
-babel-plugin-transform-jsx-stylesheet@^0.6.5:
+babel-plugin-transform-jsx-stylesheet@^0.6.11:
   version "0.6.11"
-  resolved "https://registry.npm.taobao.org/babel-plugin-transform-jsx-stylesheet/download/babel-plugin-transform-jsx-stylesheet-0.6.11.tgz#361c186b7d3f58d9b73dbdb58daec010a50e4f68"
-  integrity sha1-NhwYa30/WNm3Pb21ja7AEKUOT2g=
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-jsx-stylesheet/-/babel-plugin-transform-jsx-stylesheet-0.6.11.tgz#361c186b7d3f58d9b73dbdb58daec010a50e4f68"
+  integrity sha512-84uKOb49zXTdajni+dsDqDyxDxOi3DCyaExFi4qR9Nju3lmHuReQP9CTFmyJgGsbsuT4JiQ5J0N3pBhXql9FdA==
   dependencies:
     camelcase "^3.0.0"
 
