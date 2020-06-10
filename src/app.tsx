@@ -17,7 +17,8 @@ class App extends Component {
       'pages/bind/index',
       'pages/hero/hero',
       'pages/user/user',
-      'pages/clipping/clipping'
+      'pages/clipping/clipping',
+      'pages/search/search'
     ],
     tabBar: {
       color: '#000000',

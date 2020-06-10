@@ -49,3 +49,13 @@ export interface IUserProfileResponseData {
   clippingsCount: number
   clippings: IClippingItem[]
 }
+
+export interface ISearchAllHttpResponseData {
+  books: any
+  clippings: IHttpClippingItem[] | null
+}
+
+export interface ISearchAllResponseData {
+  books: any
+  clippings: IClippingItem[]
+}

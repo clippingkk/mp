@@ -29,9 +29,15 @@ function HeroPage() {
     }
   })
 
+  const onNavigateUp = useCallback(() => {
+    Taro.navigateTo({
+      url: '/pages/search/search'
+    })
+  }, [])
+
   return (
     <View className='hero'>
-      <NavigationBar hasHolder>
+      <NavigationBar hasHolder homeIcon='👀' onBack={onNavigateUp}>
         我看过的
         </NavigationBar>
       <View className='hero-body'>

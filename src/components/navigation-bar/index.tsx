@@ -1,5 +1,5 @@
 import Taro, { useState, useEffect } from '@tarojs/taro'
-import { View, Image } from '@tarojs/components'
+import { View, Image, Text } from '@tarojs/components'
 
 import './styles.styl'
 
@@ -49,10 +49,16 @@ function NavigationBar(props: NavigationBarProps) {
             onClick={props.onBack}
             style={{ height: contentHeight + 'px' }}
           >
-            <Image
-              src={props.homeIcon || defaultBackIcon}
-              className={`home-icon home-icon-class`}
-            />
+            {(props.homeIcon && !props.homeIcon.startsWith('data')) ? (
+                <Text
+                  className={`home-icon home-icon-class`}
+                >{props.homeIcon}</Text>
+            ) : (
+              <Image
+                src={props.homeIcon || defaultBackIcon}
+                className={`home-icon home-icon-class`}
+              />
+              )}
           </View>
           <View
             className="title"
