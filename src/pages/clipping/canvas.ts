@@ -51,8 +51,7 @@ const FONT_SIZE = {
 
 const CANVAS_QRCODE_SIZE = 100
 
-export async function drawCanvas(cid: string, info: info, size: screenSize) {
-  const ctx = Taro.createCanvasContext(cid, null)
+export async function drawCanvas(ctx: Taro.CanvasContext, info: info, size: screenSize) {
   // mock data
   // const { path, width, height } = await Taro.getImageInfo({ src: getImageSrc(info.bg) })
   const path = await fetchRandomBackground(size.width, size.height)

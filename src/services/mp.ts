@@ -8,7 +8,7 @@ export async function fetchQRCode(scene: string, page: string, width: number, is
     header: {
       'Authorization': `Bearer ${token}`
     }
-  })
+  }) as any
 
   return resp.tempFilePath
 }
@@ -19,7 +19,7 @@ export async function fetchRandomBackground(width: number, height: number): Prom
     header: {
       'Authorization': `Bearer ${token}`
     }
-  })
+  }) as any
 
   return resp.tempFilePath
 }
