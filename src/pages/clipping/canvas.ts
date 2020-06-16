@@ -124,12 +124,6 @@ export async function drawCanvas(ctx: Taro.CanvasContext, info: info, size: scre
 
 export async function saveLocally(canvasId: string, size: screenSize) {
   const res = await Taro.canvasToTempFilePath({
-    x: 0,
-    y: 0,
-    width: size.width,
-    height: size.height,
-    destWidth: size.width / size.ratio,
-    destHeight: size.height / size.ratio,
     canvasId: canvasId,
     fileType: 'jpg'
   }) as any
