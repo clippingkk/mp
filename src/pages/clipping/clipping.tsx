@@ -173,6 +173,7 @@ function Clipping() {
 
         <Canvas
           canvasId={canvasId}
+          className='out-canvas'
           style={{
             height: sysScreen.height + 'px',
             width: sysScreen.width + 'px'
