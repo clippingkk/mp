@@ -7,6 +7,9 @@ export function useNavigateUp() {
       Taro.navigateBack()
     } else {
       // do nothing
+      Taro.switchTab({
+        url: '/pages/hero/hero'
+      })
     }
   }, [])
 

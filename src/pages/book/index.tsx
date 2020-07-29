@@ -10,13 +10,13 @@ import { View, Image, Text } from '@tarojs/components'
 import { getBookClippings, searchBookDetail, IBook } from '../../services/books'
 import { useSelector } from '@tarojs/redux'
 import NavigationBar from '../../components/navigation-bar'
-import { IClippingItem } from '../../services/clippings'
 import { useNavigateUp } from '../../hooks/navigationbar'
 import ClippingList from './clipping-list'
 
 import './book.styl'
 import Divider from '../../components/divider/divider'
 import Card from '../../components/card/card'
+import { IClippingItem } from '../../services/types'
 
 function useBookAndClippings(bookID: number) {
   const [book, setBook] = useState<IBook>({} as IBook)
@@ -82,7 +82,7 @@ function BookPage() {
   return (
     <View>
       <NavigationBar hasHolder={true} onBack={onNavigateUp}>
-        {book.title}
+        <Text>{book.title}</Text>
       </NavigationBar>
       <View className='container'>
         <Card cls-name='book'>

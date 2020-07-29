@@ -8,7 +8,7 @@ export function useBookList(userID: number) {
   const offset = useRef(0)
 
   const loadMore = useCallback((force: boolean = false) => {
-    if (loading || reachEnd || !userID) {
+    if (loading || reachEnd || !userID || userID < 0) {
       return
     }
 

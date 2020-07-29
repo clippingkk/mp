@@ -53,5 +53,9 @@ function User() {
     </View>
   )
 }
+User.config = {
+  backgroundColorTop: '#8e44ad',
+  backgroundColorBottom: '#ecf0f1',
+}
 
 export default User

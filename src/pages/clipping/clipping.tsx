@@ -158,13 +158,11 @@ function Clipping() {
           <Text className='title'>{bookData.title}</Text>
         </NavigationBar>
         <View className='clipping-body'>
-          <View className='clipping-card'>
-            <Text className='title'>{clippingData.title}</Text>
-            <Text className='content'>
-              {clippingData.content}
-            </Text>
-            <Text className='author'> —— {bookData.author}</Text>
-          </View>
+          {/* <Text className='title'>{clippingData.title}</Text> */}
+          <Text className='content'>
+            {clippingData.content}
+          </Text>
+          <Text className='author'> —— {bookData.author}</Text>
 
           <Button onClick={onSave} className='btn-primary'>
             🎨 保存

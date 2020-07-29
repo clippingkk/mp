@@ -38,7 +38,7 @@ function HeroPage() {
   return (
     <View className='hero'>
       <NavigationBar hasHolder homeIcon='👀' onBack={onNavigateUp}>
-        我看过的
+        <Text className='hero-title'>我看过的</Text>
         </NavigationBar>
       <View className='hero-body'>
         {hasBind ? (
@@ -52,8 +52,9 @@ function HeroPage() {
 }
 
 HeroPage.config = {
-  backgroundColorTop: 'rgba(1,119,215,0.8)',
-  backgroundColorBottom: '#ffffff'
+  // backgroundColorTop: 'rgba(1,119,215,0.8)',
+  backgroundColor: '#ecf0f1',
+  // backgroundColorBottom: '#ffffff'
 }
 
 export default HeroPage
