@@ -7,8 +7,12 @@ const config = {
     '750': 1,
     '828': 1.81 / 2
   },
+  framework: 'react',
   sourceRoot: 'src',
   outputRoot: 'dist',
+  plugins: [
+    '@tarojs/plugin-stylus',
+  ],
   babel: {
     sourceMap: true,
     presets: [
@@ -61,24 +65,24 @@ const config = {
   h5: {
     publicPath: '/',
     staticDirectory: 'static',
-      postcss: {
-        autoprefixer: {
-          enable: true,
-          config: {
-            browsers: [
-              'last 3 versions',
-              'Android >= 4.1',
-              'ios >= 8'
-            ]
-          }
-        },
-        cssModules: {
-          enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
-          config: {
-            namingPattern: 'module', // 转换模式，取值为 global/module
-            generateScopedName: '[name]__[local]___[hash:base64:5]'
-          }
+    postcss: {
+      autoprefixer: {
+        enable: true,
+        config: {
+          browsers: [
+            'last 3 versions',
+            'Android >= 4.1',
+            'ios >= 8'
+          ]
         }
+      },
+      cssModules: {
+        enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
+        config: {
+          namingPattern: 'module', // 转换模式，取值为 global/module
+          generateScopedName: '[name]__[local]___[hash:base64:5]'
+        }
+      }
     }
   }
 }

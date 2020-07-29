@@ -4,6 +4,10 @@ module.exports = {
   },
   defineConstants: {
   },
+  plugins: [
+    '@tarojs/plugin-stylus',
+    '@tarojs/plugin-terser'
+  ],
   mini: {},
   h5: {}
 }

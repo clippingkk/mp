@@ -11,7 +11,7 @@ export interface IBaseResponseData {
 export async function request<T>(url: string, options: any = {}): Promise<T> {
   if (token) {
     options.header = {
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
     }
   }
   options.credentials = 'include'
