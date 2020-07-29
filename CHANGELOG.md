@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.5](https://github.com/clippingkk/mp/compare/v1.1.1...v1.1.5) (2020-07-29)
+
+
+### Bug Fixes
+
+* **clipping:** fix detail page render ([f59764f](https://github.com/clippingkk/mp/commit/f59764f))
+* **clipping:** remove image scale when save ([f71b29b](https://github.com/clippingkk/mp/commit/f71b29b))
+
+
+### Features
+
+* **clipping:** update clipping detail page styles ([8ea682f](https://github.com/clippingkk/mp/commit/8ea682f))
+* **deps:** update deps ([41b1006](https://github.com/clippingkk/mp/commit/41b1006))
+* **landing:** add retry button ([10669af](https://github.com/clippingkk/mp/commit/10669af))
+* **search:** add search view ([6f20e23](https://github.com/clippingkk/mp/commit/6f20e23))
+
+
+
 ### [1.1.1](https://github.com/clippingkk/mp/compare/v1.1.0...v1.1.1) (2020-06-09)
 
 
