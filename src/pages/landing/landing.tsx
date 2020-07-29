@@ -1,5 +1,5 @@
-import Taro, { useEffect, useRouter } from '@tarojs/taro'
-import { View } from '@tarojs/components'
+import Taro, { useEffect, useRouter, useCallback } from '@tarojs/taro'
+import { View, Text, Button } from '@tarojs/components'
 import styles from './landing.module.styl'
 import { authFlow } from '../../services/auth';
 import { useDispatch } from '@tarojs/redux';
@@ -25,7 +25,7 @@ function getClippingID(scene?: string) {
 function Landing() {
   const dispatch = useDispatch()
   const route = useRouter()
-  useEffect(() => {
+  const onLogin = useCallback(() => {
     Taro.showLoading({ mask: true, title: 'Loading...' })
     authFlow().then(resp => {
       dispatch(updateUserInfo(resp))
@@ -51,11 +51,16 @@ function Landing() {
         icon: 'none'
       })
     })
-  })
+  }, [])
+
+  useEffect(() => {
+    onLogin()
+  }, [])
 
   return (
     <View className={styles.container}>
-      Loading
+      <Text> Loading... </Text>
+      <Button className={styles.retry} onClick={onLogin}>Retry</Button>
     </View>
   )
 }
