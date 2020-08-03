@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.6](https://github.com/clippingkk/mp/compare/v1.1.5...v1.1.6) (2020-08-03)
+
+
+### Bug Fixes
+
+* **api:** move api to another ([2bd771a](https://github.com/clippingkk/mp/commit/2bd771a))
+
+
+### Features
+
+* **cd:** add cd ([be2c30c](https://github.com/clippingkk/mp/commit/be2c30c))
+* **ci:** add miniprogram-ci ([df9a6ae](https://github.com/clippingkk/mp/commit/df9a6ae))
+
+
+
 ### [1.1.5](https://github.com/clippingkk/mp/compare/v1.1.1...v1.1.5) (2020-07-29)
 
 
