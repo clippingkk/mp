@@ -1,0 +1,36 @@
+name: build
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    # 安装依赖
+    - name: install
+      run: npm i
+    # 构建
+    - name: build
+      run: npm run build:weapp
+    - name: create private key file
+      run: echo "$MINI_UPLOAD_PRIVATE_KEY" > private.key
+      env:
+        MINI_UPLOAD_PRIVATE_KEY: ${{ secrets.MINI_UPLOAD_PRIVATE_KEY }}
+    - name: get package version
+      id: package-version
+      uses: martinbeentjes/npm-get-version-action@master
+    - name: upload
+      run: npx miniprogram-ci upload --pp ./ --pkp ./private.key --appid ${{ secrets.MINI_APPID }} --uv ${{ steps.package-version.outputs.current-version}}
