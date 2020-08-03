@@ -21,7 +21,10 @@ jobs:
         node-version: ${{ matrix.node-version }}
     # 安装依赖
     - name: install
-      run: npm i
+      run: |
+        npm install -g @tarojs/cli@^2.2.11
+        npm ci
+        
     # 构建
     - name: build
       run: npm run build:weapp
