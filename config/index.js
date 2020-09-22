@@ -41,6 +41,26 @@ const config = {
           generateScopedName: '[name]__[local]___[hash:base64:5]'
         }
       }
+    },
+    webpackChain(chain, webpack) {
+      chain.merge({
+        module: {
+          rule: {
+            md: {
+              test: /\.md$/,
+              use: [{
+                loader: 'raw-loader',
+                options: {}
+              }]
+            },
+            graphql: {
+              test: /\.(graphql|gql)$/,
+              exclude: /node_modules/,
+              loader: 'graphql-tag/loader'
+            }
+          },
+        }
+      })
     }
   },
   h5: {

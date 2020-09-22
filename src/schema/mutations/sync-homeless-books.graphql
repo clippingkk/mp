@@ -1,0 +1,3 @@
+mutation syncHomelessBook($title: String!, $doubanID: String!) {
+    syncHomelessBook(title: $title, doubanID: $doubanID)
+}
