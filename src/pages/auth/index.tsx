@@ -1,3 +1,4 @@
+import React from 'react'
 import Taro from '@tarojs/taro'
 import { View } from '@tarojs/components';
 import NavigationBar from '../../components/navigation-bar'
@@ -5,7 +6,7 @@ import NavigationBar from '../../components/navigation-bar'
 import "./styles.styl"
 import { wechatLogin } from '../../services/auth';
 
-class AuthPage extends Taro.Component {
+class AuthPage extends React.Component {
   async componentDidMount() {
     Taro.showLoading()
 

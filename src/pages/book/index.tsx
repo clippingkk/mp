@@ -1,14 +1,13 @@
-import Taro, {
-  useRouter,
+import React, {
   useEffect,
-  useState,
-  useCallback,
-  useRef,
-  useReachBottom
+  useCallback, useState, useRef
+} from 'react'
+import Taro, {
+  useReachBottom, getCurrentInstance
 } from '@tarojs/taro'
 import { View, Image, Text } from '@tarojs/components'
 import { getBookClippings, searchBookDetail, IBook } from '../../services/books'
-import { useSelector } from '@tarojs/redux'
+import { useSelector } from 'react-redux'
 import NavigationBar from '../../components/navigation-bar'
 import { useNavigateUp } from '../../hooks/navigationbar'
 import ClippingList from './clipping-list'
@@ -67,9 +66,9 @@ function useBookAndClippings(bookID: number) {
 }
 
 function BookPage() {
-  const route = useRouter()
-  const bookID = ~~route.params.id
-  const doubanID = ~~route.params.bookId
+  const params = getCurrentInstance().router?.params
+  const bookID = ~~(params?.id ?? 0)
+  const doubanID = ~~(params?.bookId ?? 0)
 
   const { book, clippings, loadMoreClippings, reachEnd, loading } = useBookAndClippings(doubanID)
   const onNavigateUp = useNavigateUp()

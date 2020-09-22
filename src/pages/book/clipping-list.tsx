@@ -1,3 +1,4 @@
+import React from 'react'
 import Taro from '@tarojs/taro'
 import Info from '../../components/info/info'
 import { View, Navigator, Text } from '@tarojs/components'

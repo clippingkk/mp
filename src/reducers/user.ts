@@ -1,5 +1,12 @@
 import { USERINFO_MODIFIED } from "../constants/user.action";
 
+export type UserInfo = {
+  profile: {
+    id: number,
+  },
+  token: string
+}
+
 const initUserInfo = {
   profile: {
     id: -1,

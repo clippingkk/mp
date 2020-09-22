@@ -1,3 +1,4 @@
+import React from 'react'
 import Taro from '@tarojs/taro'
 import { API_HOST } from '../constants/config'
 import { token } from '../store/global';

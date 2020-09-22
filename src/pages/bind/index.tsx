@@ -1,38 +1,27 @@
+import React, { useCallback } from 'react'
 import Taro from '@tarojs/taro'
 import { View, Form, Button, Input, Text } from '@tarojs/components';
 import NavigationBar from '../../components/navigation-bar'
 
 import "./styles.styl"
 import { wechatBinding } from '../../services/auth';
-import { connect } from '@tarojs/redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { updateUserInfo } from '../../actions/user';
+import { TGlobalStore } from '../../reducers';
+import { useNavigateUp } from '../../hooks/navigationbar';
 
 type InputValue = {
   email: string,
   pwd: string
 }
 
-@connect(
-  store => ({
-    openid: store.user.profile.wechatOpenid,
-    token: store.user.token
-  }),
-  dispatch => ({
-    updateUserInfo(resp: any) {
-      dispatch(updateUserInfo(resp))
-    }
-  }) as any
-)
-class BindPage extends Taro.Component<any, any> {
+function BindingPage() {
+  const openid = useSelector<TGlobalStore, string>(s => s.user.token)
+  const token = useSelector<TGlobalStore, string>(s => s.user.token)
 
-  onShareAppMessage() {
-    return {
-      title: '我在用 kindle 书摘哦~',
-      page: '/pages/landing/landing'
-    }
-  }
+  const dispatch = useDispatch()
 
-  submit = async (e) => {
+  const onSubmit = useCallback(async (e) => {
     const values = e.detail.value as InputValue
 
     if (!values.email || !values.pwd) {
@@ -46,9 +35,8 @@ class BindPage extends Taro.Component<any, any> {
     Taro.showLoading({ mask: true, title: 'Checking...' })
 
     try {
-      const openid = this.props.openid
       const data = await wechatBinding(openid, values.email, values.pwd)
-      this.props.updateUserInfo(data)
+      dispatch(updateUserInfo(data))
 
       Taro.hideLoading()
       Taro.showToast({
@@ -66,22 +54,17 @@ class BindPage extends Taro.Component<any, any> {
         title: "绑定失败，请重试哦"
       })
     }
-  }
+  }, [openid])
+  const onNavigateUp = useNavigateUp()
 
-  onBack = () => {
-    Taro.navigateBack()
-  }
-
-  render() {
-
-    return (
+  return (
       <View className="bind-page">
-        <NavigationBar hasHolder onBack={this.onBack}>
+        <NavigationBar hasHolder onBack={onNavigateUp}>
           绑定账户
         </NavigationBar>
         <View className="body">
           <Text className="tip">请输入 https://kindle.annatarhe.com 的账户密码以进行绑定，如无账户请使用电脑登陆网站注册，然后在此页面输入账户</Text>
-          <Form onSubmit={this.submit} className="bind-form">
+          <Form onSubmit={onSubmit} className="bind-form">
             <Input
               type="text"
               placeholder="email"
@@ -107,8 +90,7 @@ class BindPage extends Taro.Component<any, any> {
           </Form>
         </View>
       </View>
-    )
-  }
+  )
 }
 
-export default BindPage
+export default BindingPage

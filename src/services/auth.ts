@@ -1,5 +1,6 @@
 import { request, IBaseResponseData } from './ajax'
 import { IUserContentResponse, IUserContent } from '../store/user/type'
+import React from 'react'
 import Taro from '@tarojs/taro';
 import { updateToken } from '../store/global';
 import { IHttpUserProfileResponseData, IResponseUser, IUserProfileResponseData, IClippingItem } from './types';

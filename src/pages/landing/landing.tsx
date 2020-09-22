@@ -1,8 +1,9 @@
-import Taro, { useEffect, useRouter, useCallback } from '@tarojs/taro'
+import React, { useEffect, useCallback } from 'react'
+import Taro, { getCurrentInstance, useRouter } from '@tarojs/taro'
 import { View, Text, Button } from '@tarojs/components'
 import styles from './landing.module.styl'
 import { authFlow } from '../../services/auth';
-import { useDispatch } from '@tarojs/redux';
+import { useDispatch } from 'react-redux';
 import { updateUserInfo } from '../../actions/user';
 
 function getClippingID(scene?: string) {
@@ -24,14 +25,14 @@ function getClippingID(scene?: string) {
 
 function Landing() {
   const dispatch = useDispatch()
-  const route = useRouter()
+  const params = getCurrentInstance().router?.params
   const onLogin = useCallback(() => {
     Taro.showLoading({ mask: true, title: 'Loading...' })
     authFlow().then(resp => {
       dispatch(updateUserInfo(resp))
       setTimeout(() => {
         // c is clipping
-        const c = getClippingID(route.params.scene as string | undefined)
+        const c = getClippingID(params?.scene)
         Taro.hideLoading()
         if (c) {
           return Taro.redirectTo({
@@ -51,7 +52,7 @@ function Landing() {
         icon: 'none'
       })
     })
-  }, [])
+  }, [params])
 
   useEffect(() => {
     onLogin()

@@ -2,7 +2,7 @@ import Taro, { Component, useShareAppMessage, useState, useRef, useCallback, use
 import { View, Text } from '@tarojs/components'
 import './hero.styl'
 import NavigationBar from '../../components/navigation-bar';
-import { useSelector } from '@tarojs/redux';
+import { useSelector } from 'react-redux';
 import NotBindContent from '../../components/not-bind-content';
 import Books from './books';
 import { useBookList } from './hooks';

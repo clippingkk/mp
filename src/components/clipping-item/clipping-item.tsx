@@ -1,3 +1,4 @@
+import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Navigator, Text } from '@tarojs/components'
 import { IClippingItem } from '../../services/types'

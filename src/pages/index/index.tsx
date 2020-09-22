@@ -1,11 +1,11 @@
-import { ComponentClass } from 'react'
-import Taro, { Component, Config } from '@tarojs/taro'
+import React from 'react'
+import Taro, { Config } from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
 import NavigationBar from '../../components/navigation-bar'
 
 import styles from './index.module.styl'
 
-class Index extends Component {
+class Index extends React.Component {
 
   config: Config = {
     navigationBarTitleText: '首页'
@@ -33,4 +33,4 @@ class Index extends Component {
   }
 }
 
-export default Index as ComponentClass
+export default Index

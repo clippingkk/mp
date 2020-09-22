@@ -1,46 +1,13 @@
-import Taro, { Component, Config } from '@tarojs/taro'
-import { Provider } from '@tarojs/redux'
+import React from 'react'
+import Taro from '@tarojs/taro'
+import { Provider } from 'react-redux'
 import  promisedFinally from 'promise.prototype.finally'
 promisedFinally.shim()
-import Index from './pages/index'
 import configStore from './store'
 import './app.styl'
 import { loadFont } from './utils/font'
 const store = configStore()
-class App extends Component {
-  config: Config = {
-    pages: [
-      'pages/landing/landing',
-      'pages/index/index',
-      'pages/book/index',
-      'pages/auth/index',
-      'pages/bind/index',
-      'pages/hero/hero',
-      'pages/user/user',
-      'pages/clipping/clipping',
-      'pages/search/search'
-    ],
-    tabBar: {
-      color: '#000000',
-      selectedColor: '#2980b9',
-      backgroundColor: '#ffffff',
-      list: [{
-        pagePath: 'pages/hero/hero',
-        iconPath: './assets/dashboard-ic.png',
-        selectedIconPath: './assets/dashboard-o-ic.png',
-        text: 'square'
-      }, {
-        pagePath: 'pages/user/user',
-        iconPath: './assets/face-ic.png',
-        selectedIconPath: './assets/face-o-ic.png',
-        text: 'user'
-      }]
-    },
-    window: {
-      navigationStyle: 'custom',
-    }
-  }
-
+class App extends React.Component {
   componentDidMount() {
     loadFont().then(() => {
       console.log('loaded')
@@ -52,10 +19,12 @@ class App extends Component {
   render () {
     return (
       <Provider store={store}>
-        <Index />
+        {this.props.children}
       </Provider>
     )
   }
 }
 
-Taro.render(<App />, document.getElementById('app'))
+// Taro.render(<App />, document.getElementById('app'))
+
+export default App

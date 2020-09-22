@@ -18,7 +18,6 @@ if (process.env.NODE_ENV === 'development') {
 
 const enhancer = composeEnhancers(
   applyMiddleware(...middlewares),
-  // other store enhancers if any
 )
 
 export default function configStore() {

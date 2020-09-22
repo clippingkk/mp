@@ -1,5 +1,9 @@
 import { combineReducers } from 'redux'
-import userReducer from './user'
+import userReducer, { UserInfo } from './user'
+
+export type TGlobalStore = {
+  user: UserInfo
+}
 
 export default combineReducers({
   user: userReducer

@@ -1,7 +1,8 @@
-import Taro, { Component, useShareAppMessage, useEffect, useState } from '@tarojs/taro'
+import React, { useEffect, useState} from 'react'
+import Taro, { Component, useShareAppMessage, } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import './user.styl'
-import { connect, useSelector } from '@tarojs/redux';
+import { connect, useSelector } from 'react-redux';
 import UserCard from '../../components/user-card';
 import InfoBuilding from '../../components/info-building';
 import Info from '../../components/info/info'
