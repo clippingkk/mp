@@ -4,7 +4,7 @@
   "description": "clippingkk",
   "appid": "wx62b01f667ed962e4",
   "setting": {
-    "urlCheck": true,
+    "urlCheck": false,
     "es6": false,
     "postcss": false,
     "preloadBackgroundData": false,

@@ -5,6 +5,10 @@ import styles from './landing.module.styl'
 import { authFlow } from '../../services/auth';
 import { useDispatch } from 'react-redux';
 import { updateUserInfo } from '../../actions/user';
+import { useLazyQuery } from '@apollo/client'
+import authQuery from '../../schema/login.graphql'
+import { wechatLogin, wechatLoginVariables } from '../../schema/__generated__/wechatLogin';
+import { updateToken } from '../../store/global';
 
 function getClippingID(scene?: string) {
   if (!scene) {
@@ -26,14 +30,31 @@ function getClippingID(scene?: string) {
 function Landing() {
   const dispatch = useDispatch()
   const params = getCurrentInstance().router?.params
-  const onLogin = useCallback(() => {
-    Taro.showLoading({ mask: true, title: 'Loading...' })
-    authFlow().then(resp => {
-      dispatch(updateUserInfo(resp))
+  const [exec, { data, called, loading, error }] = useLazyQuery<wechatLogin, wechatLoginVariables>(authQuery)
+  const onLogin = useCallback(async () => {
+    if (loading) {
+      return
+    }
+    const res = await Taro.login()
+    await exec({
+      variables: {
+        code: res.code
+      }
+    })
+  }, [params, exec, loading ])
+
+  useEffect(() => {
+    if (!called) {
+      return
+    }
+    if (!data) {
+      return
+    }
+    updateToken(data.mpAuth.token)
+      dispatch(updateUserInfo(data.mpAuth.user))
       setTimeout(() => {
         // c is clipping
         const c = getClippingID(params?.scene)
-        Taro.hideLoading()
         if (c) {
           return Taro.redirectTo({
             url: `/pages/clipping/clipping?id=${c}`
@@ -44,15 +65,7 @@ function Landing() {
           url: '/pages/hero/hero'
         })
       }, 100)
-    }).catch(e => {
-      console.log(e)
-      Taro.hideLoading()
-      Taro.showToast({
-        title: '🤷️ 哎呀呀，登陆出错了',
-        icon: 'none'
-      })
-    })
-  }, [params])
+  }, [data, called])
 
   useEffect(() => {
     onLogin()

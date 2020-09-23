@@ -19,9 +19,13 @@ export async function request<T>(url: string, options: any = {}): Promise<T> {
   }
   options.credentials = 'include'
   options.mode = 'cors'
+
+  if (!url.startsWith('http')) {
+    url = API_HOST + url
+  }
   try {
     const response: IBaseResponseData = await Taro.request({
-      url: API_HOST + url,
+      url,
       ...(options as any)
     }).then(res => res.data)
     if (response.status !== 200) {
@@ -62,8 +66,21 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 });
 
 const httpLink = new HttpLink({
-    uri: API_HOST + '/api/v2/graphql',
-  })
+  uri: API_HOST + '/v2/graphql',
+  //   fetch: (url, options: any ) => {
+  //     const { method = "POST", header, body } = options
+  //     return request(url, body, {
+  //       method,
+  //       herder
+  //     }).then(res => {
+  //       const { data, statusCode } = res;
+  //       res.text = () => Promise.resolve(JSON.stringify(data));
+  //       return res;
+  //     });
+  //   }
+  // }
+  fetch: (url: string, options: any) => request(url, { ...options, data: options.body })
+})
 
 export const client = new ApolloClient({
   cache: new InMemoryCache(),
