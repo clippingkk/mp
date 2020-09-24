@@ -59,7 +59,7 @@
 		"eslint": "^7.9.0",
 		"eslint-config-taro": "^3.0.11",
 		"eslint-plugin-import": "^2.22.0",
-		"eslint-plugin-react": "^7.20.6",
+		"eslint-plugin-react": "^7.21.1",
 		"eslint-plugin-taro": "^3.0.11",
 		"eslint-plugin-typescript": "^0.12.0",
 		"graphql-tag": "^2.11.0",
