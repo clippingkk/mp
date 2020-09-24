@@ -3,11 +3,14 @@ import Taro from '@tarojs/taro'
 import { View, Text, Navigator } from '@tarojs/components'
 import { IBook } from '../../services/books'
 import Info from '../../components/info/info'
+import { book_book } from '../../schema/__generated__/book'
+import BookCover from '../../components/book-cover/book-cover'
+import { books_books } from '../../schema/__generated__/books'
 
 const styles = require('./books.module.styl')
 
 type BooksProps = {
-  books: IBook[]
+  books: readonly books_books[]
   loading: boolean
   reachEnd: boolean
 }
@@ -16,17 +19,7 @@ function Books(props: BooksProps) {
   return (
     <View className={styles.books}>
       {props.books.map(b => (
-        <Navigator
-          className={styles.book}
-          key={b.id}
-          style={{ backgroundImage: `url(${b.image})` }}
-          url={`/pages/book/index?id=${b.id}&bookId=${b.doubanId}`}
-        >
-          <View className={styles.info}>
-            <Text className={styles.title}>{b.title}</Text>
-            <Text className={styles.author}>{b.author}</Text>
-          </View>
-        </Navigator>
+        <BookCover doubanId={b.doubanId} key={b.doubanId} />
       ))}
       {props.loading && (
         <Info text='😂 还在加载...' />

@@ -1,25 +1,65 @@
-import Taro, { Component, useShareAppMessage, useState, useRef, useCallback, usePullDownRefresh, useReachBottom } from '@tarojs/taro'
+import React, { useCallback, useEffect, useState } from 'react'
+import Taro, { useShareAppMessage, usePullDownRefresh, useReachBottom } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import './hero.styl'
 import NavigationBar from '../../components/navigation-bar';
 import { useSelector } from 'react-redux';
 import NotBindContent from '../../components/not-bind-content';
 import Books from './books';
-import { useBookList } from './hooks';
+import { useQuery } from '@apollo/client';
+import booksQuery from '../../schema/books.graphql'
+import { TGlobalStore } from '../../reducers';
+import { books, booksVariables } from '../../schema/__generated__/books';
+
+const PAGINATION_STEP = 10
 
 function HeroPage() {
-  const { userID, hasBind } = useSelector<any, { userID: number, hasBind: boolean }>(store => ({
+  const { userID, hasBind } = useSelector<TGlobalStore, { userID: number, hasBind: boolean }>(store => ({
     userID: store.user.profile.id,
-    hasBind: store.user.hasBind
+    hasBind: store.user.profile.id === 1
   }))
 
-  const { books, loadMore, loading, reachEnd } = useBookList(userID)
+  const [reachEnd, setReachEnd] = useState(false)
+
+  const { data: books, fetchMore, loading, error, refetch } = useQuery<books, booksVariables>(booksQuery, {
+    variables: {
+      pagination: {
+        limit: PAGINATION_STEP,
+        offset: 0
+      }
+    },
+  })
+
   usePullDownRefresh(() => {
-    loadMore(true)
+    refetch({
+      pagination: {
+        limit: PAGINATION_STEP,
+        offset: 0
+      }
+    })
   })
 
   useReachBottom(() => {
-    loadMore()
+    fetchMore({
+      variables: {
+        limit: 10,
+        offset: books?.books.length
+      },
+      updateQuery(prev: books, { fetchMoreResult }) {
+        if (!fetchMoreResult || fetchMoreResult.books.length < PAGINATION_STEP) {
+          setReachEnd(true)
+          return prev
+        }
+
+        return {
+          ...prev,
+          books: {
+            ...prev.books,
+            ...fetchMoreResult.books
+          }
+        } as books
+      }
+    })
   })
 
   useShareAppMessage(() => {
@@ -39,22 +79,20 @@ function HeroPage() {
     <View className='hero'>
       <NavigationBar hasHolder homeIcon='👀' onBack={onNavigateUp}>
         <Text className='hero-title'>我看过的</Text>
-        </NavigationBar>
+      </NavigationBar>
       <View className='hero-body'>
-        {hasBind ? (
-          <Books books={books} loading={loading} reachEnd={reachEnd} />
+        {hasBind && books?.books ? (
+          <Books
+            books={books.books!}
+            loading={loading}
+            reachEnd={reachEnd}
+          />
         ) : (
             <NotBindContent />
           )}
       </View>
     </View>
   )
-}
-
-HeroPage.config = {
-  // backgroundColorTop: 'rgba(1,119,215,0.8)',
-  backgroundColor: '#ecf0f1',
-  // backgroundColorBottom: '#ffffff'
 }
 
 export default HeroPage

@@ -17,8 +17,6 @@ export async function request<T>(url: string, options: any = {}): Promise<T> {
       'Authorization': `Bearer ${token}`,
     }
   }
-  options.credentials = 'include'
-  options.mode = 'cors'
 
   if (!url.startsWith('http')) {
     url = API_HOST + url

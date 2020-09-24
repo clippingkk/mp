@@ -41,7 +41,7 @@ function Landing() {
         code: res.code
       }
     })
-  }, [params, exec, loading ])
+  }, [params, exec, loading])
 
   useEffect(() => {
     if (!called) {
@@ -51,20 +51,20 @@ function Landing() {
       return
     }
     updateToken(data.mpAuth.token)
-      dispatch(updateUserInfo(data.mpAuth.user))
-      setTimeout(() => {
-        // c is clipping
-        const c = getClippingID(params?.scene)
-        if (c) {
-          return Taro.redirectTo({
-            url: `/pages/clipping/clipping?id=${c}`
-          })
-        }
-
-        return Taro.switchTab({
-          url: '/pages/hero/hero'
+    dispatch(updateUserInfo(data.mpAuth.user))
+    setTimeout(() => {
+      // c is clipping
+      const c = getClippingID(params?.scene)
+      if (c) {
+        return Taro.redirectTo({
+          url: `/pages/clipping/clipping?id=${c}`
         })
-      }, 100)
+      }
+
+      return Taro.switchTab({
+        url: '/pages/hero/hero'
+      })
+    }, 100)
   }, [data, called])
 
   useEffect(() => {
