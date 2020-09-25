@@ -16,6 +16,11 @@ import './book.styl'
 import Divider from '../../components/divider/divider'
 import Card from '../../components/card/card'
 import { IClippingItem } from '../../services/types'
+import { useSingleBook } from '../../hooks/book'
+import { useQuery } from '@apollo/client'
+import bookQuery from '../../schema/book.graphql'
+import { book, bookVariables } from '../../schema/__generated__/book'
+import { DEFAULT_LOADING_IMAGE, PAGINATION_STEP } from '../../constants/config'
 
 function useBookAndClippings(bookID: number) {
   const [book, setBook] = useState<IBook>({} as IBook)
@@ -67,29 +72,68 @@ function useBookAndClippings(bookID: number) {
 
 function BookPage() {
   const params = getCurrentInstance().router?.params
-  const bookID = ~~(params?.id ?? 0)
-  const doubanID = ~~(params?.bookId ?? 0)
+  const doubanID = params?.bookId ?? '0'
 
-  const { book, clippings, loadMoreClippings, reachEnd, loading } = useBookAndClippings(doubanID)
+  const b = useSingleBook(doubanID)
+
+  const [reachEnd, setReachEnd] = useState(false)
+
+  const { data, loading, fetchMore } = useQuery<book, bookVariables>(bookQuery, {
+    variables: {
+      id: ~~doubanID,
+      pagination: {
+        limit: PAGINATION_STEP,
+        offset: 0
+      }
+    }
+  })
+
+  // const { book, clippings, loadMoreClippings, reachEnd, loading } = useBookAndClippings(doubanID)
   const onNavigateUp = useNavigateUp()
 
   useReachBottom(() => {
-    loadMoreClippings()
-  })
+    if (loading) {
+      return
+    }
+    fetchMore({
+      variables: {
+        pagination: {
+          offset: data?.book.clippings.length,
+          limit: PAGINATION_STEP,
+        }
+      },
+      updateQuery(prev: book, { fetchMoreResult}) {
+        if (!fetchMoreResult || fetchMoreResult.book.clippings.length < PAGINATION_STEP) {
+          setReachEnd(true)
+          return
+        }
 
+        return {
+          ...prev,
+          book: {
+            ...prev.book,
+            clippings: [
+              ...prev.book.clippings,
+              ...fetchMoreResult.book.clippings
+            ]
+          }
+        }
+      }
+    })
+  })
 
   return (
     <View>
       <NavigationBar hasHolder={true} onBack={onNavigateUp}>
-        <Text>{book.title}</Text>
+        <Text>{b?.title}</Text>
       </NavigationBar>
       <View className='container'>
         <Card cls-name='book'>
-          <Image src={book.image} className='book-cover' />
+          <Image src={b?.image ?? DEFAULT_LOADING_IMAGE} className='book-cover' />
           <View className='book-info'>
-            <Text className='book-title'>{book.title}</Text>
-            <Text className='book-author'>{book.author}</Text>
-            <Text className='book-summary'>{book.summary}</Text>
+            <Text className='book-title'>{b?.title}</Text>
+            <Text className='book-author'>{b?.author}</Text>
+            <Text className='book-summary'>{b?.summary}</Text>
           </View>
         </Card>
         <Divider />
@@ -97,7 +141,7 @@ function BookPage() {
           <ClippingList
             loading={loading}
             reachEnd={reachEnd}
-            clippings={clippings}
+            clippings={data?.book.clippings}
           />
         </View>
       </View>

@@ -1,4 +1,5 @@
-import Taro, { useState, useEffect } from '@tarojs/taro'
+import React, { useEffect, useState } from 'react'
+import Taro from '@tarojs/taro'
 import { View, Image, Text } from '@tarojs/components'
 
 import './styles.styl'
@@ -10,7 +11,7 @@ type NavigationBarProps = {
   children: any
 }
 
-const defaultBackIcon = require('../../assets/back.png')
+const defaultBackIcon = require('../../assets/back.png').default
 
 function useStatusBarSize(hasHolder: boolean) {
   const [barHeight, setBarHeight] = useState(0)

@@ -1,4 +1,5 @@
-import Taro, { useCallback } from '@tarojs/taro'
+import React, { useCallback } from 'react'
+import Taro from '@tarojs/taro'
 import { View, Text } from '@tarojs/components';
 import styles from './style.module.styl'
 

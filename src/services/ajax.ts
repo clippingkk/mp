@@ -26,10 +26,12 @@ export async function request<T>(url: string, options: any = {}): Promise<T> {
       url,
       ...(options as any)
     }).then(res => res.data)
-    if (response.status !== 200) {
-      throw new Error(response.msg)
-    }
-    return response.data as T
+    console.log(response)
+    return response as any
+    // if (response.status >= 400) {
+    //   throw new Error(response.msg)
+    // }
+    // return response.data as T
   } catch (e) {
     console.log(e)
     return Promise.reject(e)
@@ -62,22 +64,27 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   }
   if (networkError) console.log(`[Network error]: ${networkError}`);
 });
+export default function apolloFetcher(url, { body, method, headers }) {
+  return new Promise(resolve =>
+    Taro.request({
+      url,
+      header: headers,
+      method,
+      data: body,
+      dataType: "text",
+      complete: ({ data, statusCode, errMsg }: any) =>
+        resolve({
+          ok: () => statusCode >= 200 && statusCode < 300,
+          statusText: () => errMsg,
+          text: () => Promise.resolve(data),
+        }),
+    })
+  );
+}
 
 const httpLink = new HttpLink({
   uri: API_HOST + '/v2/graphql',
-  //   fetch: (url, options: any ) => {
-  //     const { method = "POST", header, body } = options
-  //     return request(url, body, {
-  //       method,
-  //       herder
-  //     }).then(res => {
-  //       const { data, statusCode } = res;
-  //       res.text = () => Promise.resolve(JSON.stringify(data));
-  //       return res;
-  //     });
-  //   }
-  // }
-  fetch: (url: string, options: any) => request(url, { ...options, data: options.body })
+  fetch: apolloFetcher as any
 })
 
 export const client = new ApolloClient({

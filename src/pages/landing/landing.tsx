@@ -51,7 +51,7 @@ function Landing() {
       return
     }
     updateToken(data.mpAuth.token)
-    dispatch(updateUserInfo(data.mpAuth.user))
+    dispatch(updateUserInfo(data.mpAuth.user, data.mpAuth.token))
     setTimeout(() => {
       // c is clipping
       const c = getClippingID(params?.scene)

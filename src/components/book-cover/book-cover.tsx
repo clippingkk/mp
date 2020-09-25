@@ -2,7 +2,7 @@ import React from 'react'
 import { Navigator, View, Text } from '@tarojs/components'
 import { useSingleBook } from '../../hooks/book'
 
-const styles = require('./style.module.styl')
+const styles = require('./book.module.styl')
 type BookCoverProps = {
   doubanId: string
 }

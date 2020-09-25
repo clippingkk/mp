@@ -4,9 +4,10 @@ import Info from '../../components/info/info'
 import { View, Navigator, Text } from '@tarojs/components'
 import ClippingItem from '../../components/clipping-item/clipping-item'
 import { IClippingItem } from '../../services/types'
+import { book_book_clippings } from '../../schema/__generated__/book'
 
 type ClippingList = {
-  clippings: IClippingItem[]
+  clippings: readonly book_book_clippings[]
   loading: boolean
   reachEnd: boolean
 }
@@ -14,7 +15,7 @@ type ClippingList = {
 function ClippingList(props: ClippingList) {
   return (
     <View className='clippings'>
-      {props.clippings.map((c: IClippingItem) => (
+      {props.clippings.map(c => (
         <ClippingItem clipping={c} key={c.id} />
       ))}
       {props.loading && (

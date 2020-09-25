@@ -1,12 +1,14 @@
-import Taro, { useCallback } from '@tarojs/taro'
+import React, { useCallback } from 'react'
+import Taro from '@tarojs/taro'
 import { View, Text, OpenData } from '@tarojs/components';
 import { IUserContent } from '../../store/user/type';
 import KKImage from '../kkimage';
 
 import styles from './style.module.styl'
+import { wechatLogin_mpAuth_user } from '../../schema/__generated__/wechatLogin';
 
 type UserCardProps = {
-  profile: IUserContent
+  profile: wechatLogin_mpAuth_user
   hasBind: boolean
   count: number
 }

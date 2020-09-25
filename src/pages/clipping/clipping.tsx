@@ -1,4 +1,5 @@
-import Taro, { useState, useEffect, useCallback, useShareAppMessage } from '@tarojs/taro'
+import React, { useEffect, useState, useCallback } from 'react'
+import Taro, { useShareAppMessage, getCurrentInstance } from '@tarojs/taro'
 import { View, Text, Button, Canvas } from '@tarojs/components'
 import NavigationBar from '../../components/navigation-bar';
 import { getClipping } from '../../services/clippings';
@@ -7,6 +8,12 @@ import { searchBookDetail, IBook } from '../../services/books';
 import { drawCanvas, saveLocally } from './canvas';
 import { useNavigateUp } from '../../hooks/navigationbar';
 import { IClippingItem } from '../../services/types';
+import { useQuery } from '@apollo/client';
+import fetchClippingQuery from '../../schema/clipping.graphql'
+import { fetchClipping, fetchClippingVariables, fetchClipping_clipping } from '../../schema/__generated__/fetchClipping';
+import { useSingleBook } from '../../hooks/book';
+import { client } from '../../services/ajax';
+import { WenquBook } from '../../services/wenqu';
 
 type sysScreenSize = {
   width: number
@@ -40,6 +47,29 @@ async function ensurePermission(scope: string) {
 }
 
 const canvasId = 'clippingcanvas'
+
+function useSystemScreen() {
+  const [sysScreen, setSysScreen] = useState(
+    {
+      width: 920,
+      height: 1080,
+      ratio: 2
+    }
+  )
+
+  useEffect(() => {
+    Taro.getSystemInfo().then(res => {
+      const ratio = ~~res.pixelRatio
+      setSysScreen({
+        width: res.screenWidth * ratio,
+        height: res.screenHeight * ratio,
+        ratio
+      })
+    })
+  }, [])
+
+  return sysScreen
+}
 
 function useClippingData(id: number) {
   const [clippingData, setClippingData] = useState<IClippingItem | null>(null)
@@ -88,7 +118,7 @@ function useClippingData(id: number) {
   }
 }
 
-function useImageSaveBtn(bookData: IBook | null, clippingData: IClippingItem | null, screen: any, id: number) {
+function useImageSaveBtn(bookData: WenquBook | null, clippingData: fetchClipping_clipping | undefined, screen: any, id: number) {
   return useCallback(() => {
     if (!bookData || !clippingData) {
       return
@@ -114,6 +144,7 @@ function useImageSaveBtn(bookData: IBook | null, clippingData: IClippingItem | n
             icon: 'none'
           })
         } catch (e) {
+          console.log(e)
           Taro.hideLoading()
           Taro.showToast({
             title: '😢 啊呀呀，图片生成失败了',
@@ -128,11 +159,21 @@ function useImageSaveBtn(bookData: IBook | null, clippingData: IClippingItem | n
 }
 
 function Clipping() {
-  const id = ~~this.$router.params.id
-  const { clippingData, bookData, sysScreen } = useClippingData(id)
-  const onNavigateUp = useNavigateUp()
+  const params = getCurrentInstance().router?.params
+  const id = params?.id ? ~~(params.id) : -1
 
-  const onSave = useImageSaveBtn(bookData, clippingData, sysScreen, id)
+  const { data: clipping } = useQuery<fetchClipping, fetchClippingVariables>(fetchClippingQuery, {
+    variables: {
+      id: id
+    }
+  })
+  const bookData = useSingleBook(clipping?.clipping.bookID)
+
+  // const { clippingData, bookData, sysScreen } = useClippingData(id)
+  const onNavigateUp = useNavigateUp()
+  const sysScreen = useSystemScreen()
+
+  const onSave = useImageSaveBtn(bookData, clipping?.clipping, sysScreen, id)
 
   useShareAppMessage(() => {
     return {
@@ -142,10 +183,10 @@ function Clipping() {
   })
 
   useEffect(() => {
-    this.$scope.createSelectorQuery()
+    Taro.createSelectorQuery()
   }, [])
 
-  if (!clippingData || !bookData) {
+  if (!clipping || !bookData) {
     return <View />
   }
   return (
@@ -160,13 +201,13 @@ function Clipping() {
         <View className='clipping-body'>
           {/* <Text className='title'>{clippingData.title}</Text> */}
           <Text className='content'>
-            {clippingData.content}
+            {clipping.clipping.content}
           </Text>
           <Text className='author'> —— {bookData.author}</Text>
 
-          <Button onClick={onSave} className='btn-primary'>
+          {/* <Button onClick={onSave} className='btn-primary'>
             🎨 保存
-            </Button>
+            </Button> */}
         </View>
 
         <Canvas
@@ -181,9 +222,4 @@ function Clipping() {
     </View>
   )
 }
-Clipping.config = {
-  navigationBarTitleText: '首页',
-  backgroundColor: '#0376d7'
-}
-
 export default Clipping

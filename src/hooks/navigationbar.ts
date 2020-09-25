@@ -1,4 +1,6 @@
-import Taro, { useCallback, getCurrentPages } from '@tarojs/taro'
+import { useCallback } from 'react'
+
+import Taro, { getCurrentPages } from '@tarojs/taro'
 
 export function useNavigateUp() {
   const onNavigateUp = useCallback(() => {

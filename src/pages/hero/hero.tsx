@@ -10,14 +10,13 @@ import { useQuery } from '@apollo/client';
 import booksQuery from '../../schema/books.graphql'
 import { TGlobalStore } from '../../reducers';
 import { books, booksVariables } from '../../schema/__generated__/books';
+import { wechatLogin_mpAuth_user } from '../../schema/__generated__/wechatLogin';
+import { PAGINATION_STEP } from '../../constants/config';
 
-const PAGINATION_STEP = 10
 
 function HeroPage() {
-  const { userID, hasBind } = useSelector<TGlobalStore, { userID: number, hasBind: boolean }>(store => ({
-    userID: store.user.profile.id,
-    hasBind: store.user.profile.id === 1
-  }))
+  const user = useSelector<TGlobalStore, wechatLogin_mpAuth_user>(s => s.user.profile)
+  const hasBind = user.email.endsWith('@clippingkk.annatarhe.com')
 
   const [reachEnd, setReachEnd] = useState(false)
 
@@ -42,8 +41,10 @@ function HeroPage() {
   useReachBottom(() => {
     fetchMore({
       variables: {
-        limit: 10,
-        offset: books?.books.length
+        pagination: {
+          limit: PAGINATION_STEP,
+          offset: books?.books.length
+        }
       },
       updateQuery(prev: books, { fetchMoreResult }) {
         if (!fetchMoreResult || fetchMoreResult.books.length < PAGINATION_STEP) {
@@ -53,10 +54,10 @@ function HeroPage() {
 
         return {
           ...prev,
-          books: {
+          books: [
             ...prev.books,
             ...fetchMoreResult.books
-          }
+          ]
         } as books
       }
     })
@@ -70,6 +71,11 @@ function HeroPage() {
   })
 
   const onNavigateUp = useCallback(() => {
+    Taro.showToast({
+      title: '搜索在下个版本支持哦~',
+      icon: 'none'
+    })
+    return
     Taro.navigateTo({
       url: '/pages/search/search'
     })

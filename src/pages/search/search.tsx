@@ -1,4 +1,5 @@
-import Taro, { useState, useEffect, useCallback, useRef } from '@tarojs/taro'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import Taro from '@tarojs/taro'
 import { View, Text, Input } from '@tarojs/components'
 import NavigationBar from '../../components/navigation-bar'
 import { searchRequest } from '../../services/search'
@@ -67,7 +68,7 @@ function SearchPage() {
         )}
         {clippingsResult && (
           clippingsResult.map(x => (
-            <ClippingItem clipping={x} key={x.id} />
+            <ClippingItem clipping={x as any} key={x.id} />
           ))
         )}
       </View>

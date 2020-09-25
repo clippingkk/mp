@@ -1,3 +1,4 @@
+import Taro from '@tarojs/taro'
 import { WENQU_SIMPLE_TOKEN, WENQU_API_HOST } from "../constants/config"
 
 type WenquErrorResponse = {

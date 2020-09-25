@@ -1,12 +1,12 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Navigator, Text } from '@tarojs/components'
-import { IClippingItem } from '../../services/types'
 
 import './style.styl'
+import { profile_me_recents } from '../../schema/__generated__/profile'
 
 type ClippingItemProps = {
-  clipping: IClippingItem
+  clipping: profile_me_recents
 }
 
 function ClippingItem(props: ClippingItemProps) {

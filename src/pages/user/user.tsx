@@ -9,6 +9,11 @@ import Info from '../../components/info/info'
 import { fetchMyProfile } from '../../services/auth';
 import { IHttpUserProfileResponseData, IUserProfileResponseData } from '../../services/types';
 import ClippingItem from '../../components/clipping-item/clipping-item';
+import { TGlobalStore } from '../../reducers';
+import { wechatLogin_mpAuth_user } from '../../schema/__generated__/wechatLogin';
+import { useQuery } from '@apollo/client';
+import profileQuery from '../../schema/profile.graphql'
+import { profile, profileVariables } from '../../schema/__generated__/profile';
 
 function useMyProfile(userId: number) {
   const [profile, setProfile] = useState<IUserProfileResponseData | null>(null)
@@ -30,21 +35,28 @@ function User() {
     title: '我在用 kindle 书摘哦~',
     page: '/pages/landing/landing'
   }))
-  const { user, hasBind } = useSelector<any, any>(s => ({
-    user: s.user.profile,
-    hasBind: s.user.hasBind
-  }))
+  const user = useSelector<TGlobalStore, wechatLogin_mpAuth_user>(s => s.user.profile)
 
-  const profile = useMyProfile(user.id)
+  const hasBind = !user.email.endsWith('@clippingkk.annatarhe.com')
+
+  const { data } = useQuery<profile, profileVariables>(profileQuery, {
+    variables: {
+      id: user.id,
+    }
+  })
 
   return (
     <View className='user'>
       <View className='user-solid-rect' />
       <View className='info-container'>
-        <UserCard profile={user} hasBind={hasBind} count={profile ? profile.clippingsCount : 0} />
+        <UserCard
+         profile={user}
+          hasBind={hasBind}
+           count={data?.me.clippingsCount ?? 0}
+         />
         <View className="divider" />
-        {(profile && profile.clippings) ? (
-          profile.clippings.map(c => (
+        {data?.me.recents ? (
+          data.me.recents.map(c => (
             <ClippingItem clipping={c} key={c.id} />
           ))
         ) : (

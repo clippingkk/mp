@@ -1,9 +1,8 @@
 import { USERINFO_MODIFIED } from "../constants/user.action";
+import { wechatLogin_mpAuth_user } from "../schema/__generated__/wechatLogin";
 
 export type UserInfo = {
-  profile: {
-    id: number,
-  },
+  profile: wechatLogin_mpAuth_user,
   token: string
 }
 
@@ -18,16 +17,16 @@ const initUserInfo = {
     updatedAt: new Date(),
     wechatOpenid: ''
   },
-  token: "",
-  hasBind: false
+  token: ""
 }
 
 export default function userReducer(state = initUserInfo, action: any) {
+
   switch (action.type) {
     case USERINFO_MODIFIED:
       return {
-        ...action.user,
-        hasBind: !action.user.profile.email.includes('@clippingkk.annatarhe.com')
+        profile: action.user,
+        token: action.token,
       }
     default:
       return state
