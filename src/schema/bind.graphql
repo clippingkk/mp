@@ -1,0 +1,16 @@
+mutation wechatBindByKey($key: String!) {
+  wechatBindByKey(key: $key) {
+    user {
+      id
+      name
+      email
+      password
+      avatar
+      checked
+      createdAt
+      updatedAt
+      wechatOpenid
+    }
+    token
+  }
+}
