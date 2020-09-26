@@ -1,3 +1,5 @@
+const TerserPlugin = require('terser-webpack-plugin')
+
 const config = {
   projectName: 'mp-clippingkk',
   date: '2019-3-10',
@@ -43,6 +45,9 @@ const config = {
       }
     },
     webpackChain(chain, webpack) {
+      // 不知道为啥，要加上这句才能正确编译
+      chain.optimization.minimizer()
+      // console.log(chain.optimization.minimizer(), webpack)
       chain.merge({
         module: {
           rule: {
@@ -60,7 +65,7 @@ const config = {
               }]
             }
           },
-        }
+        },
       })
     }
   },

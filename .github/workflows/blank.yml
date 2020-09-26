@@ -22,9 +22,9 @@ jobs:
     # 安装依赖
     - name: install
       run: |
-        npm install -g @tarojs/cli@^2.2.11
+        npm install -g @tarojs/cli@3.0.13
         npm ci
-        
+
     # 构建
     - name: build
       run: npm run build:weapp
