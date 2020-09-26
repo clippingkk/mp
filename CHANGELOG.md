@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/clippingkk/mp/compare/v1.1.8...v2.0.0) (2020-09-26)
+
+
+### Features
+
+* **app:** update app to match new graphql api ([ae91c6b](https://github.com/clippingkk/mp/commit/ae91c6b44f9c884566351ccbf53ad675bfa0b564))
+* **bind:** fix bind api ([2b8b618](https://github.com/clippingkk/mp/commit/2b8b6188fbc7e041d1eff67813e99063162fda9f))
+* **book:** migrate book to graphql api ([26fbb4a](https://github.com/clippingkk/mp/commit/26fbb4a52a63dd5f161cb69040626e8a44bb73cf))
+* **graphql:** add apollo client ([efb1af4](https://github.com/clippingkk/mp/commit/efb1af4021da340d19707de3d7b5b3be8dde0968))
+* **landing:** migrate landing api to new graphql api ([a55d839](https://github.com/clippingkk/mp/commit/a55d839979951560dd3cfe9ae1f9cd537ade43a6))
+* **taro:** upgrade to taro v3 ([be6255c](https://github.com/clippingkk/mp/commit/be6255c28842729001ee91124c7c553e7fd79c50))
+* **wechat:** add wechat bind method ([a2b3503](https://github.com/clippingkk/mp/commit/a2b3503776f6200e5a48812241ea3635a7a10728))
+
 ### [1.1.8](https://github.com/clippingkk/mp/compare/v1.1.7...v1.1.8) (2020-08-04)
 
 
