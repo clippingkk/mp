@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.1](https://github.com/clippingkk/mp/compare/v2.0.0...v2.0.1) (2020-09-26)
+
+
+### Bug Fixes
+
+* **build:** fix production build ([1a15a3f](https://github.com/clippingkk/mp/commit/1a15a3f6003cf331677fc49ae4322aaecc978d66))
+
 ## [2.0.0](https://github.com/clippingkk/mp/compare/v1.1.8...v2.0.0) (2020-09-26)
 
 
