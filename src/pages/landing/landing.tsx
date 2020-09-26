@@ -50,6 +50,7 @@ function Landing() {
     if (!data) {
       return
     }
+    console.log(data.mpAuth)
     updateToken(data.mpAuth.token)
     dispatch(updateUserInfo(data.mpAuth.user, data.mpAuth.token))
     setTimeout(() => {

@@ -16,7 +16,7 @@ import { PAGINATION_STEP } from '../../constants/config';
 
 function HeroPage() {
   const user = useSelector<TGlobalStore, wechatLogin_mpAuth_user>(s => s.user.profile)
-  const hasBind = user.email.endsWith('@clippingkk.annatarhe.com')
+  const hasBind = !user.email.endsWith('@clippingkk.annatarhe.com')
 
   const [reachEnd, setReachEnd] = useState(false)
 
