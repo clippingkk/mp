@@ -1,6 +1,21 @@
 import Taro from "@tarojs/taro"
 import { fetchQRCode, fetchRandomBackground } from "../../services/mp"
 
+function fetchImage(canvasDom: any, url: string): Promise<any> {
+  const img = canvasDom.createImage()
+  return new Promise((resolve, reject) => {
+    img.onload = () => {
+      resolve(img)
+    }
+    img.onerror = (e) => {
+      reject(e)
+    }
+
+    img.src = url
+  })
+}
+
+
 type info = {
   title: string
   content: string
@@ -20,7 +35,7 @@ type coordinate = {
   y: number
 }
 
-function drawMultipLineText(ctx: Taro.CanvasContext, text: string, maxWidth: number, lineHeight: number, startAt: coordinate) {
+function drawMultipLineText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number, lineHeight: number, startAt: coordinate) {
   const words = text.split('');
   const x = startAt.x
   let y = startAt.y
@@ -51,15 +66,19 @@ const FONT_SIZE = {
 
 const CANVAS_QRCODE_SIZE = 100
 
-export async function drawCanvas(ctx: Taro.CanvasContext, info: info, size: screenSize) {
+export async function drawCanvas(dom: HTMLCanvasElement, ctx: CanvasRenderingContext2D, info: info, size: screenSize) {
   // mock data
   // const { path, width, height } = await Taro.getImageInfo({ src: getImageSrc(info.bg) })
-  const path = await fetchRandomBackground(size.width, size.height)
-  const qrcode = await fetchQRCode(`c=${info.id}`, "pages/landing/landing", size.width, true)
+  // const path = await fetchRandomBackground(size.width, size.height)
+  // const qrcode = await fetchQRCode(`c=${info.id}`, "pages/landing/landing", size.width, true)
+  const bg = await fetchImage(dom, 'https://picsum.photos/200/300')
+  const qrcode = bg
+
 
   // draw background
   ctx.save();
-  ctx.drawImage(path, 0, 0, size.width, size.height, 0, 0, size.width, size.height);
+  ctx.drawImage(bg, 0, 0, size.width, size.height, 0, 0, size.width, size.height)
+  // ctx.drawImage(path, 0, 0, size.width, size.height, 0, 0, size.width, size.height);
   ctx.fillStyle = 'rgba(0, 0, 0, .5)'
   ctx.fillRect(0, 0, size.width, size.height)
   ctx.restore()
@@ -68,10 +87,12 @@ export async function drawCanvas(ctx: Taro.CanvasContext, info: info, size: scre
   ctx.save()
 
   ctx.fillStyle = '#ffffff'
-  ctx.setFontSize(FONT_SIZE.title * size.ratio)
+  ctx.font = FONT_SIZE.title * size.ratio + 'px'
+  // ctx.setFontSize(FONT_SIZE.title * size.ratio)
   drawMultipLineText(ctx, info.title, size.width * 0.9, FONT_SIZE.title * size.ratio * 1.6, { x: size.width * 0.05, y: size.height * 0.1 })
 
-  ctx.setFontSize(FONT_SIZE.content * size.ratio)
+  ctx.font = FONT_SIZE.content * size.ratio + 'px'
+  // ctx.setFontSize(FONT_SIZE.content * size.ratio)
   drawMultipLineText(ctx, info.content, size.width * 0.9, FONT_SIZE.content * size.ratio * 1.6, { x: size.width * 0.05, y: size.height * 0.2 })
   ctx.restore()
 
@@ -81,7 +102,8 @@ export async function drawCanvas(ctx: Taro.CanvasContext, info: info, size: scre
   ctx.fillRect(0, size.height * 0.85, size.width, size.height * 0.15)
 
   ctx.fillStyle = '#000000'
-  ctx.setFontSize(FONT_SIZE.author * size.ratio)
+  ctx.font = FONT_SIZE.author * size.ratio + 'px'
+  // ctx.setFontSize(FONT_SIZE.author * size.ratio)
   drawMultipLineText(
     ctx,
     '—— ' + info.author,
@@ -90,7 +112,7 @@ export async function drawCanvas(ctx: Taro.CanvasContext, info: info, size: scre
     { x: size.width * 0.05, y: size.height * 0.9 }
   )
 
-  const qrcodeImageInfo = await Taro.getImageInfo({ src: qrcode })
+  const qrcodeImageInfo = await Taro.getImageInfo({ src: 'https://picsum.photos/200/300' })
 
   console.log(
     qrcode,
@@ -105,7 +127,8 @@ export async function drawCanvas(ctx: Taro.CanvasContext, info: info, size: scre
   )
 
   ctx.drawImage(
-    qrcode,
+    bg,
+    // qrcode,
     0,
     0,
     qrcodeImageInfo.width,
@@ -118,7 +141,11 @@ export async function drawCanvas(ctx: Taro.CanvasContext, info: info, size: scre
   ctx.restore()
 
   return new Promise(resolve => {
-    ctx.draw(false, resolve)
+    console.log('rendered')
+    const result = dom.toDataURL()
+    console.log(result)
+    resolve(result)
+    // ctx.draw(false, resolve)
   })
 }
 

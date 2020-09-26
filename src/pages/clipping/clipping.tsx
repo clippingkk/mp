@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import Taro, { useShareAppMessage, getCurrentInstance } from '@tarojs/taro'
+import React, { useEffect, useState, useCallback, useRef, useMemo } from 'react'
+import Taro, { useShareAppMessage, getCurrentInstance, useDidShow, useReady, scanCode } from '@tarojs/taro'
 import { View, Text, Button, Canvas } from '@tarojs/components'
 import NavigationBar from '../../components/navigation-bar';
 import { getClipping } from '../../services/clippings';
@@ -14,148 +14,141 @@ import { fetchClipping, fetchClippingVariables, fetchClipping_clipping } from '.
 import { useSingleBook } from '../../hooks/book';
 import { client } from '../../services/ajax';
 import { WenquBook } from '../../services/wenqu';
+import { useImageSaveBtn, useSystemScreen } from './hooks';
+import { fetchQRCode } from '../../services/mp';
 
-type sysScreenSize = {
-  width: number
-  height: number
-  ratio: number
+const p = {
+  width: '654rpx',
+  height: '1000rpx',
+  background: '#eee',
+  views: [
+  ],
 }
 
-interface IClippingState {
-  clipping: IClippingItem
-  id: number,
-  book: IBook,
-  sysScreenSize: sysScreenSize
-}
+const qrcodeSize = 90
+const gapSize = 20
 
-async function ensurePermission(scope: string) {
-  try {
-    await Taro.authorize({
-      scope: scope
-    })
-  } catch (e) {
-    const resp = await Taro.showModal({
-      title: '😁 请打开权限哦~',
-      content: '🔑 打开权限我们才能提供服务呢~',
-    })
-    if (resp.cancel) {
-      return Promise.reject('cancel')
-    }
-    await Taro.openSetting()
-    return ensurePermission(scope)
-  }
-}
-
-const canvasId = 'clippingcanvas'
-
-function useSystemScreen() {
-  const [sysScreen, setSysScreen] = useState(
-    {
-      width: 920,
-      height: 1080,
-      ratio: 2
-    }
-  )
+function usePalette(bookData: WenquBook | null, clipping?: fetchClipping) {
+  const screen = useSystemScreen()
+  const [distPath, setDistPath] = useState('')
+  const [qrcodeImage, setQRCodeImage] = useState('')
 
   useEffect(() => {
-    Taro.getSystemInfo().then(res => {
-      const ratio = ~~res.pixelRatio
-      setSysScreen({
-        width: res.screenWidth * ratio,
-        height: res.screenHeight * ratio,
-        ratio
-      })
-    })
-  }, [])
-
-  return sysScreen
-}
-
-function useClippingData(id: number) {
-  const [clippingData, setClippingData] = useState<IClippingItem | null>(null)
-  const [bookData, setBookData] = useState<IBook | null>(null)
-  const [sysScreen, setSysScreen] = useState(
-    {
-      width: 920,
-      height: 1080,
-      ratio: 2
-    }
-  )
-  useEffect(() => {
-    Taro.showLoading({ title: 'Loading' })
-    getClipping(id).then(res => {
-      setClippingData(res)
-      return searchBookDetail(~~res.bookId)
-    }).then(book => {
-      setBookData(book)
-      return book
-    }).then(() => {
-      return Taro.hideLoading()
-    }).catch(() => {
-      Taro.hideLoading()
-      Taro.showToast({
-        title: '🤦‍ 叼了... 没找到书摘',
-        icon: 'none'
-      })
-    })
-  }, [id])
-
-  useEffect(() => {
-    Taro.getSystemInfo().then(res => {
-      const ratio = ~~res.pixelRatio
-      setSysScreen({
-        width: res.screenWidth * ratio,
-        height: res.screenHeight * ratio,
-        ratio
-      })
-    })
-  }, [])
-
-  return {
-    clippingData,
-    bookData,
-    sysScreen
-  }
-}
-
-function useImageSaveBtn(bookData: WenquBook | null, clippingData: fetchClipping_clipping | undefined, screen: any, id: number) {
-  return useCallback(() => {
-    if (!bookData || !clippingData) {
+    if (!clipping) {
       return
     }
-    ensurePermission('scope.writePhotosAlbum')
-      .then(async () => {
-        Taro.showLoading({ mask: true, title: 'Rendering' })
-        try {
-          const ctx = Taro.createCanvasContext(canvasId)
-          await drawCanvas(ctx, {
-            bg: bookData.image,
-            // bg: `https://picsum.photos/${this.state.sysScreenSize.width}/${this.state.sysScreenSize.height}`,
-            id: id,
-            title: bookData.title,
-            content: clippingData.content,
-            author: bookData.author
-          }, screen)
+    if (qrcodeImage) {
+      return
+    }
+    fetchQRCode(`c=${clipping.clipping.id}`, "pages/landing/landing", qrcodeSize, true).then(res => setQRCodeImage(res))
+  }, [clipping, qrcodeImage])
 
-          await saveLocally(canvasId, screen)
-          Taro.hideLoading()
-          Taro.showToast({
-            title: '😘 保存成功啦~',
-            icon: 'none'
-          })
-        } catch (e) {
-          console.log(e)
-          Taro.hideLoading()
-          Taro.showToast({
-            title: '😢 啊呀呀，图片生成失败了',
-            icon: 'none'
-          })
-        }
-      })
-      .catch(err => {
-        Taro.showToast({ title: '🤷‍ 木有权限', icon: 'none' })
-      })
-  }, [bookData, clippingData, screen, id])
+  const palette = useMemo(() => ({
+    width: screen.width + 'rpx',
+    height: screen.height + 'rpx',
+    background: '#eee',
+    views: [
+      {
+        type: 'image',
+        url: 'https://picsum.photos/200/300',
+        css: {
+          top: 0,
+          left: 0,
+          width: screen.width + 'rpx',
+          height: screen.height + 'rpx',
+          scalable: true,
+        },
+      },
+      {
+        type: 'rect',
+        css: {
+          top: 0,
+          left: 0,
+          width: screen.width + 'rpx',
+          height: screen.height + 'rpx',
+          color: 'radial-gradient(rgba(0, 0, 0, .3) 5%, rgba(5,5,5, .8) 60%)',
+        },
+      },
+      {
+        type: 'text',
+        text: clipping?.clipping.content,
+        css: {
+          top: gapSize * screen.ratio + 'rpx',
+          left: gapSize * screen.ratio + 'rpx',
+          color: '#fff',
+          width: screen.width - gapSize * screen.ratio * 2 + 'rpx',
+          fontSize: gapSize * screen.ratio + 'rpx',
+          lineHeight: gapSize * screen.ratio * 1.5 + 'rpx'
+        },
+      },
+      {
+        type: 'text',
+        text: bookData?.title,
+        css: {
+          bottom: gapSize * screen.ratio * 3.5 + qrcodeSize * screen.ratio + 10 * screen.ratio + 'rpx',
+          right: gapSize * screen.ratio + 'rpx',
+          color: '#fff',
+          width: screen.width - gapSize * 2 + 'rpx',
+          textAlign: 'right',
+          maxLength: 1,
+          fontSize: gapSize * screen.ratio + 'rpx',
+        },
+      },
+      {
+        type: 'text',
+        text: bookData?.author,
+        css: {
+          bottom: gapSize * screen.ratio * 2 + qrcodeSize * screen.ratio + 10 * screen.ratio + 'rpx',
+          right: gapSize * screen.ratio + 'rpx',
+          color: '#fff',
+          width: screen.width - gapSize * 2 + 'rpx',
+          textAlign: 'right',
+          maxLength: 2,
+          fontSize: gapSize * screen.ratio + 'rpx',
+        },
+      },
+      {
+        type: 'rect',
+        css: {
+          bottom: gapSize * screen.ratio + 'rpx',
+          right: gapSize * screen.ratio + 'rpx',
+          width: (qrcodeSize + gapSize) * screen.ratio + 'rpx',
+          height: (qrcodeSize + gapSize) * screen.ratio + 'rpx',
+          color: '#fff',
+        },
+      },
+      {
+        type: 'image',
+        url: qrcodeImage,
+        css: {
+          bottom: gapSize * screen.ratio + 10 * screen.ratio + 'rpx',
+          right: gapSize * screen.ratio + 10 * screen.ratio + 'rpx',
+          color: '#fff',
+          width: qrcodeSize * screen.ratio + 'rpx',
+          height: qrcodeSize * screen.ratio + 'rpx',
+        },
+      },
+    ],
+  }), [screen, qrcodeImage])
+
+  const onImageOK = useCallback((e) => {
+    console.log('imageok', e)
+    const tempPath = e.detail.path
+    setDistPath(tempPath)
+  }, [])
+
+  const onSave = useCallback(() => {
+    Taro.saveImageToPhotosAlbum({
+      filePath: distPath,
+    });
+  }, [distPath])
+
+  return {
+    palette,
+    onImageOK,
+    onSave,
+    loaded: distPath !== ''
+  }
 }
 
 function Clipping() {
@@ -167,13 +160,10 @@ function Clipping() {
       id: id
     }
   })
-  const bookData = useSingleBook(clipping?.clipping.bookID)
-
-  // const { clippingData, bookData, sysScreen } = useClippingData(id)
   const onNavigateUp = useNavigateUp()
-  const sysScreen = useSystemScreen()
 
-  const onSave = useImageSaveBtn(bookData, clipping?.clipping, sysScreen, id)
+  const bookData = useSingleBook(clipping?.clipping.bookID)
+  const { palette, onImageOK, onSave, loaded } = usePalette(bookData, clipping)
 
   useShareAppMessage(() => {
     return {
@@ -182,13 +172,10 @@ function Clipping() {
     }
   })
 
-  useEffect(() => {
-    Taro.createSelectorQuery()
-  }, [])
-
   if (!clipping || !bookData) {
     return <View />
   }
+
   return (
     <View
       className='clipping-page'
@@ -205,19 +192,21 @@ function Clipping() {
           </Text>
           <Text className='author'> —— {bookData.author}</Text>
 
-          {/* <Button onClick={onSave} className='btn-primary'>
-            🎨 保存
-            </Button> */}
+          {
+            loaded && (
+              <Button onClick={onSave} className='btn-primary'>
+                🎨 保存
+              </Button>
+            )
+          }
         </View>
 
-        <Canvas
-          canvasId={canvasId}
-          className='out-canvas'
-          style={{
-            height: sysScreen.height + 'px',
-            width: sysScreen.width + 'px'
-          }}
+        <painter
+          palette={palette}
+          onImgOK={onImageOK}
+          customStyle="position:fixed;top:-9999rpx"
         />
+
       </View>
     </View>
   )

@@ -1,5 +1,4 @@
 import { useCallback } from 'react'
-
 import Taro, { getCurrentPages } from '@tarojs/taro'
 
 export function useNavigateUp() {
@@ -7,12 +6,12 @@ export function useNavigateUp() {
     const pages = getCurrentPages()
     if (pages.length > 1) {
       Taro.navigateBack()
-    } else {
-      // do nothing
-      Taro.switchTab({
-        url: '/pages/hero/hero'
-      })
+      return
     }
+    // do nothing
+    Taro.switchTab({
+      url: '/pages/hero/hero'
+    })
   }, [])
 
   return onNavigateUp
