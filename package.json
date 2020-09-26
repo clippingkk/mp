@@ -60,7 +60,7 @@
 		"eslint-config-taro": "^3.0.13",
 		"eslint-plugin-import": "^2.22.0",
 		"eslint-plugin-react": "^7.21.2",
-		"eslint-plugin-typescript": "^0.12.0",
+		"eslint-plugin-typescript": "^0.14.0",
 		"graphql-tag": "^2.11.0",
 		"miniprogram-ci": "^1.0.83",
 		"standard-version": "^9.0.0",
