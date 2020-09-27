@@ -3,7 +3,6 @@ import { WenquBook, WenquSearchResponse, wenquRequest } from "../services/wenqu"
 
 const cache = new Map<string, WenquBook>()
 
-
 export function useSingleBook(doubanId?: string): WenquBook | null {
   const [book, setBook] = useState<WenquBook | null>(null)
 

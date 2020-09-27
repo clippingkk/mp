@@ -14,8 +14,9 @@ import { fetchClipping, fetchClippingVariables, fetchClipping_clipping } from '.
 import { useSingleBook } from '../../hooks/book';
 import { client } from '../../services/ajax';
 import { WenquBook } from '../../services/wenqu';
-import { useImageSaveBtn, useSystemScreen } from './hooks';
+import { ensurePermission, useImageSaveBtn, useSystemScreen } from './hooks';
 import { fetchQRCode } from '../../services/mp';
+import { API_HOST } from '../../constants/config';
 
 const p = {
   width: '654rpx',
@@ -50,7 +51,7 @@ function usePalette(bookData: WenquBook | null, clipping?: fetchClipping) {
     views: [
       {
         type: 'image',
-        url: 'https://picsum.photos/200/300',
+        url: `${API_HOST}/picsum-photos/${screen.width / screen.ratio}/${screen.height / screen.ratio}?blur=10`,
         css: {
           top: 0,
           left: 0,
@@ -132,15 +133,30 @@ function usePalette(bookData: WenquBook | null, clipping?: fetchClipping) {
   }), [screen, qrcodeImage])
 
   const onImageOK = useCallback((e) => {
-    console.log('imageok', e)
     const tempPath = e.detail.path
     setDistPath(tempPath)
   }, [])
 
-  const onSave = useCallback(() => {
-    Taro.saveImageToPhotosAlbum({
-      filePath: distPath,
-    });
+  const onSave = useCallback(async () => {
+    try {
+      ensurePermission('scope.writePhotosAlbum')
+      Taro.showLoading({
+        mask: true,
+        title: '保存中...'
+      })
+      Taro.saveImageToPhotosAlbum({
+        filePath: distPath,
+      });
+      Taro.hideLoading()
+      Taro.showToast({
+        title: '😘 保存成功啦~',
+        icon: 'none'
+      })
+    } catch (e) {
+      console.error(e)
+      Taro.showToast({ title: '🤷‍ 木有权限', icon: 'none' })
+
+    }
   }, [distPath])
 
   return {

@@ -35,8 +35,12 @@ function Landing() {
     if (loading) {
       return
     }
+    Taro.showLoading({
+      mask: true,
+      title: 'Loading'
+    })
     const res = await Taro.login()
-    await exec({
+    exec({
       variables: {
         code: res.code
       }
@@ -44,18 +48,26 @@ function Landing() {
   }, [params, exec, loading])
 
   useEffect(() => {
+    if (called && error) {
+      Taro.hideLoading()
+      Taro.showToast({
+        icon: 'none',
+        title: error.message
+      })
+      return
+    }
     if (!called) {
       return
     }
     if (!data) {
       return
     }
-    console.log(data.mpAuth)
     updateToken(data.mpAuth.token)
     dispatch(updateUserInfo(data.mpAuth.user, data.mpAuth.token))
     setTimeout(() => {
       // c is clipping
       const c = getClippingID(params?.scene)
+      Taro.hideLoading()
       if (c) {
         return Taro.redirectTo({
           url: `/pages/clipping/clipping?id=${c}`
@@ -66,7 +78,7 @@ function Landing() {
         url: '/pages/hero/hero'
       })
     }, 100)
-  }, [data, called])
+  }, [data, called, error])
 
   useEffect(() => {
     onLogin()
@@ -74,8 +86,12 @@ function Landing() {
 
   return (
     <View className={styles.container}>
-      <Text> Loading... </Text>
-      <Button className={styles.retry} onClick={onLogin}>Retry</Button>
+      {loading && (
+        <Text> Loading... </Text>
+      )}
+      {called && error && (
+        <Button className={styles.retry} onClick={onLogin}>Retry</Button>
+      )}
     </View>
   )
 }
