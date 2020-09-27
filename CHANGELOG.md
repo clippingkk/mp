@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.1](https://github.com/clippingkk/mp/compare/v2.1.0...v2.1.1) (2020-09-27)
+
+
+### Bug Fixes
+
+* **landing:** add loading status in landing page and fix bg in detail share ([9522de8](https://github.com/clippingkk/mp/commit/9522de825c929f86847ebdeeb75896a898ac99e4))
+
 ## [2.1.0](https://github.com/clippingkk/mp/compare/v2.0.1...v2.1.0) (2020-09-26)
 
 
