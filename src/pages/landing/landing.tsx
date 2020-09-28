@@ -10,13 +10,22 @@ import authQuery from '../../schema/login.graphql'
 import { wechatLogin, wechatLoginVariables } from '../../schema/__generated__/wechatLogin';
 import { updateToken } from '../../store/global';
 
-function getClippingID(scene?: string) {
-  if (!scene) {
+function getClippingID() {
+  const params = getCurrentInstance().router?.params
+  if (!params) {
+    return null
+  }
+
+  if (params.c) {
+    return params.c
+  }
+
+  if (!params.scene) {
     return null
   }
 
   // c=8!b=2
-  const sceneData = decodeURIComponent(scene.trim())
+  const sceneData = decodeURIComponent(params.scene.trim())
 
   const parsedScene = sceneData.split('!').reduce((acc: any, current: string) => {
     const [k, v] = current.split('=')
@@ -29,7 +38,6 @@ function getClippingID(scene?: string) {
 
 function Landing() {
   const dispatch = useDispatch()
-  const params = getCurrentInstance().router?.params
   const [exec, { data, called, loading, error }] = useLazyQuery<wechatLogin, wechatLoginVariables>(authQuery)
   const onLogin = useCallback(async () => {
     if (loading) {
@@ -45,7 +53,7 @@ function Landing() {
         code: res.code
       }
     })
-  }, [params, exec, loading])
+  }, [exec, loading])
 
   useEffect(() => {
     if (called && error) {
@@ -66,7 +74,7 @@ function Landing() {
     dispatch(updateUserInfo(data.mpAuth.user, data.mpAuth.token))
     setTimeout(() => {
       // c is clipping
-      const c = getClippingID(params?.scene)
+      const c = getClippingID()
       Taro.hideLoading()
       if (c) {
         return Taro.redirectTo({
