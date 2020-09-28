@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.2](https://github.com/clippingkk/mp/compare/v2.1.1...v2.1.2) (2020-09-28)
+
+
+### Bug Fixes
+
+* **landing:** fix share parser ([5bc6cc8](https://github.com/clippingkk/mp/commit/5bc6cc888d318228ed79d0d4933324e9f8e1ae9c))
+
 ### [2.1.1](https://github.com/clippingkk/mp/compare/v2.1.0...v2.1.1) (2020-09-27)
 
 
