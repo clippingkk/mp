@@ -84,6 +84,7 @@ function Landing() {
 
       return Taro.switchTab({
         url: '/pages/hero/hero'
+        // url: '/pages/user/user'
       })
     }, 100)
   }, [data, called, error])

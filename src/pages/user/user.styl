@@ -3,14 +3,34 @@
   flex-direction column
   min-height 100vh
   background-color #ecf0f1
+  .user-solid
+    width 100vw
+    height 400px
+    .user-solid-rect
+      transform translateY(-400px)
+    .user-solid-img
+      width 100vw
+      height 400px
+      position relative
+      z-index 0
+      &:after
+        content ''
+        position absolute
+        top 0
+        left 0
+        // background linear-gradient(0deg, rgba(52, 152, 219, .3), rgba(52, 152, 219, .9));
+        background-color rgba(87, 157, 188, .7)
+        width 100vw
+        height 400px
+        backdrop-filter blur(20px)
 
-.user-solid-rect
-  background linear-gradient(0deg, #9b59b6, #8e44ad);
-  width 100vw
-  height 400px
+
 
 .info-container
   margin-top -90px
+  z-index 1
+  .clippings
+    padding .5rem
 
 .divider
   height 2px
