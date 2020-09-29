@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.3](https://github.com/clippingkk/mp/compare/v2.1.2...v2.1.3) (2020-09-29)
+
+
+### Bug Fixes
+
+* **user:** update profile page design ([49fb77b](https://github.com/clippingkk/mp/commit/49fb77bf0ce5ed3cda106cdfb64f4ad803acd00c))
+
 ### [2.1.2](https://github.com/clippingkk/mp/compare/v2.1.1...v2.1.2) (2020-09-28)
 
 
