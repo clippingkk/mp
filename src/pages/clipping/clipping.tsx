@@ -17,6 +17,7 @@ import { WenquBook } from '../../services/wenqu';
 import { ensurePermission, useImageSaveBtn, useSystemScreen } from './hooks';
 import { fetchQRCode } from '../../services/mp';
 import { API_HOST } from '../../constants/config';
+import SharePostModal from './share-post';
 
 const p = {
   width: '654rpx',
@@ -179,7 +180,7 @@ function Clipping() {
   const onNavigateUp = useNavigateUp()
 
   const bookData = useSingleBook(clipping?.clipping.bookID)
-  const { palette, onImageOK, onSave, loaded } = usePalette(bookData, clipping)
+  const [visible, setVisible] = useState(false)
 
   useShareAppMessage(() => {
     return {
@@ -208,20 +209,28 @@ function Clipping() {
           </Text>
           <Text className='author'> —— {bookData.author}</Text>
 
-          {
-            loaded && (
-              <Button onClick={onSave} className='btn-primary'>
-                🎨 保存
+          <Button
+            onClick={() => {
+              setVisible(true)
+            }}
+            className='btn-primary'>
+            🎨 保存
               </Button>
-            )
-          }
         </View>
 
-        <painter
+        {visible && (
+          <SharePostModal
+          onClose={() => {setVisible(false)}}
+            clipping={clipping.clipping}
+            book={bookData}
+          />
+        )}
+
+        {/* <painter
           palette={palette}
           onImgOK={onImageOK}
           customStyle="position:fixed;top:-9999rpx"
-        />
+        /> */}
 
       </View>
     </View>

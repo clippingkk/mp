@@ -29,5 +29,4 @@ export default {
   window: {
     navigationStyle: 'custom',
   }
-
 }

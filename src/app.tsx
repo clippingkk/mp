@@ -13,6 +13,8 @@ class App extends React.Component {
   componentDidMount() {
     loadFont().then(() => {
       console.log('loaded')
+    }).catch(err => {
+      console.error(err)
     })
   }
 

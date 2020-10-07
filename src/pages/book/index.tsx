@@ -37,7 +37,8 @@ function BookPage() {
         limit: PAGINATION_STEP,
         offset: 0
       }
-    }
+    },
+    skip: doubanID === '0'
   })
 
   // const { book, clippings, loadMoreClippings, reachEnd, loading } = useBookAndClippings(doubanID)
