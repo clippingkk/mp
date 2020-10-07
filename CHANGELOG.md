@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.4](https://github.com/clippingkk/mp/compare/v2.1.3...v2.1.4) (2020-10-07)
+
+
+### Features
+
+* **clipping:** add new clipping page ([ffb15c9](https://github.com/clippingkk/mp/commit/ffb15c999fb80a1d6be5718469e85ee4e2bc7a6f))
+* **clipping:** update clipping post share render ([8152cd7](https://github.com/clippingkk/mp/commit/8152cd7b03e4d44349c44ee867e62f1461cca1cc))
+
 ### [2.1.3](https://github.com/clippingkk/mp/compare/v2.1.2...v2.1.3) (2020-09-29)
 
 
