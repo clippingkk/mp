@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.5](https://github.com/clippingkk/mp/compare/v2.1.4...v2.1.5) (2020-10-08)
+
+
+### Bug Fixes
+
+* **detail:** fix share image render ([c285a37](https://github.com/clippingkk/mp/commit/c285a371000d3a461acba1cc88456e998b792941))
+
 ### [2.1.4](https://github.com/clippingkk/mp/compare/v2.1.3...v2.1.4) (2020-10-07)
 
 
