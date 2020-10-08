@@ -6,6 +6,7 @@ import Info from '../../components/info/info'
 import { book_book } from '../../schema/__generated__/book'
 import BookCover from '../../components/book-cover/book-cover'
 import { books_books } from '../../schema/__generated__/books'
+import { useMultipBook } from '../../hooks/book'
 
 const styles = require('./books.module.styl')
 
@@ -16,10 +17,11 @@ type BooksProps = {
 }
 
 function Books(props: BooksProps) {
+  const bs = useMultipBook(props.books.map(x => x.doubanId))
   return (
     <View className={styles.books}>
-      {props.books.map(b => (
-        <BookCover doubanId={b.doubanId} key={b.doubanId} />
+      {bs.map(b => (
+        <BookCover book={b} key={b.doubanId} />
       ))}
       {props.loading && (
         <Info text='😂 还在加载...' />

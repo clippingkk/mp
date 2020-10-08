@@ -22,9 +22,17 @@ import bookQuery from '../../schema/book.graphql'
 import { book, bookVariables } from '../../schema/__generated__/book'
 import { DEFAULT_LOADING_IMAGE, PAGINATION_STEP } from '../../constants/config'
 
+let lastBookId = ''
+
 function BookPage() {
   const params = getCurrentInstance().router?.params
-  const doubanID = params?.bookId ?? '0'
+  let doubanID = ''
+  if (params?.bookId) {
+    lastBookId = params.bookId
+    doubanID = params.bookId
+  } else {
+    doubanID = lastBookId
+  }
 
   const b = useSingleBook(doubanID)
 
@@ -38,7 +46,6 @@ function BookPage() {
         offset: 0
       }
     },
-    skip: doubanID === '0'
   })
 
   // const { book, clippings, loadMoreClippings, reachEnd, loading } = useBookAndClippings(doubanID)

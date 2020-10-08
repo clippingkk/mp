@@ -1,15 +1,15 @@
 import React from 'react'
 import { Navigator, View, Text } from '@tarojs/components'
 import { useSingleBook } from '../../hooks/book'
+import { WenquBook } from '../../services/wenqu'
 
 const styles = require('./book.module.styl')
 type BookCoverProps = {
-  doubanId: string
+  book: WenquBook
 }
 
 function BookCover(props: BookCoverProps) {
-  const b = useSingleBook(props.doubanId)
-
+  const b = props.book
   if (!b) {
     return null
   }

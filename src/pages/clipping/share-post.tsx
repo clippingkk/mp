@@ -33,7 +33,7 @@ function useClippingPostData(
     setTimeout(() => {
       const query = Taro.createSelectorQuery()
       query.select('#' + canvasID)
-        .fields({ node: true, size: true })
+        .fields({ node: true })
         .exec((res) => {
           if (!res[0]) {
             return
@@ -49,27 +49,36 @@ function useClippingPostData(
       return
     }
     Taro.showLoading()
-    const sysInfo = await Taro.getSystemInfo()
-    const postRender: IPostShareRender = new MPPostShareRender(dom.current, {
-      height: sysInfo.screenHeight,
-      width: sysInfo.screenWidth,
-      dpr: sysInfo.pixelRatio,
-      clipping,
-      bookInfo: book,
-      baseTextSize: 24,
-      padding: 24,
-      textFont: ''
-    })
-    postRender.setup()
-    await postRender.renderBackground()
-    await postRender.renderText()
-    await postRender.renderTitle()
-    await postRender.renderAuthor()
-    await postRender.renderBanner()
-    await postRender.renderMyInfo(user)
-    await postRender.renderQRCode()
-    render.current = postRender
-    Taro.hideLoading()
+    try {
+      const sysInfo = await Taro.getSystemInfo()
+      const postRender: IPostShareRender = new MPPostShareRender(dom.current, {
+        height: sysInfo.screenHeight,
+        width: sysInfo.screenWidth,
+        dpr: sysInfo.pixelRatio,
+        clipping,
+        bookInfo: book,
+        baseTextSize: 24,
+        padding: 24,
+        textFont: ''
+      })
+      postRender.setup()
+      await postRender.renderBackground()
+      await postRender.renderText()
+      await postRender.renderTitle()
+      await postRender.renderAuthor()
+      await postRender.renderBanner()
+      await postRender.renderMyInfo(user)
+      await postRender.renderQRCode()
+      render.current = postRender
+      Taro.hideLoading()
+    } catch (e) {
+      console.error(e)
+      Taro.hideLoading()
+      Taro.showToast({
+        icon: 'none',
+        title: e.toString()
+      })
+    }
   }, [book, clipping, user])
 
   const doSave = useCallback(async () => {
@@ -138,17 +147,6 @@ function SharePostModal(props: ClippingNeoProps) {
   return (
     <View className='modal-mask' onClick={props.onClose}>
       <View>
-        <Canvas
-          id={canvasID}
-          type='2d'
-          className='share-canvas'
-          width={s.screenWidth * s.pixelRatio}
-          height={s.screenHeight * s.pixelRatio}
-          style={{
-            width: s?.screenWidth + 'px',
-            height: s?.screenHeight + 'px',
-          }}
-        />
         <Button
           onClick={async () => {
             await doRender()

@@ -26,3 +26,46 @@ export function useSingleBook(doubanId?: string): WenquBook | null {
 
   return book
 }
+
+export function useMultipBook(doubanIds: string[]): WenquBook[] {
+  const [book, setBook] = useState<WenquBook[]>([])
+
+  useEffect(() => {
+    if (!doubanIds) {
+      return
+    }
+    let shouldFetchDoubanIDs: string[] = []
+
+    doubanIds.forEach(x => {
+      if (cache.has(x)) {
+        setBook(s => {
+          if (s.findIndex(xx => xx.id.toString() === x) > 0) {
+            return s
+          }
+          return s.concat(cache.get(x)!)
+        })
+      } else {
+        shouldFetchDoubanIDs.push(x)
+      }
+    })
+
+    if (shouldFetchDoubanIDs.length === 0) {
+      return
+    }
+
+    const query = shouldFetchDoubanIDs.join('&dbIds=').slice(1)
+
+    wenquRequest<WenquSearchResponse>(`/books/search?dbIds=${query}`).then(res => {
+      if (res.count < 1) {
+        return
+      }
+      const b = res.books
+      setBook(res.books)
+      b.forEach(x => {
+        cache.set(x.id.toString(), x)
+      })
+    })
+  }, [doubanIds.join('')])
+
+  return book
+}

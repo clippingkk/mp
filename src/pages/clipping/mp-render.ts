@@ -1,6 +1,7 @@
 import Taro, { Image } from '@tarojs/taro'
 import { API_HOST } from '../../constants/config'
 import { fetchClipping_clipping } from "../../schema/__generated__/fetchClipping"
+import { fetchQRCode } from '../../services/mp'
 import { WenquBook } from "../../services/wenqu"
 
 type BasicUserInfo = {
@@ -135,7 +136,6 @@ class PostShareRender extends BaseCanvasRender {
   private async loadImage(src: string): Promise<HTMLImageElement> {
     return new Promise((resolve, reject) => {
       const img: HTMLImageElement = (this.dom as any).createImage();
-      img.src = src//微信请求返回头像
       img.onload = () => {
         resolve(img)
       }
@@ -143,6 +143,8 @@ class PostShareRender extends BaseCanvasRender {
         console.error(err)
         reject(err)
       }
+      console.log(src)
+      img.src = src
     })
   }
 
@@ -290,8 +292,8 @@ class PostShareRender extends BaseCanvasRender {
   }
 
   async renderQRCode(): Promise<void> {
-    const qrcode = await this.loadImage(`${API_HOST}/v1/mp/qrcode?scene=${encodeURIComponent('c=' + this.config.clipping.id)}&page=pages/landing/landing&width=${this.qrcodeSize}&isHyaline=true`)
-
+    const res = await fetchQRCode(`c=${this.config.clipping.id}`, 'pages/landing/landing', this.qrcodeSize, true)
+    const qrcode = await this.loadImage(res)
     this.ctx.save()
     await this.ctx.drawImage(
       qrcode,

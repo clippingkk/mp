@@ -18,6 +18,132 @@ import { ensurePermission, useImageSaveBtn, useSystemScreen } from './hooks';
 import { fetchQRCode } from '../../services/mp';
 import { API_HOST } from '../../constants/config';
 import SharePostModal from './share-post';
+import { wechatLogin_mpAuth_user } from '../../schema/__generated__/wechatLogin';
+import { IPostShareRender, MPPostShareRender } from './mp-render';
+import { useSelector } from 'react-redux';
+import { TGlobalStore } from '../../reducers';
+
+const canvasID = 'clippingkk-canvas'
+
+function useClippingPostData(
+  clipping?: fetchClipping_clipping,
+  book?: WenquBook | null,
+  user?: wechatLogin_mpAuth_user
+) {
+  const dom = useRef<HTMLCanvasElement | null>(null)
+  const render = useRef<IPostShareRender | null>(null)
+
+  useEffect(() => {
+    if (!clipping || !book) {
+      return
+    }
+    setTimeout(() => {
+      const query = Taro.createSelectorQuery()
+      query.select('#' + canvasID)
+        .fields({ node: true })
+        .exec((res) => {
+          console.log(res)
+          if (!res[0]) {
+            return
+          }
+          const canvas = res[0].node
+          dom.current = canvas
+        })
+    }, 500)
+  }, [clipping, book])
+
+  const doRender = useCallback(async () => {
+    console.log('do render', dom.current)
+    if (!dom.current) {
+      return
+    }
+    Taro.showLoading({
+      mask: true,
+      title: 'Loading'
+    })
+    try {
+      const sysInfo = await Taro.getSystemInfo()
+      const postRender: IPostShareRender = new MPPostShareRender(dom.current, {
+        height: sysInfo.screenHeight,
+        width: sysInfo.screenWidth,
+        dpr: sysInfo.pixelRatio,
+        clipping: clipping!,
+        bookInfo: book!,
+        baseTextSize: 24,
+        padding: 24,
+        textFont: ''
+      })
+      postRender.setup()
+      await postRender.renderBackground()
+      await postRender.renderText()
+      await postRender.renderTitle()
+      await postRender.renderAuthor()
+      await postRender.renderBanner()
+      await postRender.renderMyInfo(user)
+      await postRender.renderQRCode()
+      render.current = postRender
+      Taro.hideLoading()
+    } catch (e) {
+      console.error(e)
+      Taro.hideLoading()
+      Taro.showToast({
+        icon: 'none',
+        title: e
+      })
+    }
+  }, [book, clipping, user])
+
+  const doSave = useCallback(async () => {
+    if (!render.current) {
+      Taro.showToast({
+        icon: 'none',
+        title: '请首先渲染图片'
+      })
+      return
+    }
+
+    try {
+      await ensurePermission('scope.writePhotosAlbum')
+      Taro.showLoading({
+        mask: true,
+        title: '保存中...'
+      })
+      await render.current?.saveToLocal()
+      Taro.hideLoading()
+      Taro.showToast({
+        title: '😘 保存成功啦~',
+        icon: 'none'
+      })
+    } catch (e) {
+      console.error(e)
+      Taro.showToast({ title: '🤷‍ 木有权限', icon: 'none' })
+    }
+  }, [])
+
+  return {
+    doRender,
+    doSave
+  }
+}
+
+
+type ClippingNeoProps = {
+  clipping: fetchClipping_clipping
+  book: WenquBook
+  onClose: () => void
+}
+
+function useSysInfo() {
+  const [s, setS] = useState<Taro.getSystemInfo.Result | null>(null)
+
+  useEffect(() => {
+    Taro.getSystemInfo().then(res => {
+      setS(res)
+    })
+  }, [])
+
+  return s
+}
 
 const p = {
   width: '654rpx',
@@ -188,8 +314,12 @@ function Clipping() {
       path: `/pages/landing/landing?c=${id}`
     }
   })
+  const user = useSelector<TGlobalStore, wechatLogin_mpAuth_user>(s => s.user.profile)
+  const { doRender, doSave } = useClippingPostData(clipping?.clipping, bookData, user)
 
-  if (!clipping || !bookData) {
+  const s = useSysInfo()
+
+  if (!clipping || !bookData || !s) {
     return <View />
   }
 
@@ -210,21 +340,27 @@ function Clipping() {
           <Text className='author'> —— {bookData.author}</Text>
 
           <Button
-            onClick={() => {
-              setVisible(true)
+            onClick={async () => {
+              console.log('click btn')
+              await doRender()
+              await doSave()
             }}
             className='btn-primary'>
             🎨 保存
               </Button>
         </View>
 
-        {visible && (
-          <SharePostModal
-          onClose={() => {setVisible(false)}}
-            clipping={clipping.clipping}
-            book={bookData}
-          />
-        )}
+        <Canvas
+          id={canvasID}
+          type='2d'
+          className='share-canvas'
+          width={s.screenWidth * s.pixelRatio}
+          height={s.screenHeight * s.pixelRatio}
+          style={{
+            width: s?.screenWidth + 'px',
+            height: s?.screenHeight + 'px',
+          }}
+        />
 
         {/* <painter
           palette={palette}
