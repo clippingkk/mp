@@ -69,7 +69,7 @@ function useClippingPostData(
         dpr: sysInfo.pixelRatio,
         clipping: clipping!,
         bookInfo: book!,
-        baseTextSize: 24,
+        baseTextSize: 16,
         padding: 24,
         textFont: ''
       })

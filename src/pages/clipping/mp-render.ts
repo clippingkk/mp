@@ -42,6 +42,7 @@ class BaseCanvasRender {
   protected dom: HTMLCanvasElement
   protected ctx: CanvasRenderingContext2D
   protected config: PostShareConfig
+  protected readonly defaultFontFamily = 'YSHaoShenTi,-apple-system-font,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Hiragino Sans GB,Microsoft YaHei UI,Microsoft YaHei,Arial,sans-serif'
 
   // static readonly STOP_WORDS = [',', '.', ' ', '，', '。', '!', '！']
   static readonly STOP_WORDS = ['']
@@ -61,7 +62,7 @@ class BaseCanvasRender {
   }
 
   private setupContentFontStyle() {
-    this.ctx.font = this.config.baseTextSize + 'px YSHaoShenTi,-apple-system-font,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Hiragino Sans GB,Microsoft YaHei UI,Microsoft YaHei,Arial,sans-serif'
+    this.ctx.font = this.config.baseTextSize + 'px ' + this.defaultFontFamily
     this.ctx.textAlign = 'left'
     this.ctx.textBaseline = 'middle'
   }
@@ -143,7 +144,6 @@ class PostShareRender extends BaseCanvasRender {
         console.error(err)
         reject(err)
       }
-      console.log(src)
       img.src = src
     })
   }
@@ -174,7 +174,7 @@ class PostShareRender extends BaseCanvasRender {
   }
   renderTitle(): Promise<void> {
     this.ctx.save()
-    this.ctx.font = this.config.baseTextSize * 0.7 + 'px bold YSHaoShenTi,-apple-system-font,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Hiragino Sans GB,Microsoft YaHei UI,Microsoft YaHei,Arial,sans-serif'
+    this.ctx.font = this.config.baseTextSize * 0.7 + 'px bold ' + this.defaultFontFamily
     this.ctx.fillStyle = '#4F4F4F'
     this.ctx.textAlign = 'right'
     this.ctx.textBaseline = 'middle'
@@ -191,7 +191,7 @@ class PostShareRender extends BaseCanvasRender {
   }
   renderAuthor(): Promise<void> {
     this.ctx.save()
-    this.ctx.font = this.config.baseTextSize * 0.7 + 'px bold YSHaoShenTi,-apple-system-font,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Hiragino Sans GB,Microsoft YaHei UI,Microsoft YaHei,Arial,sans-serif'
+    this.ctx.font = this.config.baseTextSize * 0.7 + 'px bold ' + this.defaultFontFamily
     this.ctx.fillStyle = '#4F4F4F'
     this.ctx.textAlign = 'right'
     this.ctx.textBaseline = 'middle'
@@ -276,7 +276,7 @@ class PostShareRender extends BaseCanvasRender {
     this.ctx.restore()
 
     this.ctx.save()
-    this.ctx.font = this.config.baseTextSize * 0.7 + 'px bold YSHaoShenTi,-apple-system-font,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Hiragino Sans GB,Microsoft YaHei UI,Microsoft YaHei,Arial,sans-serif'
+    this.ctx.font = this.config.baseTextSize * 0.7 + 'px bold' + this.defaultFontFamily
     this.ctx.fillStyle = '#ffffff'
     this.ctx.textAlign = 'left'
     this.ctx.textBaseline = 'middle'
