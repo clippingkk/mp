@@ -19,7 +19,8 @@ import { fetchQRCode } from '../../services/mp';
 import { API_HOST } from '../../constants/config';
 import SharePostModal from './share-post';
 import { wechatLogin_mpAuth_user } from '../../schema/__generated__/wechatLogin';
-import { IPostShareRender, MPPostShareRender } from './mp-render';
+import { IPostShareRender } from '../../utils/canvas/mp-render';
+import { MPPostShareRender } from "../../utils/canvas/MPPostShareRender";
 import { useSelector } from 'react-redux';
 import { TGlobalStore } from '../../reducers';
 
@@ -63,15 +64,15 @@ function useClippingPostData(
     })
     try {
       const sysInfo = await Taro.getSystemInfo()
-      const postRender: IPostShareRender = new MPPostShareRender(dom.current, {
-        height: sysInfo.screenHeight,
+      const postRender = new MPPostShareRender(dom.current, {
+        height: sysInfo.screenHeight * 3,
         width: sysInfo.screenWidth,
         dpr: sysInfo.pixelRatio,
         clipping: clipping!,
         bookInfo: book!,
         baseTextSize: 16,
         padding: 24,
-        textFont: ''
+        textFont: ['SKKaiTi', 'KaiTi']
       })
       postRender.setup()
       await postRender.renderBackground()

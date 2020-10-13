@@ -7,7 +7,8 @@ import { fetchClipping, fetchClippingVariables, fetchClipping_clipping } from '.
 import fetchClippingQuery from '../../schema/clipping.graphql'
 import { Button, View, Text, Canvas } from '@tarojs/components'
 import NavigationBar from '../../components/navigation-bar'
-import { IPostShareRender, MPPostShareRender } from './mp-render'
+import { IPostShareRender } from '../../utils/canvas/mp-render'
+import { MPPostShareRender } from "../../utils/canvas/MPPostShareRender"
 import { WenquBook } from '../../services/wenqu'
 import { ensurePermission } from './hooks'
 
