@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.7](https://github.com/clippingkk/mp/compare/v2.1.6...v2.1.7) (2020-10-14)
+
+
+### Bug Fixes
+
+* **poster:** fix poster failed issue ([9cd906f](https://github.com/clippingkk/mp/commit/9cd906f9fece39f28f593e336df95e40377bbb08))
+
 ### [2.1.6](https://github.com/clippingkk/mp/compare/v2.1.5...v2.1.6) (2020-10-13)
 
 
