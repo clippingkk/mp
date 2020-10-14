@@ -34,11 +34,6 @@ export class PostShareRender extends BaseCanvasRender {
     });
   }
 
-
-
-
-
-
   renderBackground(): Promise<void> {
     this.ctx.save();
     const gradient = this.ctx.createLinearGradient(0, 0, this.scaledWidth, this.scaledHeight);
@@ -146,7 +141,7 @@ export class PostShareRender extends BaseCanvasRender {
       return Promise.resolve();
     }
 
-    const avatarSize = 60;
+    const avatarSize = 65;
     const avatar = await this.loadImage(user.avatar);
     this.ctx.save();
     this.ctx.beginPath();
@@ -170,15 +165,26 @@ export class PostShareRender extends BaseCanvasRender {
     this.ctx.restore();
 
     this.ctx.save();
-    this.ctx.font = this.config.baseTextSize * 0.7 + 'px bold' + this.defaultFontFamily;
+    this.ctx.font = this.config.baseTextSize * 0.6 + 'px bold' + this.defaultFontFamily;
     this.ctx.fillStyle = '#ffffff';
-    this.ctx.textAlign = 'left';
+    this.ctx.textAlign = 'center';
     this.ctx.textBaseline = 'middle';
+    const username = user.name
+    let realUsername = ''
+
+    for (let i = 0; i < username.length; i++) {
+      const m = this.ctx.measureText(realUsername + username[i])
+      if (m.width > avatarSize) {
+        break
+      }
+      realUsername += username[i]
+    }
     this.ctx.fillText(
-      user.name,
-      this.scaledPadding * 2,
+      realUsername,
+      this.scaledPadding * 2 + avatarSize / 2 + 7.5,
       this.offsetY - this.scaledPadding * 2,
-      this.scaledWidth - this.scaledPadding * 2.5 - this.qrcodeSize
+      avatarSize
+      // this.scaledWidth - this.scaledPadding * 2.5 - this.qrcodeSize
     );
 
     this.ctx.restore();
