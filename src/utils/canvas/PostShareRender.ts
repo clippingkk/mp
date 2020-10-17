@@ -140,36 +140,38 @@ export class PostShareRender extends BaseCanvasRender {
     if (!user) {
       return Promise.resolve();
     }
-
     const avatarSize = 65;
-    const avatar = await this.loadImage(user.avatar);
-    this.ctx.save();
-    this.ctx.beginPath();
-    this.ctx.arc(
-      this.scaledPadding + avatarSize,
-      this.offsetY - this.scaledPadding - this.bannerHeight / 2 - 5,
-      avatarSize / 2,
-      0,
-      2 * Math.PI,
-      false
-    );
-    this.ctx.clip();
-    this.ctx.drawImage(
-      avatar,
-      this.scaledPadding + avatarSize / 2,
-      this.offsetY - this.scaledPadding - this.bannerHeight / 2 - avatarSize / 2 - 5,
-      avatarSize,
-      avatarSize
-    );
-    this.ctx.closePath();
-    this.ctx.restore();
+
+    if (user.avatar && user.avatar !== 'null') {
+      const avatar = await this.loadImage(user.avatar);
+      this.ctx.save();
+      this.ctx.beginPath();
+      this.ctx.arc(
+        this.scaledPadding + avatarSize,
+        this.offsetY - this.scaledPadding - this.bannerHeight / 2 - 5,
+        avatarSize / 2,
+        0,
+        2 * Math.PI,
+        false
+      );
+      this.ctx.clip();
+      this.ctx.drawImage(
+        avatar,
+        this.scaledPadding + avatarSize / 2,
+        this.offsetY - this.scaledPadding - this.bannerHeight / 2 - avatarSize / 2 - 5,
+        avatarSize,
+        avatarSize
+      );
+      this.ctx.closePath();
+      this.ctx.restore();
+    }
 
     this.ctx.save();
     this.ctx.font = this.config.baseTextSize * 0.6 + 'px bold' + this.defaultFontFamily;
     this.ctx.fillStyle = '#ffffff';
     this.ctx.textAlign = 'center';
     this.ctx.textBaseline = 'middle';
-    const username = user.name
+    const username = user.name === 'NULL' ? '匿名用户' : user.name
     let realUsername = ''
 
     for (let i = 0; i < username.length; i++) {

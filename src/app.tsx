@@ -11,11 +11,7 @@ import { client } from './services/ajax'
 const store = configStore()
 class App extends React.Component {
   componentDidMount() {
-    // loadFont().then(() => {
-    //   console.log('loaded')
-    // }).catch(err => {
-    //   console.error(err)
-    // })
+    // loadFont()
   }
 
   // 在 App 类中的 render() 函数没有实际作用

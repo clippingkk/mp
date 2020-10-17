@@ -58,7 +58,7 @@
       "list": [
         {
           "id": 0,
-          "name": "detail page",
+          "name": "pages/landing/landing",
           "pathName": "pages/landing/landing",
           "query": "scene=c%3D8!b%3D2",
           "scene": null

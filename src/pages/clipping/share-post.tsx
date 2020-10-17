@@ -60,7 +60,7 @@ function useClippingPostData(
         bookInfo: book,
         baseTextSize: 16,
         padding: 24,
-        textFont: ''
+        textFont: []
       })
       postRender.setup()
       await postRender.renderBackground()
@@ -77,7 +77,7 @@ function useClippingPostData(
       Taro.hideLoading()
       Taro.showToast({
         icon: 'none',
-        title: e.toString()
+        title: e.toString ? e.toString() : '未知错误'
       })
     }
   }, [book, clipping, user])

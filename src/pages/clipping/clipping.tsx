@@ -89,7 +89,7 @@ function useClippingPostData(
       Taro.hideLoading()
       Taro.showToast({
         icon: 'none',
-        title: e
+        title: e ? e : '未知错误'
       })
     }
   }, [book, clipping, user])
@@ -125,13 +125,6 @@ function useClippingPostData(
     doRender,
     doSave
   }
-}
-
-
-type ClippingNeoProps = {
-  clipping: fetchClipping_clipping
-  book: WenquBook
-  onClose: () => void
 }
 
 function useSysInfo() {
@@ -190,6 +183,13 @@ function Clipping() {
           <Text className='content'>
             {clippingContent}
           </Text>
+
+          <View className='clipping-ext'>
+            <Text className='pageAt'>位置: {clipping.clipping.pageAt}</Text>
+            <Text className='createdAt'>摘录于: {clipping.clipping.createdAt}</Text>
+          </View>
+
+          <Text className='author'>{bookData.title}</Text>
           <Text className='author'> —— {bookData.author}</Text>
 
           <Button
