@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.8](https://github.com/clippingkk/mp/compare/v2.1.7...v2.1.8) (2020-10-17)
+
+
+### Bug Fixes
+
+* **poster:** fix poster share generator ([bf7ac5a](https://github.com/clippingkk/mp/commit/bf7ac5ac368473e8cd0fd8abd2414d44edf93a13))
+
 ### [2.1.7](https://github.com/clippingkk/mp/compare/v2.1.6...v2.1.7) (2020-10-14)
 
 
