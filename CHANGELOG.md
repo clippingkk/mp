@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/clippingkk/mp/compare/v2.1.8...v2.2.0) (2020-11-22)
+
+
+### Features
+
+* **book:** update book style ([347618e](https://github.com/clippingkk/mp/commit/347618e3d2bc728120d0ca3e1bdc7fb3fe3219b6))
+
 ### [2.1.8](https://github.com/clippingkk/mp/compare/v2.1.7...v2.1.8) (2020-10-17)
 
 
