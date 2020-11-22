@@ -1,19 +1,41 @@
 .container
   margin 1rem
+  transform translateY(-100px)
 
 .book
   margin-top 1rem
   width 100%
   display flex
+  &-page
+    width 100vw
+    overflow hidden
+  &-header-detail
+    display flex
+    align-items center
+    justify-content space-between
+    margin 1rem
+    transform translateY(-100px)
+  &-img
+    width 200px
+    height 300px
+    border-radius 8px
+    box-shadow 0 0 4px 0
+
   &-cover
     flex 1
     min-width 40%
+    width 100vw
     border-radius 4px
+    filter blur(30px)
+    background-color rgba(0,0,0, .5)
+    overflow hidden
+    // transform scale(1.1)
     // transform translateY(-1rem)
   &-info
     display flex
     flex-direction column
     margin-left 1rem
+    max-width 60vw
   &-title
     display block
     font-size 24px

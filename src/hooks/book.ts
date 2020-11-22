@@ -60,7 +60,7 @@ export function useMultipBook(doubanIds: string[]): WenquBook[] {
         return
       }
       const b = res.books
-      setBook(res.books)
+      setBook(s => s.concat(res.books))
       b.forEach(x => {
         cache.set(x.id.toString(), x)
       })

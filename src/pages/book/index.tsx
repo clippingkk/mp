@@ -14,15 +14,31 @@ import ClippingList from './clipping-list'
 
 import './book.styl'
 import Divider from '../../components/divider/divider'
-import Card from '../../components/card/card'
-import { IClippingItem } from '../../services/types'
 import { useSingleBook } from '../../hooks/book'
 import { useQuery } from '@apollo/client'
+import colorThief from 'miniapp-color-thief'
 import bookQuery from '../../schema/book.graphql'
 import { book, bookVariables } from '../../schema/__generated__/book'
 import { DEFAULT_LOADING_IMAGE, PAGINATION_STEP } from '../../constants/config'
 
 let lastBookId = ''
+
+function useThemeColor(img: string): string {
+  Taro.canvasGetImageData({
+    canvasId: '',
+    x: 0,
+    y: 0,
+    width: 300,
+    height: 400,
+  }).then(res => {
+    const palette = colorThief(res.data)
+      .palette()
+      .getHex()
+    console.log(palette); // [[0,0,0],[0,0,0],[0,0,0]...]
+  })
+  return ''
+}
+
 
 function BookPage() {
   const params = getCurrentInstance().router?.params
@@ -62,7 +78,7 @@ function BookPage() {
           limit: PAGINATION_STEP,
         }
       },
-      updateQuery(prev: book, { fetchMoreResult}) {
+      updateQuery(prev: book, { fetchMoreResult }) {
         if (!fetchMoreResult || fetchMoreResult.book.clippings.length < PAGINATION_STEP) {
           setReachEnd(true)
           return
@@ -82,20 +98,24 @@ function BookPage() {
     })
   })
 
+
   return (
-    <View>
-      <NavigationBar hasHolder={true} onBack={onNavigateUp}>
-        <Text>{b?.title}</Text>
+    <View className='book-page'>
+      <NavigationBar hasHolder={false} onBack={onNavigateUp}>
+        <Text></Text>
       </NavigationBar>
-      <View className='container'>
-        <Card cls-name='book'>
-          <Image src={b?.image ?? DEFAULT_LOADING_IMAGE} className='book-cover' />
+      <View>
+        <Image src={b?.image ?? DEFAULT_LOADING_IMAGE} className='book-cover' />
+        <View className='book-header-detail'>
+          <Image src={b?.image ?? DEFAULT_LOADING_IMAGE} className='book-img' />
           <View className='book-info'>
             <Text className='book-title'>{b?.title}</Text>
             <Text className='book-author'>{b?.author}</Text>
             <Text className='book-summary'>{b?.summary}</Text>
           </View>
-        </Card>
+        </View>
+      </View>
+      <View className='container'>
         <Divider />
         <View className='clippings'>
           <ClippingList
