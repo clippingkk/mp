@@ -25,7 +25,7 @@
 		"@tarojs/react": "^3.0.13",
 		"@tarojs/runtime": "^3.0.13",
 		"@tarojs/taro-h5": "2.2.11",
-		"@tarojs/taro-weapp": "2.2.11",
+		"@tarojs/taro-weapp": "2.2.16",
 		"babel-runtime": "^6.26.0",
 		"classnames": "^2.2.6",
 		"graphql": "^15.3.0",
