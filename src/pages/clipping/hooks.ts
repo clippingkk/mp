@@ -1,6 +1,7 @@
 
-import Taro, { useReady } from "@tarojs/taro"
+import { usePageEvent } from "@remax/macro"
 import { useState, useEffect, useRef, useCallback } from "react"
+import { authorize, showModal, openSetting, getSystemInfo, createSelectorQuery, hideLoading, showToast, getSystemInfoSync } from "remax/wechat"
 import { fetchClipping_clipping } from "../../schema/__generated__/fetchClipping"
 import { IBook, searchBookDetail } from "../../services/books"
 import { getClipping } from "../../services/clippings"
@@ -14,20 +15,20 @@ export type sysScreenSize = {
   ratio: number
 }
 
-export async function ensurePermission(scope: string) {
+export async function ensurePermission(scope: string): Promise<any> {
   try {
-    await Taro.authorize({
+    await authorize({
       scope: scope
     })
   } catch (e) {
-    const resp = await Taro.showModal({
+    const resp = await showModal({
       title: '😁 请打开权限哦~',
       content: '🔑 打开权限我们才能提供服务呢~',
     })
     if (resp.cancel) {
       return Promise.reject('cancel')
     }
-    await Taro.openSetting()
+    await openSetting()
     return ensurePermission(scope)
   }
 }
@@ -44,7 +45,7 @@ export function useSystemScreen() {
   )
 
   useEffect(() => {
-    Taro.getSystemInfo().then(res => {
+    getSystemInfo().then(res => {
       const ratio = ~~res.pixelRatio
       setSysScreen({
         width: res.screenWidth * ratio,
@@ -59,12 +60,12 @@ export function useSystemScreen() {
 
 export function useCanvasShare() {
   const dom = useRef<CanvasRenderingContext2D | null>(null)
-  useReady(() => {
+  usePageEvent( 'onReady' ,() => {
     if (dom.current) {
       return
     }
     setTimeout(() => {
-      Taro.createSelectorQuery()
+      createSelectorQuery()
         .select('#' + canvasId)
         .fields({ node: true, size: true })
         .exec((res) => {
@@ -75,7 +76,7 @@ export function useCanvasShare() {
           const canvas = res[0].node
           const ctx: CanvasRenderingContext2D = canvas.getContext('2d')
 
-          const dpr = Taro.getSystemInfoSync().pixelRatio
+          const dpr = getSystemInfoSync().pixelRatio
           canvas.width = res[0].width * dpr
           canvas.height = res[0].height * dpr
           ctx.scale(dpr, dpr)
@@ -88,7 +89,7 @@ export function useCanvasShare() {
 
 function loadCanvasCtx(): Promise<HTMLCanvasElement> {
   return new Promise((resolve, reject) => {
-    Taro.createSelectorQuery()
+    createSelectorQuery()
       .select('#' + canvasId)
       .fields({ node: true, size: true })
       .exec((res) => {
@@ -99,7 +100,7 @@ function loadCanvasCtx(): Promise<HTMLCanvasElement> {
         const canvas: HTMLCanvasElement = res[0].node
         const ctx = canvas.getContext('2d')!
 
-        const dpr = Taro.getSystemInfoSync().pixelRatio
+        const dpr = getSystemInfoSync().pixelRatio
         canvas.width = res[0].width * dpr
         canvas.height = res[0].height * dpr
         ctx.scale(dpr, dpr)
@@ -118,7 +119,7 @@ export function useImageSaveBtn(bookData: WenquBook | null, clippingData: fetchC
     }
 
     const canvas = await loadCanvasCtx()
-    const systemInfo = await Taro.getSystemInfo()
+    const systemInfo = await getSystemInfo()
 
     const screen: sysScreenSize = {
       width: systemInfo.screenWidth,
@@ -139,8 +140,8 @@ export function useImageSaveBtn(bookData: WenquBook | null, clippingData: fetchC
       }, screen)
 
       await saveLocally(canvasId, screen)
-      Taro.hideLoading()
-      Taro.showToast({
+      hideLoading()
+      showToast({
         title: '😘 保存成功啦~',
         icon: 'none'
       })
@@ -148,7 +149,7 @@ export function useImageSaveBtn(bookData: WenquBook | null, clippingData: fetchC
 
     } catch (e) {
       console.error(e)
-      Taro.showToast({ title: '🤷‍ 木有权限', icon: 'none' })
+      showToast({ title: '🤷‍ 木有权限', icon: 'none' })
     }
 
   }, [bookData, clippingData, screen, id])

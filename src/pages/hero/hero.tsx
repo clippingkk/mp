@@ -1,18 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import Taro, { useShareAppMessage, usePullDownRefresh, useReachBottom } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+// import Taro, { useShareAppMessage, usePullDownRefresh, useReachBottom } from '@tarojs/taro'
+import { View, Text, navigateTo, showToast } from 'remax/wechat'
 import './hero.styl'
 import NavigationBar from '../../components/navigation-bar';
 import { useSelector } from 'react-redux';
 import NotBindContent from '../../components/not-bind-content';
-import Books from './books';
+import Books from '../../components/book-list/books';
 import { useQuery } from '@apollo/client';
 import booksQuery from '../../schema/books.graphql'
 import { TGlobalStore } from '../../reducers';
 import { books, booksVariables } from '../../schema/__generated__/books';
 import { wechatLogin_mpAuth_user } from '../../schema/__generated__/wechatLogin';
 import { PAGINATION_STEP } from '../../constants/config';
-
+import { usePageEvent } from '@remax/macro';
 
 function HeroPage() {
   const user = useSelector<TGlobalStore, wechatLogin_mpAuth_user>(s => s.user.profile)
@@ -28,8 +28,7 @@ function HeroPage() {
       }
     },
   })
-
-  usePullDownRefresh(() => {
+  usePageEvent('onPullDownRefresh', () => {
     refetch({
       pagination: {
         limit: PAGINATION_STEP,
@@ -38,7 +37,7 @@ function HeroPage() {
     })
   })
 
-  useReachBottom(() => {
+  usePageEvent('onReachBottom', () => {
     fetchMore({
       variables: {
         pagination: {
@@ -63,7 +62,7 @@ function HeroPage() {
     })
   })
 
-  useShareAppMessage(() => {
+  usePageEvent('onShareAppMessage', () => {
     return {
       title: 'kindle 书摘管理',
       page: '/pages/landing/landing'
@@ -71,12 +70,12 @@ function HeroPage() {
   })
 
   const onNavigateUp = useCallback(() => {
-    Taro.showToast({
+    showToast({
       title: '搜索在下个版本支持哦~',
       icon: 'none'
     })
     return
-    Taro.navigateTo({
+    navigateTo({
       url: '/pages/search/search'
     })
   }, [])

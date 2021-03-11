@@ -1,4 +1,5 @@
-import Taro from '@tarojs/taro'
+
+import { request, showToast } from "remax/wechat"
 import { WENQU_SIMPLE_TOKEN, WENQU_API_HOST } from "../constants/config"
 
 type WenquErrorResponse = {
@@ -13,19 +14,19 @@ export async function wenquRequest<T>(url: string, options: RequestInit = {}): P
   }
 
   try {
-    const response: T = await Taro.request({
+    const response: T = await request({
       url: WENQU_API_HOST + url,
       header: {
         'X-Simple-Check': WENQU_SIMPLE_TOKEN
       }
     }).then(res => res.data)
     if ('error' in response) {
-      throw new Error(response['error'])
+      throw new Error((response as any)['error'])
     }
 
     return response
   } catch (e) {
-    Taro.showToast({
+    showToast({
       title: '请求挂了... 一会儿再试试',
       icon: 'none'
     })

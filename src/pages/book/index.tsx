@@ -2,12 +2,9 @@ import React, {
   useEffect,
   useCallback, useState, useRef
 } from 'react'
-import Taro, {
-  useReachBottom, getCurrentInstance
-} from '@tarojs/taro'
-import { View, Image, Text } from '@tarojs/components'
-import { getBookClippings, searchBookDetail, IBook } from '../../services/books'
-import { useSelector } from 'react-redux'
+import {
+   View, Image, Text, canvasGetImageData,
+   } from 'remax/wechat'
 import NavigationBar from '../../components/navigation-bar'
 import { useNavigateUp } from '../../hooks/navigationbar'
 import ClippingList from './clipping-list'
@@ -20,11 +17,13 @@ import colorThief from 'miniapp-color-thief'
 import bookQuery from '../../schema/book.graphql'
 import { book, bookVariables } from '../../schema/__generated__/book'
 import { DEFAULT_LOADING_IMAGE, PAGINATION_STEP } from '../../constants/config'
+import { usePageInstance } from 'remax'
+import { usePageEvent } from 'remax/macro';
 
 let lastBookId = ''
 
 function useThemeColor(img: string): string {
-  Taro.canvasGetImageData({
+  canvasGetImageData({
     canvasId: '',
     x: 0,
     y: 0,
@@ -41,7 +40,7 @@ function useThemeColor(img: string): string {
 
 
 function BookPage() {
-  const params = getCurrentInstance().router?.params
+  const params = usePageInstance().router?.params
   let doubanID = ''
   if (params?.bookId) {
     lastBookId = params.bookId
@@ -67,8 +66,8 @@ function BookPage() {
   // const { book, clippings, loadMoreClippings, reachEnd, loading } = useBookAndClippings(doubanID)
   const onNavigateUp = useNavigateUp()
 
-  useReachBottom(() => {
-    if (loading) {
+  usePageEvent('onReachBottom', () => {
+     if (loading) {
       return
     }
     fetchMore({
@@ -78,25 +77,28 @@ function BookPage() {
           limit: PAGINATION_STEP,
         }
       },
-      updateQuery(prev: book, { fetchMoreResult }) {
-        if (!fetchMoreResult || fetchMoreResult.book.clippings.length < PAGINATION_STEP) {
-          setReachEnd(true)
-          return
-        }
+      // updateQuery(prev: book, { fetchMoreResult }) {
+      //   if (!fetchMoreResult || fetchMoreResult.book.clippings.length < PAGINATION_STEP) {
+      //     setReachEnd(true)
+      //     return
+      //   }
 
-        return {
-          ...prev,
-          book: {
-            ...prev.book,
-            clippings: [
-              ...prev.book.clippings,
-              ...fetchMoreResult.book.clippings
-            ]
-          }
-        }
-      }
+      //   return {
+      //     ...prev,
+      //     book: {
+      //       ...prev.book,
+      //       clippings: [
+      //         ...prev.book.clippings,
+      //         ...fetchMoreResult.book.clippings
+      //       ]
+      //     }
+      //   }
+      // }
     })
+
+
   })
+
 
 
   return (

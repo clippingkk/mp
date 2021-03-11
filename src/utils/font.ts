@@ -1,5 +1,6 @@
 import React from 'react'
-import Taro from '@tarojs/taro'
+import { loadFontFace } from 'remax/wechat'
+
 
 const fonts = [{
   family: 'Lato',
@@ -14,7 +15,7 @@ const fonts = [{
 
 export function loadFont() {
   return Promise.all(
-    fonts.map(f => Taro.loadFontFace({
+    fonts.map(f => loadFontFace({
       global: true,
       family: f.family,
       source: `url(${f.source})`,

@@ -1,5 +1,5 @@
 import { request } from "./ajax";
-import { IClippingItem, IHttpClippingItem } from "./clippings";
+import { IClippingItem, IHttpClippingItem } from "./types";
 
 interface Book {
   id: number
@@ -44,7 +44,7 @@ export async function searchBookDetail(doubanId: number): Promise<IBook> {
 
 export async function getBookClippings(userid: number, bookId: number, offset: number): Promise<IClippingItem[]> {
   const response = await (request(`/book/clippings/${userid}/${bookId}?take=20&from=${offset}`) as Promise<IHttpClippingItem[]>)
-  return response.map(item => ({ ...item, createdAt: new Date(item.createdAt) } as IClippingItem))
+  return response.map(item => ({ ...item, createdAt: new Date(item.createdAt) } as any))
 }
 
 export async function updateClippingBook(clippingId: number, bookId: string) {

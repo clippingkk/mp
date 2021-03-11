@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef, useMemo } from 'react'
-import Taro, { useShareAppMessage, getCurrentInstance, useDidShow, useReady, scanCode } from '@tarojs/taro'
-import { View, Text, Button, Canvas } from '@tarojs/components'
+import { View, Text, Button, Canvas, createSelectorQuery, getSystemInfo, hideLoading, showLoading, showToast } from 'remax/wechat'
 import NavigationBar from '../../components/navigation-bar';
 import { getClipping } from '../../services/clippings';
 import './clipping.styl'
@@ -23,6 +22,8 @@ import { IPostShareRender } from '../../utils/canvas/mp-render';
 import { MPPostShareRender } from "../../utils/canvas/MPPostShareRender";
 import { useSelector } from 'react-redux';
 import { TGlobalStore } from '../../reducers';
+import { usePageInstance } from '@remax/framework-shared';
+import { usePageEvent } from '@remax/macro';
 
 const canvasID = 'clippingkk-canvas'
 
@@ -39,7 +40,7 @@ function useClippingPostData(
       return
     }
     setTimeout(() => {
-      const query = Taro.createSelectorQuery()
+      const query = createSelectorQuery()
       query.select('#' + canvasID)
         .fields({ node: true })
         .exec((res) => {
@@ -58,12 +59,12 @@ function useClippingPostData(
     if (!dom.current) {
       return
     }
-    Taro.showLoading({
+    showLoading({
       mask: true,
       title: 'Loading'
     })
     try {
-      const sysInfo = await Taro.getSystemInfo()
+      const sysInfo = await getSystemInfo()
       const postRender = new MPPostShareRender(dom.current, {
         height: sysInfo.screenHeight,
         width: sysInfo.screenWidth,
@@ -83,11 +84,11 @@ function useClippingPostData(
       await postRender.renderMyInfo(user)
       await postRender.renderQRCode()
       render.current = postRender
-      Taro.hideLoading()
+      hideLoading()
     } catch (e) {
       console.error(e)
-      Taro.hideLoading()
-      Taro.showToast({
+      hideLoading()
+      showToast({
         icon: 'none',
         title: e ? e : '未知错误'
       })
@@ -96,7 +97,7 @@ function useClippingPostData(
 
   const doSave = useCallback(async () => {
     if (!render.current) {
-      Taro.showToast({
+      showToast({
         icon: 'none',
         title: '请首先渲染图片'
       })
@@ -105,19 +106,19 @@ function useClippingPostData(
 
     try {
       await ensurePermission('scope.writePhotosAlbum')
-      Taro.showLoading({
+      showLoading({
         mask: true,
         title: '保存中...'
       })
       await render.current?.saveToLocal()
-      Taro.hideLoading()
-      Taro.showToast({
+      hideLoading()
+      showToast({
         title: '😘 保存成功啦~',
         icon: 'none'
       })
     } catch (e) {
       console.error(e)
-      Taro.showToast({ title: '🤷‍ 木有权限', icon: 'none' })
+      showToast({ title: '🤷‍ 木有权限', icon: 'none' })
     }
   }, [])
 
@@ -128,10 +129,10 @@ function useClippingPostData(
 }
 
 function useSysInfo() {
-  const [s, setS] = useState<Taro.getSystemInfo.Result | null>(null)
+  const [s, setS] = useState<any>(null)
 
   useEffect(() => {
-    Taro.getSystemInfo().then(res => {
+    getSystemInfo().then(res => {
       setS(res)
     })
   }, [])
@@ -140,7 +141,7 @@ function useSysInfo() {
 }
 
 function Clipping() {
-  const params = getCurrentInstance().router?.params
+  const params = usePageInstance().router?.params
   const id = params?.id ? ~~(params.id) : -1
 
   const { data: clipping } = useQuery<fetchClipping, fetchClippingVariables>(fetchClippingQuery, {
@@ -152,7 +153,7 @@ function Clipping() {
 
   const bookData = useSingleBook(clipping?.clipping.bookID)
 
-  useShareAppMessage(() => {
+  usePageEvent('onShareAppMessage' , () => {
     return {
       title: bookData ? bookData.title : "书籍",
       path: `/pages/landing/landing?c=${id}`
@@ -206,8 +207,8 @@ function Clipping() {
           id={canvasID}
           type='2d'
           className='share-canvas'
-          width={s.screenWidth * s.pixelRatio}
-          height={s.screenHeight * s.pixelRatio}
+          // width={s.screenWidth * s.pixelRatio}
+          // height={s.screenHeight * s.pixelRatio}
           style={{
             width: s?.screenWidth + 'px',
             height: s?.screenHeight + 'px',

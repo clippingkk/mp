@@ -1,7 +1,8 @@
+import { login as wechatOriginLogin } from 'remax/wechat'
 import { request, IBaseResponseData } from './ajax'
 import { IUserContentResponse, IUserContent } from '../store/user/type'
 import React from 'react'
-import Taro from '@tarojs/taro';
+;
 import { updateToken } from '../store/global';
 import { IHttpUserProfileResponseData, IResponseUser, IUserProfileResponseData, IClippingItem } from './types';
 
@@ -63,7 +64,7 @@ export async function wechatBinding(openid: string, email: string, password: str
 }
 
 export async function authFlow() {
-    const res = await Taro.login()
+    const res = await wechatOriginLogin()
     const resp = await wechatLogin(res.code)
 
     updateToken(resp.token)

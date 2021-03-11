@@ -1,25 +1,10 @@
 import React from 'react'
-import Taro, { Config } from '@tarojs/taro'
-import { View, Button, Text } from '@tarojs/components'
+import { View, Button, Text } from 'remax/wechat'
 import NavigationBar from '../../components/navigation-bar'
 
 import styles from './index.module.styl'
 
 class Index extends React.Component {
-
-  config: Config = {
-    navigationBarTitleText: '首页'
-  }
-
-  componentWillReceiveProps (nextProps) {
-    console.log(this.props, nextProps)
-  }
-
-  componentWillUnmount () { }
-
-  componentDidShow () { }
-
-  componentDidHide () { }
 
   render () {
     return (

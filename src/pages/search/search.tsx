@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import Taro from '@tarojs/taro'
-import { View, Text, Input } from '@tarojs/components'
+
+import { View, Text, Input } from 'remax/wechat'
 import NavigationBar from '../../components/navigation-bar'
 import { searchRequest } from '../../services/search'
 import Info from '../../components/info/info'

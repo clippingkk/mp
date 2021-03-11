@@ -1,6 +1,6 @@
 import React from 'react'
-import Taro from '@tarojs/taro'
-import { View } from '@tarojs/components';
+
+import { hideLoading, login, redirectTo, showLoading, showToast, View } from 'remax/wechat';
 import NavigationBar from '../../components/navigation-bar'
 
 import "./styles.styl"
@@ -8,24 +8,24 @@ import { wechatLogin } from '../../services/auth';
 
 class AuthPage extends React.Component {
   async componentDidMount() {
-    Taro.showLoading()
+    showLoading()
 
-    const { code } = await Taro.login()
+    const { code } = await login()
 
     try {
       await wechatLogin(code)
-      Taro.hideLoading()
+      hideLoading()
     } catch (e) {
       console.log(e)
-      Taro.hideLoading()
-      Taro.showToast({
+      hideLoading()
+      showToast({
         icon: 'none',
         title: e.toString(),
         mask: true
       })
 
       setTimeout(() => {
-        Taro.redirectTo({
+        redirectTo({
           url: '/pages/bind/index'
         })
       }, 2000)

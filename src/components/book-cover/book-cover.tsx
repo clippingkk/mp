@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navigator, View, Text } from '@tarojs/components'
+import { Navigator, View, Text } from 'remax/wechat'
 import { useSingleBook } from '../../hooks/book'
 import { WenquBook } from '../../services/wenqu'
 

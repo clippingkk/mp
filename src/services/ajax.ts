@@ -1,5 +1,6 @@
 import React from 'react'
-import Taro from '@tarojs/taro'
+import { request as originRequest, showToast } from 'remax/wechat'
+
 import { API_HOST } from '../constants/config'
 import { token } from '../store/global';
 import { ApolloLink, HttpLink, ApolloClient, InMemoryCache } from '@apollo/client';
@@ -22,7 +23,7 @@ export async function request<T>(url: string, options: any = {}): Promise<T> {
     url = API_HOST + url
   }
   try {
-    const response: IBaseResponseData = await Taro.request({
+    const response: IBaseResponseData = await originRequest({
       url,
       ...(options as any)
     }).then(res => res.data)
@@ -57,21 +58,22 @@ const authLink = new ApolloLink((operation, forward) => {
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
-    Taro.showToast({
+    showToast({
       icon: 'none',
       title: graphQLErrors[0].message,
     })
   }
   if (networkError) console.log(`[Network error]: ${networkError}`);
 });
-export default function apolloFetcher(url, { body, method, headers }) {
+export default function apolloFetcher(url: any, { body, method, headers }: any) {
   return new Promise(resolve =>
-    Taro.request({
+    originRequest({
       url,
       header: headers,
       method,
       data: body,
-      dataType: "text",
+      dataType: 'json',
+      // dataType: "text",
       complete: ({ data, statusCode, errMsg }: any) =>
         resolve({
           ok: () => statusCode >= 200 && statusCode < 300,

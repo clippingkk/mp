@@ -1,7 +1,7 @@
 import React from 'react'
-import Taro from '@tarojs/taro'
+
 import Info from '../../components/info/info'
-import { View, Navigator, Text } from '@tarojs/components'
+import { View, Navigator, Text } from 'remax/wechat'
 import ClippingItem from '../../components/clipping-item/clipping-item'
 import { IClippingItem } from '../../services/types'
 import { book_book_clippings } from '../../schema/__generated__/book'

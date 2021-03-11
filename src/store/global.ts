@@ -1,8 +1,8 @@
-import Taro from "@tarojs/taro";
+import { getStorageSync, setStorageSync } from "remax/wechat"
 
-export let token = Taro.getStorageSync("clippingkk:token")
+export let token = getStorageSync("clippingkk:token")
 
 export function updateToken(jwt: string) {
   token = jwt
-  Taro.setStorageSync("token", jwt)
+  setStorageSync("token", jwt)
 }

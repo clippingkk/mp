@@ -1,18 +1,19 @@
 import { useCallback } from 'react'
-import Taro, { getCurrentPages } from '@tarojs/taro'
+import {navigateBack, switchTab} from 'remax/wechat'
 
 export function useNavigateUp() {
   const onNavigateUp = useCallback(() => {
     const pages = getCurrentPages()
     if (pages.length > 1) {
-      Taro.navigateBack()
+      navigateBack()
       return
     }
     // do nothing
-    Taro.switchTab({
+    switchTab({
       url: '/pages/hero/hero'
     })
   }, [])
 
   return onNavigateUp
 }
+

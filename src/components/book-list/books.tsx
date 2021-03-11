@@ -1,14 +1,13 @@
 import React from 'react'
-import Taro from '@tarojs/taro'
-import { View, Text, Navigator } from '@tarojs/components'
+
+import { View, Text, Navigator } from 'remax/wechat'
 import { IBook } from '../../services/books'
 import Info from '../../components/info/info'
 import { book_book } from '../../schema/__generated__/book'
 import BookCover from '../../components/book-cover/book-cover'
 import { books_books } from '../../schema/__generated__/books'
 import { useMultipBook } from '../../hooks/book'
-
-const styles = require('./books.module.styl')
+import styles from './books.module.styl'
 
 type BooksProps = {
   books: readonly books_books[]
@@ -16,7 +15,7 @@ type BooksProps = {
   reachEnd: boolean
 }
 
-function Books(props: BooksProps) {
+function BookList(props: BooksProps) {
   const bs = useMultipBook(props.books.map(x => x.doubanId))
   return (
     <View className={styles.books}>
@@ -33,10 +32,10 @@ function Books(props: BooksProps) {
   )
 }
 
-Books.defaultProps = {
+BookList.defaultProps = {
   books: [],
   loading: true,
   reachEnd: false
 }
 
-export default Books
+export default BookList

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react'
-import Taro from '@tarojs/taro'
-import { View, Form, Button, Input, Text } from '@tarojs/components';
+
+import { View, Form, Button, Input, Text, scanCode, showToast } from 'remax/wechat';
 import NavigationBar from '../../components/navigation-bar'
 
 import "./styles.styl"
@@ -28,7 +28,7 @@ function BindingPage() {
   const client = useApolloClient()
 
   const onScan = useCallback(async () => {
-    const d = await Taro.scanCode({
+    const d = await scanCode({
       onlyFromCamera: true,
       scanType: ['qrCode']
     })
@@ -60,7 +60,7 @@ function BindingPage() {
     }
 
     updateToken(data.wechatBindByKey.token)
-    Taro.showToast({
+    showToast({
       icon: 'none',
       title: '绑定成功!'
     })

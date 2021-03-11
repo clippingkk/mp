@@ -1,6 +1,6 @@
 import React from 'react'
-import Taro from '@tarojs/taro'
-import { Image } from '@tarojs/components'
+
+import { Image } from 'remax/wechat'
 import { getImageSrc } from '../../utils/image';
 
 type KKImageProps = {

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Taro, { Component, useShareAppMessage, } from '@tarojs/taro'
-import { View, Text, Image } from '@tarojs/components'
+import { View, Text, Image } from 'remax/wechat'
 import './user.styl'
 import { connect, useSelector } from 'react-redux';
 import UserCard from '../../components/user-card';
@@ -15,9 +14,10 @@ import { useQuery } from '@apollo/client';
 import profileQuery from '../../schema/profile.graphql'
 import { profile, profileVariables } from '../../schema/__generated__/profile';
 import { useSingleBook } from '../../hooks/book';
+import { usePageEvent } from '@remax/macro';
 
 function User() {
-  useShareAppMessage(() => ({
+  usePageEvent('onShareAppMessage', () => ({
     title: '我在用 kindle 书摘哦~',
     page: '/pages/landing/landing'
   }))

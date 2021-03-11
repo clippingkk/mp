@@ -1,11 +1,10 @@
 import { useQuery } from '@apollo/client'
-import Taro, { getCurrentInstance, useReady, useShareAppMessage } from '@tarojs/taro'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useSingleBook } from '../../hooks/book'
 import { useNavigateUp } from '../../hooks/navigationbar'
 import { fetchClipping, fetchClippingVariables, fetchClipping_clipping } from '../../schema/__generated__/fetchClipping'
 import fetchClippingQuery from '../../schema/clipping.graphql'
-import { Button, View, Text, Canvas } from '@tarojs/components'
+import { Button, View, Text, Canvas, createSelectorQuery, getSystemInfo, hideLoading, showLoading, showToast } from 'remax/wechat'
 import NavigationBar from '../../components/navigation-bar'
 import { IPostShareRender } from '../../utils/canvas/mp-render'
 import { MPPostShareRender } from "../../utils/canvas/MPPostShareRender"
@@ -32,7 +31,7 @@ function useClippingPostData(
       return
     }
     setTimeout(() => {
-      const query = Taro.createSelectorQuery()
+      const query = createSelectorQuery()
       query.select('#' + canvasID)
         .fields({ node: true })
         .exec((res) => {
@@ -49,9 +48,9 @@ function useClippingPostData(
     if (!dom.current) {
       return
     }
-    Taro.showLoading()
+    showLoading()
     try {
-      const sysInfo = await Taro.getSystemInfo()
+      const sysInfo = await getSystemInfo()
       const postRender: IPostShareRender = new MPPostShareRender(dom.current, {
         height: sysInfo.screenHeight,
         width: sysInfo.screenWidth,
@@ -71,11 +70,11 @@ function useClippingPostData(
       await postRender.renderMyInfo(user)
       await postRender.renderQRCode()
       render.current = postRender
-      Taro.hideLoading()
+      hideLoading()
     } catch (e) {
       console.error(e)
-      Taro.hideLoading()
-      Taro.showToast({
+      hideLoading()
+      showToast({
         icon: 'none',
         title: e.toString ? e.toString() : '未知错误'
       })
@@ -84,7 +83,7 @@ function useClippingPostData(
 
   const doSave = useCallback(async () => {
     if (!render.current) {
-      Taro.showToast({
+      showToast({
         icon: 'none',
         title: '请首先渲染图片'
       })
@@ -93,19 +92,19 @@ function useClippingPostData(
 
     try {
       ensurePermission('scope.writePhotosAlbum')
-      Taro.showLoading({
+      showLoading({
         mask: true,
         title: '保存中...'
       })
       render.current?.saveToLocal()
-      Taro.hideLoading()
-      Taro.showToast({
+      hideLoading()
+      showToast({
         title: '😘 保存成功啦~',
         icon: 'none'
       })
     } catch (e) {
       console.error(e)
-      Taro.showToast({ title: '🤷‍ 木有权限', icon: 'none' })
+      showToast({ title: '🤷‍ 木有权限', icon: 'none' })
     }
   }, [])
 
@@ -123,10 +122,10 @@ type ClippingNeoProps = {
 }
 
 function useSysInfo() {
-  const [s, setS] = useState<Taro.getSystemInfo.Result | null>(null)
+  const [s, setS] = useState<any>(null)
 
   useEffect(() => {
-    Taro.getSystemInfo().then(res => {
+    getSystemInfo().then(res => {
       setS(res)
     })
   }, [])

@@ -1,31 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es2017",
-    "module": "commonjs",
-    "removeComments": false,
-    "preserveConstEnums": true,
+    "target": "ESNext",
+    "module": "ESNext",
     "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "noImplicitAny": false,
-    "allowSyntheticDefaultImports": true,
-    "outDir": "lib",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "strictNullChecks": true,
-    "sourceMap": true,
-    "baseUrl": ".",
-    "rootDir": ".",
+    "strict": true,
+    "esModuleInterop": true,
     "jsx": "preserve",
-    "jsxFactory": "Taro.createElement",
-    "allowJs": true,
-    "resolveJsonModule": true,
-    "typeRoots": [
-      "node_modules/@types"
-    ]
+    "rootDir": "src",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "lib": ["DOM", "ES2015"]
   },
-  "exclude": [
-    "node_modules",
-    "dist"
-  ],
-  "compileOnSave": false
+  "include": ["src/**/*", "typings/**/*"]
 }

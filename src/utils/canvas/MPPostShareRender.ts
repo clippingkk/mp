@@ -1,4 +1,4 @@
-import Taro from '@tarojs/taro';
+;
 import { PostShareRender } from './PostShareRender';
 import { IPostShareRender } from './mp-render';
 

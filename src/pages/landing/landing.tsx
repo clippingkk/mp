@@ -1,6 +1,5 @@
 import React, { useEffect, useCallback } from 'react'
-import Taro, { getCurrentInstance, useRouter } from '@tarojs/taro'
-import { View, Text, Button } from '@tarojs/components'
+import { View, Text, Button, hideLoading, login, redirectTo, showLoading, showToast, switchTab } from 'remax/wechat'
 import styles from './landing.module.styl'
 import { authFlow } from '../../services/auth';
 import { useDispatch } from 'react-redux';
@@ -9,9 +8,10 @@ import { useLazyQuery } from '@apollo/client'
 import authQuery from '../../schema/login.graphql'
 import { wechatLogin, wechatLoginVariables } from '../../schema/__generated__/wechatLogin';
 import { updateToken } from '../../store/global';
+import { usePageInstance } from '@remax/framework-shared';
 
 function getClippingID() {
-  const params = getCurrentInstance().router?.params
+  const params = usePageInstance().router?.params
   if (!params) {
     return null
   }
@@ -43,11 +43,11 @@ function Landing() {
     if (loading) {
       return
     }
-    Taro.showLoading({
+    showLoading({
       mask: true,
       title: 'Loading'
     })
-    const res = await Taro.login()
+    const res = await login()
     exec({
       variables: {
         code: res.code
@@ -57,8 +57,8 @@ function Landing() {
 
   useEffect(() => {
     if (called && error) {
-      Taro.hideLoading()
-      Taro.showToast({
+      hideLoading()
+      showToast({
         icon: 'none',
         title: error.message
       })
@@ -75,14 +75,14 @@ function Landing() {
     setTimeout(() => {
       // c is clipping
       const c = getClippingID()
-      Taro.hideLoading()
+      hideLoading()
       if (c) {
-        return Taro.redirectTo({
+        return redirectTo({
           url: `/pages/clipping/clipping?id=${c}`
         })
       }
 
-      return Taro.switchTab({
+      return switchTab({
         url: '/pages/hero/hero'
         // url: '/pages/user/user'
       })

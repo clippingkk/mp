@@ -1,6 +1,6 @@
 import React from 'react'
-import Taro from '@tarojs/taro'
-import { View, Navigator, Text } from '@tarojs/components'
+
+import { View, Navigator, Text } from 'remax/wechat'
 
 import './style.styl'
 import { profile_me_recents } from '../../schema/__generated__/profile'

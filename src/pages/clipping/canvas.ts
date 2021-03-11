@@ -1,4 +1,4 @@
-import Taro from "@tarojs/taro"
+import { getImageInfo, canvasToTempFilePath, saveImageToPhotosAlbum } from "remax/wechat"
 import { fetchQRCode, fetchRandomBackground } from "../../services/mp"
 
 function fetchImage(canvasDom: any, url: string): Promise<any> {
@@ -7,7 +7,7 @@ function fetchImage(canvasDom: any, url: string): Promise<any> {
     img.onload = () => {
       resolve(img)
     }
-    img.onerror = (e) => {
+    img.onerror = (e: any) => {
       reject(e)
     }
 
@@ -112,7 +112,7 @@ export async function drawCanvas(dom: HTMLCanvasElement, ctx: CanvasRenderingCon
     { x: size.width * 0.05, y: size.height * 0.9 }
   )
 
-  const qrcodeImageInfo = await Taro.getImageInfo({ src: 'https://picsum.photos/200/300' })
+  const qrcodeImageInfo = await getImageInfo({ src: 'https://picsum.photos/200/300' })
 
   console.log(
     qrcode,
@@ -150,12 +150,12 @@ export async function drawCanvas(dom: HTMLCanvasElement, ctx: CanvasRenderingCon
 }
 
 export async function saveLocally(canvasId: string, size: screenSize) {
-  const res = await Taro.canvasToTempFilePath({
+  const res = await canvasToTempFilePath({
     canvasId: canvasId,
     fileType: 'jpg'
   }) as any
 
-  return Taro.saveImageToPhotosAlbum({
+  return saveImageToPhotosAlbum({
     filePath: res.tempFilePath
   })
 }

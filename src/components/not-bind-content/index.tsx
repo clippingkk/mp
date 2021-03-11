@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react'
-import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components';
+
+import { View, Text, navigateTo } from 'remax/wechat';
 import styles from './style.module.styl'
 
 function NotBindContent() {
   const onClick = useCallback(() => {
-    Taro.navigateTo({
+    navigateTo({
       url: '/pages/bind/index'
     })
   }, [])

@@ -1,74 +1,40 @@
 {
   "miniprogramRoot": "dist/",
-  "projectname": "mp-clippingkk",
-  "description": "clippingkk",
-  "appid": "wx62b01f667ed962e4",
   "setting": {
     "urlCheck": false,
     "es6": false,
-    "postcss": false,
+    "postcss": true,
     "preloadBackgroundData": false,
-    "minified": false,
+    "minified": true,
     "newFeature": true,
     "coverView": true,
     "autoAudits": false,
     "showShadowRootInWxmlPanel": true,
     "scopeDataCheck": false,
+    "uglifyFileName": false,
     "checkInvalidKey": true,
     "checkSiteMap": true,
     "uploadWithSourceMap": true,
-    "useMultiFrameRuntime": false,
+    "useMultiFrameRuntime": true,
     "useApiHook": true,
+    "useApiHostProcess": true,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
       "outputPath": ""
     },
+    "bundle": false,
     "useIsolateContext": true,
     "useCompilerModule": true,
     "userConfirmedUseCompilerModuleSwitch": false,
     "userConfirmedBundleSwitch": false,
     "packNpmManually": false,
     "packNpmRelationList": [],
-    "minifyWXSS": true,
-    "bundle": false
+    "minifyWXSS": true
   },
   "compileType": "miniprogram",
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
-  "condition": {
-    "search": {
-      "list": []
-    },
-    "conversation": {
-      "list": []
-    },
-    "plugin": {
-      "list": []
-    },
-    "game": {
-      "list": []
-    },
-    "gamePlugin": {
-      "list": []
-    },
-    "miniprogram": {
-      "list": [
-        {
-          "id": 0,
-          "name": "pages/landing/landing",
-          "pathName": "pages/landing/landing",
-          "query": "scene=c%3D8!b%3D2",
-          "scene": null
-        },
-        {
-          "id": -1,
-          "name": "bind",
-          "pathName": "pages/bind/index",
-          "query": "scene=c%3D8!b%3D2",
-          "scene": null
-        }
-      ]
-    }
-  }
+  "libVersion": "2.15.0",
+  "condition": {}
 }

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Taro from '@tarojs/taro'
-import { View, Image, Text } from '@tarojs/components'
+import { View, Image, Text, getSystemInfo } from 'remax/wechat'
 
 import './styles.styl'
 
@@ -18,7 +17,7 @@ function useStatusBarSize(hasHolder: boolean) {
   const [platformHeight, setPlatformHeight] = useState(8)
 
   useEffect(() => {
-    Taro.getSystemInfo().then(resp => {
+    getSystemInfo().then(resp => {
       setBarHeight(resp.statusBarHeight)
       setPlatformHeight(resp.platform !== 'ios' ? 8 : 6)
     })

@@ -1,8 +1,6 @@
 import React, { useCallback } from 'react'
-import Taro from '@tarojs/taro'
-import { View, Text, OpenData } from '@tarojs/components';
-import { IUserContent } from '../../store/user/type';
-import KKImage from '../kkimage';
+
+import { View, Text, OpenData, navigateTo } from 'remax/wechat';
 
 import styles from './style.module.styl'
 import { wechatLogin_mpAuth_user } from '../../schema/__generated__/wechatLogin';
@@ -24,7 +22,7 @@ function UserCard({ profile, hasBind, count }: UserCardProps) {
     }
 
     // TODO: 等后端改好了之后再开放跳转功能
-    Taro.navigateTo({
+    navigateTo({
       url: '/pages/bind/index'
     })
 

@@ -1,6 +1,6 @@
 import React from 'react'
-import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+
+import { View, Text } from 'remax/wechat'
 
 const styles = require('./info.module.styl')
 
