@@ -3,7 +3,7 @@ import { Navigator, View, Text } from 'remax/wechat'
 import { useSingleBook } from '../../hooks/book'
 import { WenquBook } from '../../services/wenqu'
 
-const styles = require('./book.module.styl')
+import styles from './book.module.styl'
 type BookCoverProps = {
   book: WenquBook
 }

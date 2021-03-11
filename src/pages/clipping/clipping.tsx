@@ -1,22 +1,15 @@
 import React, { useEffect, useState, useCallback, useRef, useMemo } from 'react'
 import { View, Text, Button, Canvas, createSelectorQuery, getSystemInfo, hideLoading, showLoading, showToast } from 'remax/wechat'
 import NavigationBar from '../../components/navigation-bar';
-import { getClipping } from '../../services/clippings';
 import './clipping.styl'
-import { searchBookDetail, IBook } from '../../services/books';
-import { drawCanvas, saveLocally } from './canvas';
 import { useNavigateUp } from '../../hooks/navigationbar';
-import { IClippingItem } from '../../services/types';
 import { useQuery } from '@apollo/client';
 import fetchClippingQuery from '../../schema/clipping.graphql'
 import { fetchClipping, fetchClippingVariables, fetchClipping_clipping } from '../../schema/__generated__/fetchClipping';
 import { useSingleBook } from '../../hooks/book';
-import { client } from '../../services/ajax';
 import { WenquBook } from '../../services/wenqu';
-import { ensurePermission, useImageSaveBtn, useSystemScreen } from './hooks';
-import { fetchQRCode } from '../../services/mp';
-import { API_HOST } from '../../constants/config';
-import SharePostModal from './share-post';
+import { ensurePermission } from './hooks';
+import { useQuery as usePageQuery } from 'remax'
 import { wechatLogin_mpAuth_user } from '../../schema/__generated__/wechatLogin';
 import { IPostShareRender } from '../../utils/canvas/mp-render';
 import { MPPostShareRender } from "../../utils/canvas/MPPostShareRender";
@@ -141,7 +134,7 @@ function useSysInfo() {
 }
 
 function Clipping() {
-  const params = usePageInstance().router?.params
+  const params = usePageQuery()
   const id = params?.id ? ~~(params.id) : -1
 
   const { data: clipping } = useQuery<fetchClipping, fetchClippingVariables>(fetchClippingQuery, {

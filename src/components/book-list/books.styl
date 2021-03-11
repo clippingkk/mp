@@ -1,29 +1,18 @@
-$round-size = 8px
-
-@keyframes fade-in {
-  from {
-    opacity 0
-    transform translateY(1rem)
-  }
-  to {
-    opacity 1
-    transform translateY(0rem)
-  }
-}
+$round-size = 8rpx
 
 .books
   display flex
   flex-direction column
   align-items center
   justify-content center
-  margin 0 15px
+  margin 0 15rpx
 
 .book
-  margin 15px
+  margin 15rpx
   border-radius $round-size
-  box-shadow 0 0 8px #eee
-  height 900px
-  width calc(100vw - 60px)
+  box-shadow 0 0 8rpx #eee
+  height 900rpx
+  width calc(100vw - 60rpx)
   position relative
   background-size cover
   background-position 50% 50%
@@ -35,17 +24,17 @@ $round-size = 8px
   left 0
   width 100%
   background linear-gradient(0deg,#333,hsla(0,0%,100%,.2))
-  backdrop-filter blur(10px)
+  backdrop-filter blur(10rpx)
   border-bottom-left-radius $round-size
   border-bottom-right-radius $round-size
   display flex
   flex-direction column
-  padding 24px 16px
+  padding 24rpx 16rpx
   box-sizing border-box
   color white
 
 .title
-  font-size 38px
+  font-size 38rpx
 
 .author
-  font-size 26px
+  font-size 26rpx

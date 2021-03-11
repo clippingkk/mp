@@ -1,6 +1,7 @@
 const stylus = require('@remax/plugin-stylus');
 
 module.exports = {
+  pxToRpx: false,
   plugins: [stylus()],
   configWebpack({ config, webpack, addCSSRule }) {
     // config 是的 https://github.com/neutrinojs/webpack-chain Config 对象。

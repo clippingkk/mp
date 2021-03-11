@@ -1,10 +1,8 @@
-import React, {
-  useEffect,
-  useCallback, useState, useRef
-} from 'react'
+import React, { useState } from 'react'
 import {
    View, Image, Text, canvasGetImageData,
    } from 'remax/wechat'
+   import { useQuery as usePageQuery } from 'remax'
 import NavigationBar from '../../components/navigation-bar'
 import { useNavigateUp } from '../../hooks/navigationbar'
 import ClippingList from './clipping-list'
@@ -40,7 +38,7 @@ function useThemeColor(img: string): string {
 
 
 function BookPage() {
-  const params = usePageInstance().router?.params
+  const params = usePageQuery()
   let doubanID = ''
   if (params?.bookId) {
     lastBookId = params.bookId

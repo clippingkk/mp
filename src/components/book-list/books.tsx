@@ -1,13 +1,12 @@
 import React from 'react'
 
-import { View, Text, Navigator } from 'remax/wechat'
-import { IBook } from '../../services/books'
+import { View } from 'remax/wechat'
 import Info from '../../components/info/info'
-import { book_book } from '../../schema/__generated__/book'
 import BookCover from '../../components/book-cover/book-cover'
 import { books_books } from '../../schema/__generated__/books'
 import { useMultipBook } from '../../hooks/book'
-import styles from './books.module.styl'
+import styles from './books.styl'
+
 
 type BooksProps = {
   books: readonly books_books[]

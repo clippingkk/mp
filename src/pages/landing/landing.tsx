@@ -10,8 +10,7 @@ import { wechatLogin, wechatLoginVariables } from '../../schema/__generated__/we
 import { updateToken } from '../../store/global';
 import { usePageInstance } from '@remax/framework-shared';
 
-function getClippingID() {
-  const params = usePageInstance().router?.params
+function getClippingID(params: any) {
   if (!params) {
     return null
   }
@@ -38,6 +37,7 @@ function getClippingID() {
 
 function Landing() {
   const dispatch = useDispatch()
+  const params = usePageInstance().router?.params
   const [exec, { data, called, loading, error }] = useLazyQuery<wechatLogin, wechatLoginVariables>(authQuery)
   const onLogin = useCallback(async () => {
     if (loading) {
@@ -74,7 +74,7 @@ function Landing() {
     dispatch(updateUserInfo(data.mpAuth.user, data.mpAuth.token))
     setTimeout(() => {
       // c is clipping
-      const c = getClippingID()
+      const c = getClippingID(params)
       hideLoading()
       if (c) {
         return redirectTo({

@@ -72,7 +72,7 @@ export default function apolloFetcher(url: any, { body, method, headers }: any) 
       header: headers,
       method,
       data: body,
-      dataType: 'json',
+      dataType: '其他',
       // dataType: "text",
       complete: ({ data, statusCode, errMsg }: any) =>
         resolve({
