@@ -16,7 +16,7 @@
     "miniapp-color-thief": "^1.0.5",
     "react": "^16.14.0",
     "react-redux": "^7.2.2",
-    "remax": "^2.9.1"
+    "remax": "^2.11.7"
   },
   "devDependencies": {
     "@remax/plugin-stylus": "^1.0.0",
