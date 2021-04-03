@@ -34,15 +34,25 @@ export function useMultipBook(doubanIds: string[]): WenquBook[] {
     if (!doubanIds) {
       return
     }
+
+    const dbIdList = doubanIds.reduce((acc, x) => {
+      const f = acc.findIndex(a => a === x)
+      if (f === -1) {
+        acc.push(x)
+      }
+      return acc
+    }, [] as string[])
+
     let shouldFetchDoubanIDs: string[] = []
 
-    doubanIds.forEach(x => {
+    dbIdList.forEach(x => {
       if (cache.has(x)) {
         setBook(s => {
-          if (s.findIndex(xx => xx.id.toString() === x) > 0) {
+          const idx = s.findIndex(xx => xx.id.toString() === x)
+          if (idx > 0) {
             return s
           }
-          return s.concat(cache.get(x)!)
+          return s.concat([cache.get(x)!])
         })
       } else {
         shouldFetchDoubanIDs.push(x)
@@ -67,5 +77,11 @@ export function useMultipBook(doubanIds: string[]): WenquBook[] {
     })
   }, [doubanIds.join('')])
 
-  return book
+  // FIXME: 有重复选项，需要干掉
+  return book.reduce((acc, cur) => {
+    if (acc.findIndex(x => x.doubanId === cur.doubanId) === -1) {
+      acc.push(cur)
+    }
+    return acc
+  }, [] as WenquBook[])
 }

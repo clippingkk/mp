@@ -1,8 +1,7 @@
 import React from 'react'
-
 import { View, Text } from 'remax/wechat'
 
-const styles = require('./info.module.styl')
+import styles from './info.styl'
 
 type InfoProps = {
   text: string

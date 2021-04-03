@@ -16,16 +16,17 @@ type BooksProps = {
 
 function BookList(props: BooksProps) {
   const bs = useMultipBook(props.books.map(x => x.doubanId))
+  console.log(bs.map(b => b.doubanId))
   return (
     <View className={styles.books}>
       {bs.map(b => (
         <BookCover book={b} key={b.doubanId} />
       ))}
       {props.loading && (
-        <Info text='😂 还在加载...' />
+        <Info text='😂 还在加载...' key='loading' />
       )}
       {props.reachEnd && (
-        <Info text='😮 再往下就没有了' withTip />
+        <Info text='😮 再往下就没有了' withTip key='done' />
       )}
     </View>
   )

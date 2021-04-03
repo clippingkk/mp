@@ -66,14 +66,16 @@ function BookPage() {
      if (loading) {
       return
     }
+    console.log('fetch more', data?.book.clippings.length)
     fetchMore({
+      fetchPolicy: 'no-cache',
       variables: {
         pagination: {
           offset: data?.book.clippings.length,
           limit: PAGINATION_STEP
         }
       },
-    })
+    } as any)
   })
 
   return (
