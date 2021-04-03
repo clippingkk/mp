@@ -24,7 +24,7 @@ function HeroPage() {
     variables: {
       pagination: {
         limit: PAGINATION_STEP,
-        offset: 0
+        offset: 0,
       }
     },
   })
@@ -37,27 +37,19 @@ function HeroPage() {
     })
   })
 
+  useEffect(() => {
+
+  console.log('rendering', books)
+  }, [books])
+
   usePageEvent('onReachBottom', () => {
+    console.log(books?.books)
     fetchMore({
       variables: {
         pagination: {
           limit: PAGINATION_STEP,
           offset: books?.books.length
         }
-      },
-      updateQuery(prev: books, { fetchMoreResult }) {
-        if (!fetchMoreResult || fetchMoreResult.books.length < PAGINATION_STEP) {
-          setReachEnd(true)
-          return prev
-        }
-
-        return {
-          ...prev,
-          books: [
-            ...prev.books,
-            ...fetchMoreResult.books
-          ]
-        } as books
       }
     })
   })

@@ -5,6 +5,7 @@ import { API_HOST } from '../constants/config'
 import { token } from '../store/global';
 import { ApolloLink, HttpLink, ApolloClient, InMemoryCache } from '@apollo/client';
 import { onError } from "@apollo/client/link/error"
+import { offsetLimitPagination } from '@apollo/client/utilities';
 
 export interface IBaseResponseData {
   status: Number
@@ -90,6 +91,15 @@ const httpLink = new HttpLink({
 })
 
 export const client = new ApolloClient({
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          books: offsetLimitPagination(),
+          clippings: offsetLimitPagination()
+        }
+      }
+    }
+  }),
   link: errorLink.concat(authLink.concat(httpLink)),
 })

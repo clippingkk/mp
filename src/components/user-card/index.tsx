@@ -21,7 +21,6 @@ function UserCard({ profile, hasBind, count }: UserCardProps) {
       return
     }
 
-    // TODO: 等后端改好了之后再开放跳转功能
     navigateTo({
       url: '/pages/bind/index'
     })
@@ -33,9 +32,9 @@ function UserCard({ profile, hasBind, count }: UserCardProps) {
       {profile.avatar === 'null' ? (
         <View className={styles.fakeavatar}>我</View>
       ) : (
-        // <View className={styles.avatar}>
+        <View className={styles.avatar}>
           <OpenData type="userAvatarUrl" className={styles.avatar} />
-        // </View>
+        </View>
       )}
       <View className={styles.info}>
         <Text className={styles.name}>{profile.name}</Text>

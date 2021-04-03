@@ -61,9 +61,7 @@ function BookPage() {
     },
   })
 
-  // const { book, clippings, loadMoreClippings, reachEnd, loading } = useBookAndClippings(doubanID)
   const onNavigateUp = useNavigateUp()
-
   usePageEvent('onReachBottom', () => {
      if (loading) {
       return
@@ -72,32 +70,11 @@ function BookPage() {
       variables: {
         pagination: {
           offset: data?.book.clippings.length,
-          limit: PAGINATION_STEP,
+          limit: PAGINATION_STEP
         }
       },
-      // updateQuery(prev: book, { fetchMoreResult }) {
-      //   if (!fetchMoreResult || fetchMoreResult.book.clippings.length < PAGINATION_STEP) {
-      //     setReachEnd(true)
-      //     return
-      //   }
-
-      //   return {
-      //     ...prev,
-      //     book: {
-      //       ...prev.book,
-      //       clippings: [
-      //         ...prev.book.clippings,
-      //         ...fetchMoreResult.book.clippings
-      //       ]
-      //     }
-      //   }
-      // }
     })
-
-
   })
-
-
 
   return (
     <View className='book-page'>
