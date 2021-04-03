@@ -16,7 +16,6 @@ type BooksProps = {
 
 function BookList(props: BooksProps) {
   const bs = useMultipBook(props.books.map(x => x.doubanId))
-  console.log(bs.map(b => b.doubanId))
   return (
     <View className={styles.books}>
       {bs.map(b => (
