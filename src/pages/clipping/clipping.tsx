@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux';
 import { TGlobalStore } from '../../reducers';
 import { usePageInstance } from '@remax/framework-shared';
 import { usePageEvent } from '@remax/macro';
+import ClippingShare from '../../components/konzert/clipping';
 
 const canvasID = 'clippingkk-canvas'
 
@@ -146,16 +147,17 @@ function Clipping() {
 
   const bookData = useSingleBook(clipping?.clipping.bookID)
 
-  usePageEvent('onShareAppMessage' , () => {
+  usePageEvent('onShareAppMessage', () => {
     return {
       title: bookData ? bookData.title : "书籍",
       path: `/pages/landing/landing?c=${id}`
     }
   })
   const user = useSelector<TGlobalStore, wechatLogin_mpAuth_user>(s => s.user.profile)
-  const { doRender, doSave } = useClippingPostData(clipping?.clipping, bookData, user)
+  // const { doRender, doSave } = useClippingPostData(clipping?.clipping, bookData, user)
 
   const s = useSysInfo()
+  const [vis, setVis] = useState(false)
 
   if (!clipping || !bookData || !s) {
     return <View />
@@ -187,26 +189,23 @@ function Clipping() {
           <Text className='author'> —— {bookData.author}</Text>
 
           <Button
-            onClick={async () => {
-              await doRender()
-              await doSave()
+            onClick={() => {
+              setVis(true)
             }}
             className='btn-primary'>
             🎨 保存
               </Button>
         </View>
-
-        <Canvas
-          id={canvasID}
-          type='2d'
-          className='share-canvas'
-          // width={s.screenWidth * s.pixelRatio}
-          // height={s.screenHeight * s.pixelRatio}
-          style={{
-            width: s?.screenWidth + 'px',
-            height: s?.screenHeight + 'px',
-          }}
-        />
+        {vis && (
+          <ClippingShare
+            cid={clipping.clipping.id}
+            bid={bookData.id}
+            uid={user.id}
+            onCancel={() => {
+              setVis(false)
+            }}
+          />
+        )}
 
         {/* <painter
           palette={palette}

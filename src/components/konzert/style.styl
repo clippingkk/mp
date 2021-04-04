@@ -1,0 +1,31 @@
+.mask
+  position fixed
+  top 0
+  left 0
+  right 0
+  bottom 0
+  background rgba(0, 0, 0, .7)
+  backdrop filter(10px)
+  display flex
+  align-items flex-end
+  justify-content center
+
+.container
+  padding 16px
+  border-radius 4px
+  animation fade-in .35s
+  .poster
+    height calc(100vh * .75)
+    width calc(100vw * .75)
+    margin-bottom 8px
+    border-radius 4px
+  .save
+    border none
+    background-color #3498db
+    font-size 28rpx
+    font-weight 300
+    padding 8rpx 20rpx
+    color #fff
+    &::after
+      content ''
+      border none
