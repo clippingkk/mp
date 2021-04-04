@@ -9,8 +9,8 @@ const fonts = [{
   family: 'Lato',
   source: 'https://fonts.gstatic.cnpmjs.org/s/lato/v16/S6uyw4BMUTPHjx4wXg.woff2'
 }, {
-  family: 'YSHaoShenTi',
-  source: 'https://qcloud-1251807749.file.myqcloud.com/YSHaoShenTi.ttf'
+  family: 'LxgwWenKai',
+  source: 'https://qcloud-1251807749.cos.ap-shanghai.myqcloud.com/LXGWWenKai-Regular20210327.ttf'
 }]
 
 export function loadFont() {

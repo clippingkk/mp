@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
-   View, Image, Text, canvasGetImageData,
-   } from 'remax/wechat'
-   import { useQuery as usePageQuery } from 'remax'
+  View, Image, Text, canvasGetImageData,
+} from 'remax/wechat'
+import { useQuery as usePageQuery } from 'remax'
 import NavigationBar from '../../components/navigation-bar'
 import { useNavigateUp } from '../../hooks/navigationbar'
 import ClippingList from './clipping-list'
@@ -10,12 +10,11 @@ import ClippingList from './clipping-list'
 import './book.styl'
 import Divider from '../../components/divider/divider'
 import { useSingleBook } from '../../hooks/book'
-import { useQuery } from '@apollo/client'
+import { useApolloClient, useQuery } from '@apollo/client'
 import colorThief from 'miniapp-color-thief'
 import bookQuery from '../../schema/book.graphql'
-import { book, bookVariables } from '../../schema/__generated__/book'
+import { book, bookVariables, book_book } from '../../schema/__generated__/book'
 import { DEFAULT_LOADING_IMAGE, PAGINATION_STEP } from '../../constants/config'
-import { usePageInstance } from 'remax'
 import { usePageEvent } from 'remax/macro';
 
 let lastBookId = ''
@@ -36,7 +35,6 @@ function useThemeColor(img: string): string {
   return ''
 }
 
-
 function BookPage() {
   const params = usePageQuery()
   let doubanID = ''
@@ -49,33 +47,56 @@ function BookPage() {
 
   const b = useSingleBook(doubanID)
 
+  const [bookRes, setBookResp] = useState<book_book | null>(null)
+  const client = useApolloClient()
+  const [loading, setLoading] = useState(false)
+
   const [reachEnd, setReachEnd] = useState(false)
 
-  const { data, loading, fetchMore } = useQuery<book, bookVariables>(bookQuery, {
-    variables: {
-      id: ~~doubanID,
-      pagination: {
-        limit: PAGINATION_STEP,
-        offset: 0
-      }
-    },
-  })
+  useEffect(() => {
+    setLoading(true)
+    client.query<book, bookVariables>({
+      query: bookQuery,
+      variables: {
+        id: ~~doubanID,
+        pagination: {
+          limit: PAGINATION_STEP,
+          offset: 0
+        }
+      },
+    }).then(res => {
+      setBookResp(res.data.book)
+    }).finally(() => {
+      setLoading(false)
+    })
+  }, [])
 
   const onNavigateUp = useNavigateUp()
   usePageEvent('onReachBottom', () => {
-     if (loading) {
+    if (loading) {
       return
     }
-    console.log('fetch more', data?.book.clippings.length)
-    fetchMore({
-      fetchPolicy: 'no-cache',
+    setLoading(true)
+    client.query<book, bookVariables>({
+      query: bookQuery,
       variables: {
+        id: ~~doubanID,
         pagination: {
-          offset: data?.book.clippings.length,
-          limit: PAGINATION_STEP
+          limit: PAGINATION_STEP,
+          offset: bookRes?.clippings.length || 0
         }
       },
-    } as any)
+    }).then(res => {
+      if (res.data.book.clippings.length < PAGINATION_STEP) {
+        setReachEnd(true)
+      }
+      setBookResp(s => ({
+        ...(s || {} as any),
+        clippings: s?.clippings.concat(res.data.book.clippings)
+      }))
+    }).finally(() => {
+      setLoading(false)
+    })
   })
 
   return (
@@ -100,7 +121,7 @@ function BookPage() {
           <ClippingList
             loading={loading}
             reachEnd={reachEnd}
-            clippings={data?.book.clippings}
+            clippings={bookRes?.clippings}
           />
         </View>
       </View>
