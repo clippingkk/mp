@@ -83,7 +83,7 @@ function Landing() {
       }
 
       return switchTab({
-        url: '/pages/hero/hero'
+        url: '/pages/square/square'
         // url: '/pages/user/user'
       })
     }, 100)
