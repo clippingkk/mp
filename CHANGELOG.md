@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.3](https://github.com/clippingkk/mp/compare/v3.0.2...v3.0.3) (2021-04-05)
+
+
+### Bug Fixes
+
+* **app:** add promise.finally ([9e1ea75](https://github.com/clippingkk/mp/commit/9e1ea759accfbf8cc8b5058e1f2206343a0be624))
+
 ### [3.0.2](https://github.com/clippingkk/mp/compare/v3.0.1...v3.0.2) (2021-04-05)
 
 ## [2.2.0](https://github.com/clippingkk/mp/compare/v2.1.8...v2.2.0) (2020-11-22)
