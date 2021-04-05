@@ -16,7 +16,7 @@ function BookCover(props: BookCoverProps) {
 
   return (
     <Navigator
-      className={styles.book}
+      className={styles.book + ' with-fade-in'}
       key={b.id}
       style={{ backgroundImage: `url(${b.image})` }}
       url={`/pages/book/index?id=${b.id}&bookId=${b.doubanId}`}

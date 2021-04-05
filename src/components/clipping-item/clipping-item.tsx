@@ -1,22 +1,26 @@
 import React from 'react'
 
-import { View, Navigator, Text } from 'remax/wechat'
+import { Navigator, Text } from 'remax/wechat'
 
-import './style.styl'
-import { profile_me_recents } from '../../schema/__generated__/profile'
+import styles from './style.styl'
+
 
 type ClippingItemProps = {
-  clipping: profile_me_recents
+  clipping: {
+    id: number
+    title: string
+    content: string
+  }
 }
 
 function ClippingItem(props: ClippingItemProps) {
   return (
     <Navigator
       url={`/pages/clipping/clipping?id=${props.clipping.id}`}
-      className='clipping'
+      className={styles.clipping + ' with-fade-in'}
     >
-      <Text className='clipping-title'>{props.clipping.title}</Text>
-      <Text className='clipping-content'>{props.clipping.content}</Text>
+      <Text className={styles['clipping-title']}>{props.clipping.title}</Text>
+      <Text className={styles['clipping-content']}>{props.clipping.content}</Text>
     </Navigator>
   )
 }

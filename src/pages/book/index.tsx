@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {
-  View, Image, Text, canvasGetImageData,
+  View, Image, Text, canvasGetImageData, Button,
 } from 'remax/wechat'
 import { useQuery as usePageQuery } from 'remax'
 import NavigationBar from '../../components/navigation-bar'
@@ -16,6 +16,11 @@ import bookQuery from '../../schema/book.graphql'
 import { book, bookVariables, book_book } from '../../schema/__generated__/book'
 import { DEFAULT_LOADING_IMAGE, PAGINATION_STEP } from '../../constants/config'
 import { usePageEvent } from 'remax/macro';
+import ClippingShare from '../../components/konzert/clipping'
+import { UTPService } from '../../utils/konzert'
+import { useSelector } from 'react-redux'
+import { TGlobalStore } from '../../reducers'
+import { wechatLogin_mpAuth_user } from '../../schema/__generated__/wechatLogin'
 
 let lastBookId = ''
 
@@ -70,6 +75,8 @@ function BookPage() {
       setLoading(false)
     })
   }, [])
+  const user = useSelector<TGlobalStore, wechatLogin_mpAuth_user>(s => s.user.profile)
+  const [vis, setVis] = useState(false)
 
   const onNavigateUp = useNavigateUp()
   usePageEvent('onReachBottom', () => {
@@ -107,13 +114,34 @@ function BookPage() {
       <View>
         <Image src={b?.image ?? DEFAULT_LOADING_IMAGE} className='book-cover' />
         <View className='book-header-detail'>
-          <Image src={b?.image ?? DEFAULT_LOADING_IMAGE} className='book-img' />
-          <View className='book-info'>
-            <Text className='book-title'>{b?.title}</Text>
-            <Text className='book-author'>{b?.author}</Text>
-            <Text className='book-summary'>{b?.summary}</Text>
+          <View className='book-header-main'>
+            <Image src={b?.image ?? DEFAULT_LOADING_IMAGE} className='book-img' />
+            <View className='book-info'>
+              <Text className='book-title'>{b?.title}</Text>
+              <Text className='book-author'>{b?.author}</Text>
+            </View>
           </View>
+          <Text className='book-summary'>{b?.summary}</Text>
+          <Button
+            className='book--button__share'
+            onClick={() => {
+              setVis(true)
+            }}
+          >Share the Book</Button>
         </View>
+
+        {vis && (
+          <ClippingShare
+            shareType={UTPService.book}
+            cid={0}
+            bid={b?.id || 0}
+            uid={user.id}
+            onCancel={() => {
+              setVis(false)
+            }}
+          />
+        )}
+
       </View>
       <View className='container'>
         <Divider />

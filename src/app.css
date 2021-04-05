@@ -3,6 +3,10 @@ page {
   font-family: 'LxgwWenKai';
 }
 
+.with-fade-in {
+  animation: fade-in .35s;
+}
+
 @keyframes fade-in {
   from {
     opacity: 0;

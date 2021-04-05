@@ -4,6 +4,7 @@ import { getUTPLink, UTPService } from '../../utils/konzert'
 import styles from './style.styl'
 
 type ClippingShareProps = {
+  shareType: UTPService
   cid: number
   uid: number
   bid: number
@@ -45,7 +46,7 @@ function useKonzertImage(url: string) {
       })
     }).finally(() => {
       setLoading(false)
-    hideLoading()
+      hideLoading()
     })
   }, [url])
   return {
@@ -55,11 +56,13 @@ function useKonzertImage(url: string) {
 }
 
 function ClippingShare(props: ClippingShareProps) {
-
   const sysInfo = useSystemInfo()
 
-  const shareURL = getUTPLink(UTPService.clipping, {
+  const shareURL = getUTPLink(props.shareType, props.shareType === UTPService.clipping ? {
     cid: props.cid,
+    uid: props.uid,
+    bid: props.bid
+  } : {
     uid: props.uid,
     bid: props.bid
   }, sysInfo)
@@ -92,7 +95,7 @@ function ClippingShare(props: ClippingShareProps) {
 
   return (
     <View className={styles.mask} onClick={onCancel}>
-      <View className={styles.container}>
+      <View className={styles.container + ' with-fade-in'}>
         <Image src={shareURL} className={styles.poster} />
         <View>
           <Button

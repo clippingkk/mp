@@ -18,6 +18,7 @@ import { TGlobalStore } from '../../reducers';
 import { usePageInstance } from '@remax/framework-shared';
 import { usePageEvent } from '@remax/macro';
 import ClippingShare from '../../components/konzert/clipping';
+import { UTPService } from '../../utils/konzert';
 
 const canvasID = 'clippingkk-canvas'
 
@@ -198,6 +199,7 @@ function Clipping() {
         </View>
         {vis && (
           <ClippingShare
+            shareType={UTPService.clipping}
             cid={clipping.clipping.id}
             bid={bookData.id}
             uid={user.id}

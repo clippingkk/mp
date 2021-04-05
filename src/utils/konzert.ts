@@ -16,7 +16,6 @@ export function getUTPLink(service: UTPService, params: Object, sysInfo?: Wechat
       return acc
     }, [] as string[])
     .join('&')
-    console.log("service: ", service.toString())
   const distUrl = encodeURIComponent(`https://konzert.annatarhe.com/${service.toString()}.html?${d}`)
 
   const screenWidth = sysInfo.screenWidth > 375 ? 375 : sysInfo.screenWidth

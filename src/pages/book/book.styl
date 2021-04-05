@@ -1,3 +1,5 @@
+@import '../../styles/theme.styl'
+
 .container
   margin 1rem
   transform translateY(-100rpx)
@@ -11,16 +13,29 @@
     overflow hidden
     background-color #fff
   &-header-detail
+    // display flex
+    // align-items center
+    // justify-content space-between
+    margin 1rem
+    transform translateY(-100rpx)
+  &-header-main
+    // margin-bottom 10px
     display flex
     align-items center
     justify-content space-between
-    margin 1rem
-    transform translateY(-100rpx)
   &-img
     width 200rpx
     height 300rpx
     border-radius 8rpx
     box-shadow 0 0 4rpx 0
+  &--button__share
+    margin 20px auto
+    border none
+    padding 8rpx 16rpx
+    border-radius 8px
+    box-shadow 0 0 8px #888
+    background $knote-blue
+    font-size 24rpx
 
   &-cover
     flex 1
@@ -48,6 +63,7 @@
     font-weight 500
     margin-bottom 1rem
   &-summary
+    margin-top 16rpx
     display block
     font-size 16rpx
     font-weight 300
