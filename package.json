@@ -9,7 +9,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "remax build -t wechat -w",
-    "build:weapp": "cross-env NODE_ENV=production remax build -t wechat"
+    "build:weapp": "cross-env NODE_ENV=production remax build -t wechat",
+    "release": "standard-version"
   },
   "dependencies": {
     "@apollo/client": "^3.3.11",
@@ -26,6 +27,7 @@
     "graphql": "^15.5.0",
     "graphql-tag": "^2.12.1",
     "raw-loader": "^4.0.2",
+    "standard-version": "^9.1.1",
     "typescript": "^4.1.2"
   }
 }
