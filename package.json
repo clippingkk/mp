@@ -9,18 +9,21 @@
   "license": "MIT",
   "scripts": {
     "dev": "remax build -t wechat -w",
+    "dev:preview": "cross-env NODE_ENV=production remax build -t wechat -w --minimize",
     "build:weapp": "cross-env NODE_ENV=production remax build -t wechat",
     "release": "standard-version"
   },
   "dependencies": {
     "@apollo/client": "^3.3.11",
     "miniapp-color-thief": "^1.0.5",
+    "promise.prototype.finally": "^3.1.2",
     "react": "^16.14.0",
     "react-redux": "^7.2.2",
     "remax": "^2.9.1"
   },
   "devDependencies": {
     "@remax/plugin-stylus": "^1.0.0",
+    "@types/promise.prototype.finally": "^2.0.4",
     "@types/react": "^16.14.2",
     "@types/react-redux": "^7.1.16",
     "cross-env": "^7.0.2",
