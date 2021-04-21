@@ -132,7 +132,6 @@ function HeroPage() {
       url: '/pages/search/search'
     })
   }, [])
-
   return (
     <View className='hero'>
       <NavigationBar hasHolder homeIcon='👀' onBack={onNavigateUp}>
