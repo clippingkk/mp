@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { View, Text, Image } from 'remax/wechat'
 import './user.styl'
-import { connect, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import UserCard from '../../components/user-card';
-import InfoBuilding from '../../components/info-building';
 import Info from '../../components/info/info'
-import { fetchMyProfile } from '../../services/auth';
-import { IHttpUserProfileResponseData, IUserProfileResponseData } from '../../services/types';
 import ClippingItem from '../../components/clipping-item/clipping-item';
 import { TGlobalStore } from '../../reducers';
 import { wechatLogin_mpAuth_user } from '../../schema/__generated__/wechatLogin';
