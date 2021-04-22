@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.4](https://github.com/clippingkk/mp/compare/v3.0.3...v3.0.4) (2021-04-22)
+
+
+### Bug Fixes
+
+* **binding:** add lock for binding ([97ec031](https://github.com/clippingkk/mp/commit/97ec031758676f39c1e2d2493ed12327535ba8e3))
+* **build:** remove autoprefixer ([70eece0](https://github.com/clippingkk/mp/commit/70eece05a17bb9981fe608a1d7eefe1e6117ea3c))
+
 ### [3.0.3](https://github.com/clippingkk/mp/compare/v3.0.2...v3.0.3) (2021-04-05)
 
 
