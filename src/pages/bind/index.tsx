@@ -1,13 +1,11 @@
 import React, { useCallback, useEffect } from 'react'
 
-import { View, Form, Button, Input, Text, scanCode, showToast } from 'remax/wechat';
+import { View, Form, Button, Input, Text, scanCode, showToast, showLoading, hideLoading } from 'remax/wechat';
 import NavigationBar from '../../components/navigation-bar'
 
 import "./styles.styl"
-import { wechatBinding } from '../../services/auth';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { updateUserInfo } from '../../actions/user';
-import { TGlobalStore } from '../../reducers';
 import { useNavigateUp } from '../../hooks/navigationbar';
 import bindMutation from '../../schema/bind.graphql'
 import { useApolloClient, useMutation } from '@apollo/client';
@@ -34,10 +32,17 @@ function BindingPage() {
     })
     const k = Base64.decode(d.rawData)
 
+    showLoading({
+      mask: true,
+      title: 'loading...'
+    })
+
     exec({
       variables: {
         key: k
       }
+    }).finally(() => {
+      hideLoading()
     })
   }, [])
   const onNavigateUp = useNavigateUp()
@@ -51,7 +56,10 @@ function BindingPage() {
     }
 
     if (error) {
-      // display error
+      showToast({
+        title: "❌ " + error.message,
+        icon: 'none'
+      })
       return
     }
 
@@ -89,6 +97,7 @@ function BindingPage() {
           </Text>
           <Button
             onClick={onScan}
+            disabled={loading}
             className='scan-btn'
           >
             Scan
