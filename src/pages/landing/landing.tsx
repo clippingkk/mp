@@ -1,4 +1,5 @@
 import React, { useEffect, useCallback } from 'react'
+import { usePageInstance, useQuery as usePageQuery } from 'remax'
 import { View, Text, Button, hideLoading, login, redirectTo, showLoading, showToast, switchTab } from 'remax/wechat'
 import styles from './landing.module.styl'
 import { authFlow } from '../../services/auth';
@@ -8,23 +9,22 @@ import { useLazyQuery } from '@apollo/client'
 import authQuery from '../../schema/login.graphql'
 import { wechatLogin, wechatLoginVariables } from '../../schema/__generated__/wechatLogin';
 import { updateToken } from '../../store/global';
-import { usePageInstance } from '@remax/framework-shared';
 
-function getClippingID(params: any) {
-  if (!params) {
+function getClippingID(pageQuery: any) {
+  if (!pageQuery) {
     return null
   }
 
-  if (params.c) {
-    return params.c
+  if (pageQuery.c) {
+    return pageQuery.c
   }
 
-  if (!params.scene) {
+  if (!pageQuery.scene) {
     return null
   }
 
   // c=8!b=2
-  const sceneData = decodeURIComponent(params.scene.trim())
+  const sceneData = decodeURIComponent(pageQuery.scene.trim())
 
   const parsedScene = sceneData.split('!').reduce((acc: any, current: string) => {
     const [k, v] = current.split('=')
@@ -37,7 +37,7 @@ function getClippingID(params: any) {
 
 function Landing() {
   const dispatch = useDispatch()
-  const params = usePageInstance().router?.params
+  const pageQuery = usePageQuery()
   const [exec, { data, called, loading, error }] = useLazyQuery<wechatLogin, wechatLoginVariables>(authQuery)
   const onLogin = useCallback(async () => {
     if (loading) {
@@ -74,7 +74,7 @@ function Landing() {
     dispatch(updateUserInfo(data.mpAuth.user, data.mpAuth.token))
     setTimeout(() => {
       // c is clipping
-      const c = getClippingID(params)
+      const c = getClippingID(pageQuery)
       hideLoading()
       if (c) {
         return redirectTo({
