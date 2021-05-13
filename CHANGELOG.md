@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.5](https://github.com/clippingkk/mp/compare/v3.0.4...v3.0.5) (2021-05-13)
+
+
+### Bug Fixes
+
+* **landing:** fix router query paser that can cause navigate to clipping failed ([4c90507](https://github.com/clippingkk/mp/commit/4c9050710ce6539eaf5d1e655130ef3a0996ecf5))
+
 ### [3.0.4](https://github.com/clippingkk/mp/compare/v3.0.3...v3.0.4) (2021-04-22)
 
 
