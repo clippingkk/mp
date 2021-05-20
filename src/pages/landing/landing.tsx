@@ -10,6 +10,38 @@ import authQuery from '../../schema/login.graphql'
 import { wechatLogin, wechatLoginVariables } from '../../schema/__generated__/wechatLogin';
 import { updateToken } from '../../store/global';
 
+function getJumpedBookInfo(pageQuery: any): {bid: number, uid: number} | undefined {
+  if (!pageQuery) {
+    return
+  }
+
+  if (pageQuery.bid && pageQuery.uid) {
+    return {
+      bid: ~~pageQuery.bid,
+      uid: ~~pageQuery.uid
+    }
+  }
+
+  if (!pageQuery.scene) {
+    return
+  }
+
+  // c=8!b=2
+  const sceneData = decodeURIComponent(pageQuery.scene.trim())
+
+  const parsedScene = sceneData.split('!').reduce((acc: any, current: string) => {
+    const [k, v] = current.split('=')
+    acc[k] = v
+    return acc
+  }, {})
+
+    return {
+      bid: ~~parsedScene.b,
+      uid: ~~parsedScene.u
+    }
+}
+
+
 function getClippingID(pageQuery: any) {
   if (!pageQuery) {
     return null
@@ -82,9 +114,15 @@ function Landing() {
         })
       }
 
+      const b = getJumpedBookInfo(pageQuery)
+      if (b) {
+        return redirectTo({
+          url: `/pages/book/index?bid=${b.bid}&uid=${b.uid}`
+        })
+      }
+
       return switchTab({
         url: '/pages/square/square'
-        // url: '/pages/user/user'
       })
     }, 100)
   }, [data, called, error])

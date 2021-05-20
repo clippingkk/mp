@@ -10,7 +10,7 @@ import { wechatLogin_mpAuth_user } from '../../schema/__generated__/wechatLogin'
 import { useQuery } from '@apollo/client';
 import profileQuery from '../../schema/profile.graphql'
 import { profile, profileVariables } from '../../schema/__generated__/profile';
-import { useSingleBook } from '../../hooks/book';
+import { useMultipBook, useSingleBook } from '../../hooks/book';
 import { usePageEvent } from '@remax/macro';
 
 function User() {
@@ -28,9 +28,11 @@ function User() {
     }
   })
 
+  const bs = useMultipBook(data?.me.recents.map(x => x.bookID) ?? [])
+
   const firstClipping = data?.me.recents[0]
 
-  const b = useSingleBook(firstClipping?.bookID)
+  const b = bs.find(l => l.doubanId.toString() === firstClipping?.bookID)
   return (
     <View className='user'>
       <View className='user-solid'>
@@ -53,11 +55,15 @@ function User() {
         <View className='clippings'>
           {data?.me.recents ? (
             data.me.recents.map(c => (
-              <ClippingItem clipping={c} key={c.id} />
+              <ClippingItem
+                clipping={c}
+                key={c.id}
+                book={bs.find(b => b.doubanId.toString() === c.bookID)}
+              />
             ))
           ) : (
-              <Info text="🤦‍♂️ 哎呀呀，你得多看书呀~" />
-            )}
+            <Info text="🤦‍♂️ 哎呀呀，你得多看书呀~" />
+          )}
         </View>
       </View>
     </View>

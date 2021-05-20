@@ -50,7 +50,7 @@ function BookPage() {
     doubanID = lastBookId
   }
 
-  const b = useSingleBook(doubanID)
+  const b = useSingleBook(doubanID, params?.bid ? parseInt(params.bid) : undefined)
 
   const [bookRes, setBookResp] = useState<book_book | null>(null)
   const client = useApolloClient()
@@ -63,6 +63,7 @@ function BookPage() {
     client.query<book, bookVariables>({
       query: bookQuery,
       variables: {
+        uid: params?.uid ? (~~params.uid) : undefined,
         id: ~~doubanID,
         pagination: {
           limit: PAGINATION_STEP,
@@ -135,7 +136,7 @@ function BookPage() {
             shareType={UTPService.book}
             cid={0}
             bid={b?.id || 0}
-            uid={user.id}
+            uid={params.uid ? parseInt(params.uid) : user.id}
             onCancel={() => {
               setVis(false)
             }}
@@ -150,6 +151,7 @@ function BookPage() {
             loading={loading}
             reachEnd={reachEnd}
             clippings={bookRes?.clippings}
+            book={b}
           />
         </View>
       </View>

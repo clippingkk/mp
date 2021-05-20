@@ -1,4 +1,4 @@
-import { useApolloClient } from '@apollo/client'
+import { useApolloClient, useQuery } from '@apollo/client'
 import React, { useEffect, useState } from 'react'
 import { View, Text } from 'remax/wechat'
 import fetchSquareDataQuery from '../../schema/square.graphql'
@@ -11,28 +11,23 @@ import NavigationBar from '../../components/navigation-bar'
 import { useNavigateUp } from '../../hooks/navigationbar'
 
 import styles from './style.styl'
+import { useMultipBook } from '../../hooks/book'
 
 type SquareProps = {
 }
 
 function Square(props: SquareProps) {
-
-  const client = useApolloClient()
-  const [cs, setCs] = useState<readonly fetchSquareData_featuredClippings[]>([])
-
-  useEffect(() => {
-    client.query<fetchSquareData, fetchSquareDataVariables>({
-      query: fetchSquareDataQuery,
-      variables: {
-        pagination: {
-          limit: PAGINATION_STEP,
-          lastId: null
-        }
+  const { data } = useQuery<fetchSquareData, fetchSquareDataVariables>(fetchSquareDataQuery, {
+    variables: {
+      pagination: {
+        limit: PAGINATION_STEP,
+        lastId: null
       }
-    }).then(res => {
-      setCs(res.data.featuredClippings)
-    })
-  }, [])
+    }
+  })
+
+  const bs = useMultipBook(data?.featuredClippings.map(x => x.bookID) ?? [])
+
   const onNavigateUp = useNavigateUp()
 
   return (
@@ -42,9 +37,13 @@ function Square(props: SquareProps) {
       </NavigationBar>
       <View className={styles.list}>
 
-      {cs.map(x => (
-        <ClippingItem clipping={x} key={x.id} />
-      ))}
+        {data?.featuredClippings.map(x => (
+          <ClippingItem
+            clipping={x}
+            key={x.id}
+            book={bs.find(b => b.doubanId.toString() === x.bookID)}
+          />
+        ))}
       </View>
     </View>
   )

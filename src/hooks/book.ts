@@ -3,26 +3,38 @@ import { WenquBook, WenquSearchResponse, wenquRequest } from "../services/wenqu"
 
 const cache = new Map<string, WenquBook>()
 
-export function useSingleBook(doubanId?: string): WenquBook | null {
-  const [book, setBook] = useState<WenquBook | null>(null)
+export function useSingleBook(doubanId?: string, bookID?: number): WenquBook | undefined {
+  const [book, setBook] = useState<WenquBook | undefined>(undefined)
 
   useEffect(() => {
-    if (!doubanId || doubanId.length < 5) {
+    if ((!doubanId || doubanId.length < 5) && !bookID) {
       return
     }
-    if (cache.has(doubanId)) {
+    if (doubanId && cache.has(doubanId)) {
       setBook(cache.get(doubanId)!)
       return
     }
-    wenquRequest<WenquSearchResponse>(`/books/search?dbId=${doubanId}`).then(res => {
+
+    var searchParams = ''
+    if (doubanId) {
+      searchParams = `dbId=${doubanId}`
+    }
+    if (bookID) {
+      searchParams = `id=${bookID}`
+    }
+    if (!searchParams) {
+      return
+    }
+
+    wenquRequest<WenquSearchResponse>(`/books/search?${searchParams}`).then(res => {
       if (res.count < 1) {
         return
       }
       const b = res.books[0]
       setBook(b)
-      cache.set(doubanId, b)
+      cache.set(b.doubanId.toString(), b)
     })
-  }, [doubanId])
+  }, [doubanId, bookID])
 
   return book
 }
@@ -63,7 +75,7 @@ export function useMultipBook(doubanIds: string[]): WenquBook[] {
       return
     }
 
-    const query = shouldFetchDoubanIDs.join('&dbIds=').slice(1)
+    const query = shouldFetchDoubanIDs.join('&dbIds=')
 
     wenquRequest<WenquSearchResponse>(`/books/search?dbIds=${query}`).then(res => {
       if (res.count < 1) {

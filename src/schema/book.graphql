@@ -1,5 +1,5 @@
-query book($id: Int!, $pagination: PaginationLegacy!) {
-    book(id: $id, pagination: $pagination) {
+query book($id: Int!, $pagination: PaginationLegacy!, $uid: Int) {
+    book(id: $id, pagination: $pagination, uid: $uid) {
         doubanId
         clippings {
             id
