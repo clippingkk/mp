@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/clippingkk/mp/compare/v3.0.5...v3.1.0) (2021-05-20)
+
+
+### Features
+
+* **book:** add share book handler and style update ([57d9130](https://github.com/clippingkk/mp/commit/57d9130032691285be0063bc2d68d58b07ca1071))
+
 ### [3.0.5](https://github.com/clippingkk/mp/compare/v3.0.4...v3.0.5) (2021-05-13)
 
 
