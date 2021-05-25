@@ -1,0 +1,28 @@
+@import '../../styles/theme.styl'
+
+.container
+  display flex
+  width 100%
+  margin 20rpx 0
+
+.item
+  display flex
+  flex 1
+  align-items center
+  justify-content center
+  color #fff
+  width 100%
+  margin 0 10rpx
+  &:first-child
+    margin-left 0
+  &:last-child
+    margin-right 0
+
+.active
+  .btn
+    background $knote-blue
+    color #fff
+
+.btn
+  width 100%
+  padding 5rpx 10rpx

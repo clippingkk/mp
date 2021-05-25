@@ -1,7 +1,8 @@
 import { View, Button, Image, getSystemInfo, downloadFile, showToast, Icon, saveImageToPhotosAlbum, showLoading, hideLoading } from '@remax/wechat'
 import React, { useCallback, useEffect, useState } from 'react'
-import { getUTPLink, UTPService } from '../../utils/konzert'
+import { getUTPLink, KonzertTheme, UTPService } from '../../utils/konzert'
 import styles from './style.styl'
+import ThemePicker from './theme'
 
 type ClippingShareProps = {
   shareType: UTPService
@@ -57,14 +58,17 @@ function useKonzertImage(url: string) {
 
 function ClippingShare(props: ClippingShareProps) {
   const sysInfo = useSystemInfo()
+  const [currentTheme, setCurrentTheme] = useState(KonzertTheme.young)
 
   const shareURL = getUTPLink(props.shareType, props.shareType === UTPService.clipping ? {
     cid: props.cid,
     uid: props.uid,
-    bid: props.bid
+    bid: props.bid,
+    theme: currentTheme,
   } : {
     uid: props.uid,
-    bid: props.bid
+    bid: props.bid,
+    theme: currentTheme,
   }, sysInfo)
   // const shareURL = 'https://wx1.sinaimg.cn/large/6c546c01ly1gp85pkiixzj20vw1wwwy5.jpg'
 
@@ -98,6 +102,10 @@ function ClippingShare(props: ClippingShareProps) {
       <View className={styles.container + ' with-fade-in'}>
         <Image src={shareURL} className={styles.poster} />
         <View>
+          <ThemePicker
+            current={currentTheme}
+            onChange={(t) => setCurrentTheme(t)}
+          />
           <Button
             onClick={onSaveImage}
             className={styles.save}>

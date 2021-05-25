@@ -5,6 +5,22 @@ export enum UTPService {
   book = 'book'
 }
 
+export enum KonzertTheme {
+  classic = 0,
+  colorful = 1,
+  dark = 2,
+  young = 3,
+  light = 4,
+}
+
+export const KonzertThemeMap: {[k in KonzertTheme]: string} = {
+  [KonzertTheme.classic]: '经典',
+  [KonzertTheme.colorful]: '彩色',
+  [KonzertTheme.dark]: '暗黑',
+  [KonzertTheme.young]: '青春',
+  [KonzertTheme.light]: '亮丽',
+}
+
 export function getUTPLink(service: UTPService, params: Object, sysInfo?: WechatMiniprogram.SystemInfo): string {
   if (!sysInfo) {
     return ''
