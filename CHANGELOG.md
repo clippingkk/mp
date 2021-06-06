@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.2.0](https://github.com/clippingkk/mp/compare/v3.1.1...v3.2.0) (2021-06-06)
+
+
+### Features
+
+* **book:** add book duration in book page ([0c18664](https://github.com/clippingkk/mp/commit/0c186646933493202b5828dfeb15040403111d64))
+
 ### [3.1.1](https://github.com/clippingkk/mp/compare/v3.1.0...v3.1.1) (2021-05-25)
 
 
