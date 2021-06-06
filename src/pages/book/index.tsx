@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import {
   View, Image, Text, canvasGetImageData, Button,
 } from 'remax/wechat'
+import dayjs from 'dayjs'
 import { useQuery as usePageQuery } from 'remax'
 import NavigationBar from '../../components/navigation-bar'
 import { useNavigateUp } from '../../hooks/navigationbar'
@@ -106,6 +107,14 @@ function BookPage() {
       setLoading(false)
     })
   })
+  const duration = useMemo(() => {
+    if (!bookRes?.startReadingAt || !bookRes.lastReadingAt) {
+      return undefined
+    }
+    const result = dayjs(bookRes.lastReadingAt)
+      .diff(dayjs(bookRes.startReadingAt), 'd', false)
+    return result || undefined
+  }, [bookRes?.startReadingAt, bookRes?.lastReadingAt])
 
   return (
     <View className='book-page'>
@@ -120,6 +129,9 @@ function BookPage() {
             <View className='book-info'>
               <Text className='book-title'>{b?.title}</Text>
               <Text className='book-author'>{b?.author}</Text>
+              {duration && (
+                <Text className='book-author'>读了 {duration} 天</Text>
+              )}
             </View>
           </View>
           <Text className='book-summary'>{b?.summary}</Text>
