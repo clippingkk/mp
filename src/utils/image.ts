@@ -1,6 +1,7 @@
+import { CDN_DEFAULT_DOMAIN } from "../constants/config"
 
 export function getImageSrc(src: string) {
-  return src.indexOf('http') === 0 ? src : `https://clippingkk-cdn.annatarhe.com/${src}-copyrightDB`
+  return src.indexOf('http') === 0 ? src : `${CDN_DEFAULT_DOMAIN}/${src}`
 }
 
 /**

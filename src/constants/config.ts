@@ -9,3 +9,4 @@ export const WENQU_API_HOST = 'https://wenqu.annatarhe.cn/api/v1'
 export const WENQU_SIMPLE_TOKEN = '500ae25e22b5de1b6c44a7d78908e7b7cc63f97b55ea9cdc50aa8fcd84b1fcba'
 
 export const DEFAULT_LOADING_IMAGE = 'https://cdn.annatarhe.com'
+export const CDN_DEFAULT_DOMAIN = 'https://ck-cdn.annatarhe.cn'
