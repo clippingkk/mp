@@ -50,7 +50,6 @@ function useClippingPostData(
   }, [clipping, book])
 
   const doRender = useCallback(async () => {
-    console.log('do render', dom.current)
     if (!dom.current) {
       return
     }
@@ -80,7 +79,7 @@ function useClippingPostData(
       await postRender.renderQRCode()
       render.current = postRender
       hideLoading()
-    } catch (e) {
+    } catch (e: any) {
       console.error(e)
       hideLoading()
       showToast({
